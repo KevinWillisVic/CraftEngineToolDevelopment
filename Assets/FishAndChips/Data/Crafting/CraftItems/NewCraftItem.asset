@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f43fb6b52a367fc42945be02653184ff, type: 3}
+  m_Name: NewCraftItem
+  m_EditorClassIdentifier: 
+  GUID: 8342775b-818e-48ce-b9cb-1b53fb87b8c0
+  _data:
+    _id: 
+    _modelId: 
+    _modelData: {fileID: 11400000, guid: 295cf6a32e71a6c48a493d70d396ef0d, type: 2}
+    _keywords: 

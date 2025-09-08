@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f43fb6b52a367fc42945be02653184ff, type: 3}
+  m_Name: CraftItemBudgie
+  m_EditorClassIdentifier: 
+  GUID: 6f3a91d3-ce15-4a97-b7c1-44a001d4a716
+  _data:
+    _id: CraftItemBudgie
+    _modelId: CraftItemBudgieModelData
+    _modelData: {fileID: 11400000, guid: 7d9def55af489614daa4350f4dcbf76b, type: 2}
+    _isDefaultItem: 0

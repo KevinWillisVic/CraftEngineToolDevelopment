@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a7a1929a641e2428747ea7b79bb0f7, type: 3}
+  m_Name: CraftRecipeSteam_Fire_Water
+  m_EditorClassIdentifier: 
+  GUID: 0a3b4461-a801-4b65-a904-57e49cd959b6
+  _data:
+    _id: CraftRecipeSteam_Fire_Water
+    _recipeProducts:
+    - CraftItemSteam
+    _ingredientMap:
+    - IngredientKey: CraftItemFire
+      RequiredCount: 1
+    - IngredientKey: CraftItemWater
+      RequiredCount: 1

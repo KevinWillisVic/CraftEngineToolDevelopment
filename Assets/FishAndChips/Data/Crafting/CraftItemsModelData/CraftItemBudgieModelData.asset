@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c40bcecbeba5ba419034734bf4ac416, type: 3}
+  m_Name: CraftItemBudgieModelData
+  m_EditorClassIdentifier: 
+  GUID: e750db8a-3b8f-43e8-8bff-5613f1cb7403
+  VisualKey: CraftItemBudgie
+  DisplayName: Budgie
+  Blurb: This is an item blurb.

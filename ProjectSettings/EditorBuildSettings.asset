@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/FishAndChips/Scenes/SplashScene.unity
+    guid: 3992e85c2b191e94fbe506808c9a0a70
+  - enabled: 1
+    path: Assets/FishAndChips/Scenes/BootScene.unity
+    guid: b09f716bca682bd488394a3d3d3540cb
+  - enabled: 1
+    path: Assets/FishAndChips/Scenes/GameplayScene.unity
+    guid: 523c9a8e64b91124f83a115e7a8eb901
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f43fb6b52a367fc42945be02653184ff, type: 3}
+  m_Name: CraftItemChaos
+  m_EditorClassIdentifier: 
+  GUID: eb085579-bef6-4166-a19e-4856aa3979b1
+  _data:
+    _id: CraftItemChaos
+    _modelId: CraftItemChaosModelData
+    _modelData: {fileID: 11400000, guid: c715f5a98682bc34ab28b87447ffbeaf, type: 2}
+    _isDefaultItem: 1
+    _keywords: 00000000
