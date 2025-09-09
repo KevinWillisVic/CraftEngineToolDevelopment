@@ -1,7 +1,7 @@
-using UnityEngine;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace FishAndChips
 {
@@ -36,10 +36,17 @@ namespace FishAndChips
 		#region UNITY_ANDROID
 		private void UpdateInput()
 		{
-			if (UnityEngine.Input.GetKeyDown(KeyCode.Escape) == false)
+			
+			if (Input.GetKeyDown(KeyCode.Escape) == false)
 			{
 				return;
 			}
+			/*
+			if (Keyboard.current.escapeKey.wasPressedThisFrame)
+			{
+				return;
+			}
+			*/
 			var currentView = _uiService.ActiveView;
 			if (currentView != null)
 			{
@@ -178,7 +185,7 @@ namespace FishAndChips
 
 			var requestedViewName = _navigationHistory.Peek();
 			var currentView = _uiService.ActiveView;
-			if (currentView.DoesConsumeBackRequest() == true)
+			if (currentView == null || currentView.DoesConsumeBackRequest() == true)
 			{
 				return;
 			}

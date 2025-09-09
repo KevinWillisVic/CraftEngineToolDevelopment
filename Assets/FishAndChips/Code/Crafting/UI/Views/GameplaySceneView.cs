@@ -31,8 +31,8 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Member Vars --
-		private List<CraftItemEntity> _craftItemEntities = new();
 		private string _lastSearch;
+		private List<CraftItemEntity> _craftItemEntities = new();
 		#endregion
 
 		#region -- Private Methods --

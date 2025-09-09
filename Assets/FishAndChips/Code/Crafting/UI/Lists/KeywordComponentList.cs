@@ -1,5 +1,3 @@
-using UnityEngine.InputSystem;
-
 namespace FishAndChips
 {
     public class KeywordComponentList : ComponentList<KeywordComponentListItem>
