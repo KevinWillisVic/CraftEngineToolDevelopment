@@ -30,8 +30,14 @@ namespace FishAndChips
 		/// <param name="obj">Object being added to collection.</param>
 		public void AddObject(string id, T obj)
 		{
-			_allObjects.Add(obj);
-			_objectDictionary.Add(id, obj);
+			if (_allObjects.Contains(obj) == false)
+			{
+				_allObjects.Add(obj);
+			}
+			if (_objectDictionary.ContainsKey(id) == false)
+			{
+				_objectDictionary.Add(id, obj);
+			}
 		}
 
 		/// <summary>

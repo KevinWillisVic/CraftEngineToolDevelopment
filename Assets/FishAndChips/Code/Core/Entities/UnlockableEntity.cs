@@ -1,13 +1,14 @@
 namespace FishAndChips
 {
 	/// <summary>
-	/// Base class for unlockable entity.
+	/// Base class for entity that can be unlocked.
 	/// </summary>
     public abstract class UnlockableEntity : IEntitySavedData
     {
 		#region -- Properties --
 		public IMetaData Data { get; set; }
 		public ISavedData SavedData { get; set; }
+
 		public UnlockableEntitySavedData UnlockableEntitySavedData
 		{
 			get
@@ -19,9 +20,24 @@ namespace FishAndChips
 				return _unlockableEntitySavedData;
 			}
 		}
+
+		/// <summary>
+		/// Id passed in when constructing entity.
+		/// </summary>
 		public string InstanceId { get; }
+
+		/// <summary>
+		/// Id set from data.
+		/// </summary>
 		public virtual string StaticId => (Data != null) ? Data.ID : string.Empty;
+
+		/// <summary>
+		/// Unlock state of the entity.
+		/// </summary>
 		public bool Unlocked => UnlockableEntitySavedData.Unlocked;
+		/// <summary>
+		/// Hint state of the entity.
+		/// </summary>
 		public bool HintGiven => UnlockableEntitySavedData.HintGiven;
 		#endregion
 

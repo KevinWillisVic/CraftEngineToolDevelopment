@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using System.Linq;
-using Unity.VisualScripting;
 
 namespace FishAndChips
 {
@@ -11,6 +10,13 @@ namespace FishAndChips
 	/// </summary>
     public class CraftingSystemGameFlowService : Singleton<CraftingSystemGameFlowService>, IInitializable
     {
+		#region -- Enumerations --
+		public enum eGameScenes
+		{
+			GameplayScene
+		}
+		#endregion
+
 		#region -- Protected Member Vars --
 		protected UIService _uiService;
 		protected NavigationService _navigationService;
@@ -64,7 +70,7 @@ namespace FishAndChips
 			//	Load into gameplay scene.
 			bool isAdditive = false;
 			var mode = isAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single;
-			var sceneLoadOperation = SceneManager.LoadSceneAsync(GameConstants.GameplaySceneName, mode);
+			var sceneLoadOperation = SceneManager.LoadSceneAsync(CraftingSystemGameFlowService.eGameScenes.GameplayScene.ToString(), mode);
 			while (sceneLoadOperation.isDone == false)
 			{
 				await Awaitable.EndOfFrameAsync();

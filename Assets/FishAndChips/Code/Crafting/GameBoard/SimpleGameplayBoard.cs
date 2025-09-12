@@ -188,7 +188,7 @@ namespace FishAndChips
 					spawnAnimation: string.Empty);
 
 				instance.gameObject.SetActiveSafe(true);
-				instance.PlayAnimation(GameConstants.CloneAppearAnimKey);
+				instance.PlayAnimation(CraftItemInstance.eCraftItemAnimationKeys.CloneAppear.ToString());
 			}
 			_itemsBeingCleared.Clear();
 			_recycleState = eRecycleState.CleanState;

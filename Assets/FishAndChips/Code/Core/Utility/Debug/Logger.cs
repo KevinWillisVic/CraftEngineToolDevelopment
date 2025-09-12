@@ -4,6 +4,9 @@ using System.Text;
 
 namespace FishAndChips
 {
+	/// <summary>
+	/// Helper class to format console log messages.
+	/// </summary>
     public static class Logger
     {
 		#region -- Supporting --

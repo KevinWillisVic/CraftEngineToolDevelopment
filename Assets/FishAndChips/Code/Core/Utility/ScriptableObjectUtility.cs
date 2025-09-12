@@ -8,7 +8,7 @@ namespace FishAndChips
     public class ScriptableObjectUtility
     {
 		#region -- Public Methods --
-		public static T CreateAsset<T>(string path = null, string fileName = null) where T : ScriptableObject
+		public static T CreateAsset<T>(string path = null, string fileName = null, bool saveDatabase = true) where T : ScriptableObject
 		{
 			T asset = ScriptableObject.CreateInstance<T>();
 			if (path.IsNullOrEmpty() == true)
@@ -20,16 +20,13 @@ namespace FishAndChips
 			{
 				path = "Assets/FishAndChips/Data";
 			}
-
-			// TODO : Check on below with extension and without extension.
-			/*
+			
 			if (Path.GetExtension(path).IsNullOrEmpty() == false)
 			{
 				string assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
 				string fileNameAtPath = Path.GetFileName(assetPath);
 				path = path.Replace(fileNameAtPath, "");
 			}
-			*/
 
 			if (Directory.Exists(path) == false)
 			{
@@ -41,11 +38,13 @@ namespace FishAndChips
 			string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(rawPathAndName);
 
 			AssetDatabase.CreateAsset(asset, assetPathAndName);
-			AssetDatabase.SaveAssets();
-			AssetDatabase.Refresh();
-
-			EditorUtility.FocusProjectWindow();
-			Selection.activeObject = asset;
+			if (saveDatabase == true)
+			{
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+				EditorUtility.FocusProjectWindow();
+				Selection.activeObject = asset;
+			}
 			return asset;
 		}
 

@@ -35,7 +35,7 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Member Vars --
-		private static Dictionary<float, WaitForSeconds> _timerIntervals = new(100);
+		private static Dictionary<float, WaitForSeconds> _timerIntervals = new();
 		private static WaitForEndOfFrame _waitForEndOfFrame = new();
 		private static WaitForFixedUpdate _waitForFixedUpdate = new();
 		#endregion

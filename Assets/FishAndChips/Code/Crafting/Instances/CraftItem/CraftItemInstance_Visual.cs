@@ -17,6 +17,7 @@ namespace FishAndChips
 			None,
 			InvalidCombo,
 			CloneAppear,
+			SpawnFromScrollRect
 		}
 		#endregion
 
@@ -61,7 +62,7 @@ namespace FishAndChips
 		/// </summary>
 		public void HandleInvalidCombination()
 		{
-			PlayAnimation(GameConstants.InvalidCombinationAnimKey);
+			PlayAnimation(eCraftItemAnimationKeys.InvalidCombo.ToString());
 		}
 
 		/// <summary>

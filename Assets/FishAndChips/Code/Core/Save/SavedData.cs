@@ -30,7 +30,7 @@ namespace FishAndChips
 
 		#region -- Protected Methods --
 		/// <summary>
-		/// Mark creation time sand save to create file.
+		/// Mark creation time and save to create file.
 		/// </summary>
 		protected virtual void Create()
 		{

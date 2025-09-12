@@ -4,20 +4,20 @@ using UnityEngine;
 namespace FishAndChips
 {
 	/// <summary>
-	/// Base save data for an unlockable entity.
+	/// Base class for save data for an unlockable entity.
 	/// </summary>
     [Serializable]
     public class UnlockableEntitySavedData : SavedData
     {
 		#region -- Properties --
-		// Unlock.
-		// *******************************
+		#region -- Unlock --
 		public bool Unlocked => _unlocked;
 		public long TimeUnlocked => _timeUnlocked;
-		// *******************************
+		#endregion
 
-		// Hint.
+		#region -- Hint --
 		public bool HintGiven => _hintGiven;
+		#endregion
 		#endregion
 
 		#region -- Protected Member Vars --
@@ -36,7 +36,7 @@ namespace FishAndChips
 		/// <summary>
 		/// Set the unlocked state of the save data.
 		/// </summary>
-		/// <param name="state">Unlocked state.</param>
+		/// <param name="state">State to set for unlock.</param>
 		public void SetUnlockedState(bool state)
 		{
 			_unlocked = state;
@@ -48,9 +48,9 @@ namespace FishAndChips
 		}
 
 		/// <summary>
-		/// set the hint state of the save data.
+		/// Set the hint state of the save data.
 		/// </summary>
-		/// <param name="state">Hint state.</param>
+		/// <param name="state">State to set for hint.</param>
 		public void SetHintGivenState(bool state)
 		{
 			_hintGiven = state;

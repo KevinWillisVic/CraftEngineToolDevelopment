@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 namespace FishAndChips
 {
+	/// <summary>
+	/// Simple Uility component to turn gameobjects on / off.
+	/// </summary>
     public class GameObjectEnabler : MonoBehaviour
     {
 		#region -- Inspector --
-		public string Key;
-
 		public List<GameObject> ToEnableOnActive;
 		public List<GameObject> ToEnableOnInactive;
 		#endregion

@@ -8,6 +8,7 @@ namespace FishAndChips
 	public class CraftingSystemMetadataDatabase : MetadataDatabase
     {
 		#region -- Private Member Vars --
+		// Type collections.
 		[SerializeField] private ScriptableObject[] _craftItemData;
 		[SerializeField] private ScriptableObject[] _craftRecipeData;
 		#endregion
@@ -27,6 +28,9 @@ namespace FishAndChips
 
 		#region -- Public Methods --
 #if UNITY_EDITOR
+		/// <summary>
+		/// Populate collections.
+		/// </summary>
 		public override void Fill()
 		{
 			base.Fill();

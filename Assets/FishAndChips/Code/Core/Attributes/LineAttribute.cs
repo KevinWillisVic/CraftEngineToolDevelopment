@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace FishAndChips
 {
+    /// <summary>
+    /// Custom attribute to draw a line in the inspector.
+    /// </summary>
     public class LineAttribute : PropertyAttribute
     {
         public float Height;

@@ -27,11 +27,18 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Methods --
+		/// <summary>
+		/// Callback for when director finished.
+		/// </summary>
+		/// <param name="director">Director that just finished.</param>
 		private void DirectorStopped(PlayableDirector director)
 		{
 			OnComplete.FireSafe();
 		}
 
+		/// <summary>
+		/// Make sure Director reference is set.
+		/// </summary>
 		private void FindDirector()
 		{
 			if (Director != null)
@@ -58,6 +65,11 @@ namespace FishAndChips
 		{
 			FindDirector();
 			await AwaitPlayableAsync(Director);
+		}
+
+		public void PlaySafe()
+		{
+			Director.PlaySafe();
 		}
 
 		public static void PlayPlayable(PlayableDirector director)

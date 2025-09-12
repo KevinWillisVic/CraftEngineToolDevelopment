@@ -659,7 +659,7 @@ namespace FishAndChips
 			{
 				return null;
 			}
-			var newInstance = SpawnAndReturnCraftItemInstance(instance, instance.transform.localPosition, triggerSaveEvent: true, spawnAnimation: GameConstants.CloneAppearAnimKey);
+			var newInstance = SpawnAndReturnCraftItemInstance(instance, instance.transform.localPosition, triggerSaveEvent: true, spawnAnimation: CraftItemInstance.eCraftItemAnimationKeys.CloneAppear.ToString());
 			return newInstance;
 		}
 

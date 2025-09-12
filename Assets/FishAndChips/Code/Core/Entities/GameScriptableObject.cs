@@ -1,5 +1,8 @@
 namespace FishAndChips
 {
+	/// <summary>
+	/// ScriptableobjectData for a game related object.
+	/// </summary>
     public class GameScriptableObject : ScriptableObjectData, IMetadataAsset<IMetaData>
 	{
 		#region -- Properties --

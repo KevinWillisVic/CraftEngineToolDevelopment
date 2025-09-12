@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace FishAndChips
 {
+    /// <summary>
+    /// Service handling reading and writing from files.
+    /// </summary>
     public class SavingService : Singleton<SavingService>
     {
         #region -- Private Methods --

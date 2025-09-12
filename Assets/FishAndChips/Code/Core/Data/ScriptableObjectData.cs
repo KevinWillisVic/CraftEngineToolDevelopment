@@ -18,6 +18,7 @@ namespace FishAndChips
 		#region -- Private Methods --
 		private void Awake()
 		{
+			// Make sure GUID is valid.
 			if (GUID.IsNullOrEmpty())
 			{
 				CreateGUID();
@@ -40,13 +41,18 @@ namespace FishAndChips
 		/// <summary>
 		/// Compare ScriptableObject with object for equality.
 		/// </summary>
-		/// <param name="other"></param>
+		/// <param name="other">Object to compare against.</param>
 		/// <returns>True if the same object, false otherwise.</returns>
 		public override bool Equals(object other)
 		{
 			return Equals(other as ScriptableObjectData);
 		}
 
+		/// <summary>
+		/// Compare equality against other ScriptableObjectData
+		/// </summary>
+		/// <param name="other">ScriptableObjectData to compare against.</param>
+		/// <returns>True if they are equal, false otherwise.</returns>
 		public bool Equals(ScriptableObjectData other)
 		{
 			if (other == null)

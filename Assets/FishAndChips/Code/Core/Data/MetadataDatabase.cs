@@ -4,9 +4,15 @@ using System;
 
 namespace FishAndChips
 {
-    public class MetadataDatabase : ScriptableObject
+    /// <summary>
+    /// Base class for game object database.
+    /// </summary>
+    public class MetadataDatabase : ScriptableObjectData
     {
 		#region -- Properties --
+        /// <summary>
+        /// Get collection of all IMetaDataStaticData.
+        /// </summary>
         public virtual IMetaDataStaticData[] StaticData
         {
             get
@@ -44,6 +50,9 @@ namespace FishAndChips
         #endregion
 
         #region -- Public Methods --
+        /// <summary>
+        /// Populate collections.
+        /// </summary>
         public virtual void Fill()
         {
         }

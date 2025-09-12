@@ -30,6 +30,10 @@ namespace FishAndChips
 				_toDisable = new();
 			}
 
+			/// <summary>
+			/// Add collection of objects to the _toDisable list.
+			/// </summary>
+			/// <param name="refList"></param>
 			public void AddToDisabledObjectList(List<GameObject> refList)
 			{
 				foreach (var o in refList)
