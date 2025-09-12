@@ -10,7 +10,6 @@ namespace FishAndChips
     {
 		#region -- Inspector --
 		public UICanvas UICanvasPrefab;
-		public CraftingSystemCameraService CameraServicePrefab;
 		public CraftingSystemPoolingService PoolingServicePrefab;
 		#endregion
 	}

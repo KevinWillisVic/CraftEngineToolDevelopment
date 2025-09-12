@@ -27,7 +27,6 @@ namespace FishAndChips
 		protected CraftingSystemStatService _statService;
 		protected CraftingSystemImageService _imageService;
 		protected CraftingSystemAudioService _audioService;
-		protected CraftingSystemCameraService _cameraService;
 		protected CraftingSystemSavingService _savingService;
 		protected CraftingSystemPoolingService _poolingService;
 		protected CraftingSystemCraftingService _craftingService;
@@ -169,7 +168,6 @@ namespace FishAndChips
 			_imageService = CraftingSystemImageService.Instance;
 			_audioService = CraftingSystemAudioService.Instance;
 			_savingService = CraftingSystemSavingService.Instance;
-			_cameraService = CraftingSystemCameraService.Instance;
 			_craftingService = CraftingSystemCraftingService.Instance;
 			_gameFlowService = CraftingSystemGameFlowService.Instance;
 		}
@@ -185,7 +183,6 @@ namespace FishAndChips
 			}
 			// Create and setup services.
 			_uiCanvas = CreateFromPrefab<UICanvas>(Settings.UICanvasPrefab, parentTransform:null, dontDestroyOnLoad:true);
-			_cameraService = CreateFromPrefab<CraftingSystemCameraService>(Settings.CameraServicePrefab, parentTransform:null, dontDestroyOnLoad:true);
 			_poolingService = CreateFromPrefab<CraftingSystemPoolingService>(Settings.PoolingServicePrefab, parentTransform:null, dontDestroyOnLoad:true);
 		}
 		#endregion
