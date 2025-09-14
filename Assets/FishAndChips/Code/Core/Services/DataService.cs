@@ -41,7 +41,7 @@ namespace FishAndChips
 		{
 			if (action.Method.Name.Contains('<') && action.Method.Name.Contains('>'))
 			{
-				Debug.LogWarning($"Avoid using inside methods on a listener.\nEventType: {eventType} - Method Name: {action.Method.ReflectedType}.{action.Method.Name}");
+				Logger.LogWarning($"Avoid using inside methods on a listener.\nEventType: {eventType} - Method Name: {action.Method.ReflectedType}.{action.Method.Name}");
 			}
 			if (_eventReferences.ContainsKey(eventType) == false)
 			{
@@ -50,7 +50,7 @@ namespace FishAndChips
 			var methodName = action.UniqueMethodName();
 			if (_eventReferences[eventType].Contains(methodName))
 			{
-				Debug.LogWarning($"The listener {eventType} has more than one subscriber to the class {action.Method.ReflectedType} and method {action.Method.Name}");
+				Logger.LogWarning($"The listener {eventType} has more than one subscriber to the class {action.Method.ReflectedType} and method {action.Method.Name}");
 				return false;
 			}
 			_eventReferences[eventType].Add(methodName);
@@ -71,16 +71,24 @@ namespace FishAndChips
 		#region -- Protected Methods --
 		protected virtual async Task LoadPersistentData()
 		{
-			await LoadDatabase(CoreConstants.GlobalDatabase, true);
+			await LoadDatabase(CoreConstants.GlobalDatabase, isPersistent: true);
 			IsPersistentDataLoaded = true;
 		}
 
 		protected void FillDatabaseFromStaticData(IMetaDataStaticData[] staticDatas,
 			Dictionary<string, IMetaDataStaticData> database)
 		{
-			foreach (var data in staticDatas)
+			for (int i = 0; i < staticDatas.Length; i++)
 			{
-				database.Add(data.ID, data);
+				var data = staticDatas[i];
+				try
+				{
+					database.Add(data.ID, data);
+				}
+				catch (Exception e)
+				{
+					Logger.LogException(e);
+				}
 			}
 		}
 
@@ -152,6 +160,8 @@ namespace FishAndChips
 			_onGlobablDatabaseUnloaded -= action;
 		}
 
+
+
 		public void SubscribeToOnContentDatabaseLoaded(Action action)
 		{
 			if (!OnListenerAdded("OnContentDatabaseLoaded", action))
@@ -184,10 +194,7 @@ namespace FishAndChips
 
 		public virtual async Task LoadDatabase(string name, bool isPersistent)
 		{
-			// TODO : Check addressable.
-			MetadataDatabase database = null;
-
-			database = await LoadDatabaseFromResources(name);
+			MetadataDatabase  database = await LoadDatabaseFromResources(name);
 			if (database == null)
 			{
 				return;

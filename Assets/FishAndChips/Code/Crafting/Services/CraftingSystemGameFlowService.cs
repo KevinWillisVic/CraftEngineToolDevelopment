@@ -24,6 +24,7 @@ namespace FishAndChips
 
 		#region -- Private Member Vars --
 		private IUpdateable[] _updateables = new IUpdateable[0];
+		private ICleanable[] _cleanables = new ICleanable[0];
 		#endregion
 
 		#region -- Private Methods --
@@ -116,7 +117,22 @@ namespace FishAndChips
 			_updateables = UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
 											.OfType<IUpdateable>()
 											.ToArray();
+			_cleanables = UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+											.OfType<ICleanable>()
+											.ToArray();
+
 			_initialized = true;
+		}
+
+		public void TriggerCleanup()
+		{
+			foreach (var cleanable in _cleanables)
+			{
+				if (cleanable != null)
+				{
+					cleanable.Cleanup();
+				}
+			}
 		}
 
 		public async void LoadSceneAsync(int index)
@@ -141,7 +157,6 @@ namespace FishAndChips
 
 		public async Task EnterGameplayFromBoot(string loadingOverlayName)
 		{
-			// Potentially load content.
 			await LoadIntoGameplayScene(loadingOverlayName);
 		}
 		#endregion

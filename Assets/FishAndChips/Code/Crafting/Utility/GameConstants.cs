@@ -2,6 +2,9 @@ namespace FishAndChips
 {
     public static class GameConstants
     {
+        // Pre boot Scenes.
+        public const string BootScene = "BootScene";
+
         // Save.
         public const string BoardSaveId = "board_save_state";
 
