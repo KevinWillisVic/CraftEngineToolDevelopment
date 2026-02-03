@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace FishAndChips
 {
@@ -10,9 +11,11 @@ namespace FishAndChips
 		#region -- Properties --
 		public virtual List<T> ListItems { get; set; } = new();
 		public int Count => ListItems.Count;
+
 		public Action OnListFilled { get; set; }
-		public Action<T> OnListItemSelected { get; set; }
+		public Action OnAllItemAnimationsCompleteAction { get; set; }
 		public Action<T> OnListItemHeld { get; set; }
+		public Action<T> OnListItemSelected { get; set; }
 		#endregion
 
 		#region -- Inspector --
@@ -60,13 +63,15 @@ namespace FishAndChips
 			}
 		}
 
-		protected void AnimateItemsIn()
+		protected async Task AnimateItemsIn()
 		{
 			if (AllowAnimatingItemsIn == false)
 			{
+				OnAllItemAnimationsComplete();
 				return;
 			}
 
+			List<Task> tasks = new();
 			for (int i = Count - 1; i >= 0; i--)
 			{
 				var item = ListItems[i];
@@ -78,8 +83,12 @@ namespace FishAndChips
 
 				item.SetActiveSafe(false);
 				// Animation should turn the object on.
-				item.AnimateIn(DelayBetweenItemAnimation);
+				//await item.AnimateIn(DelayBetweenItemAnimation);
+				tasks.Add(item.AnimateIn(DelayBetweenItemAnimation));
 			}
+			await Task.WhenAll(tasks.ToArray());
+
+			OnAllItemAnimationsComplete();
 		}
 
 		protected virtual void PreInitializeItem(T item)
@@ -90,45 +99,44 @@ namespace FishAndChips
 			}
 
 			item.OnItemSelected -= OnListItemSelectedInternal;
-			item.OnItemHeld -= OnItemHeldInternal;
-
 			item.OnItemSelected += OnListItemSelectedInternal;
+
+			item.OnItemHeld -= OnItemHeldInternal;
 			item.OnItemHeld += OnItemHeldInternal;
 
 			item.VisuallySelected(false);
 		}
 
+		protected virtual void OnAllItemAnimationsComplete()
+		{
+			OnAllItemAnimationsCompleteAction.FireSafe();
+		}
+
 		protected void OnItemHeldInternal(ComponentListItem selectedItem)
 		{
-			foreach (var item in ListItems)
-			{
-				item.VisuallySelected(selectedItem == item);
-			}
+			//foreach (var item in ListItems)
+			//{
+			//	item.VisuallySelected(selectedItem == item);
+			//}
 			OnListItemHeld.FireSafe(selectedItem as T);
+		}
+
+		protected virtual void OnListFilledInternal()
+		{
 		}
 
 		protected virtual void OnListItemSelectedInternal(ComponentListItem selectedItem)
 		{
 			foreach (var item in ListItems)
 			{
-				if (item != selectedItem)
-				{
-					if (AllowMultiSelect == false)
-					{
-						item.VisuallySelected(false);
-					}
-					else
-					{
-						item.VisuallySelected(true);
-					}
-				}
+				item.VisuallySelected(item == selectedItem || (AllowMultiSelect && item.IsVisuallySelected));
 			}
 			OnListItemSelected.FireSafe(selectedItem as T);
 		}
 		#endregion
 
 		#region -- Public Methods --
-		public virtual void FillList<ObjectType>(List<ObjectType> objects, bool clear = true, Action<T> preInitFunction = null)
+		public virtual async void FillList<ObjectType>(List<ObjectType> objects, bool clear = true, Action<T> preInitFunction = null)
 		{
 			if (clear == true)
 			{
@@ -149,12 +157,20 @@ namespace FishAndChips
 					{
 						continue;
 					}
-					item.Initialize();
+					try
+					{
+						item.Initialize();
+					}
+					catch (Exception e)
+					{
+						Logger.LogException(e);
+					}
 				}
 			}
 
 			UpdateItemIndecies();
-			AnimateItemsIn();
+			await AnimateItemsIn();
+			OnListFilledInternal();
 			OnListFilled.FireSafe();
 		}
 

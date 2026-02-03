@@ -1,5 +1,6 @@
 namespace FishAndChips
 {
+	// Enumerations for specific UI concepts such as view types, and overlay types.
     public class UIEnumTypes
     {
 		#region -- Supporting --

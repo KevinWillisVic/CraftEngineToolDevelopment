@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace FishAndChips
 {
-    public class GameSceneInstance : MonoBehaviour
+    public class GameSceneInstance : FishScript
     {
 		#region -- Inspector --
 		[Tooltip("Optional wait before showing the gameplay scene view.")]
@@ -11,6 +11,7 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Protected Member Vars --
+		// Services.
 		protected UIService _uiService;
 		#endregion
 
@@ -20,7 +21,7 @@ namespace FishAndChips
 		/// </summary>
 		private void PrepareScene()
 		{
-			EventManager.TriggerEvent(new PopulatePools());
+			EventManager.TriggerEvent(new PoolPopulationReady());
 			EventManager.TriggerEvent(new OnGameSceneReady());
 		}
 		#endregion

@@ -57,7 +57,7 @@ namespace FishAndChips
 		/// <param name="containerFolder">The folder the GameTipData are contained in.</param>
 		public void BuildTipDatabase(string containerFolder)
 		{
-			// Fetch all GameTipData in Resources/Tips folder.
+			// Fetch all GameTipData in Resources / Tips folder.
 			var tips = BuildDB<GameTipData>(containerFolder);
 			foreach (var tip in tips)
 			{

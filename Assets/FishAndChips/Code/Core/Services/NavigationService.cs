@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace FishAndChips
 {
@@ -36,17 +37,17 @@ namespace FishAndChips
 		#region UNITY_ANDROID
 		private void UpdateInput()
 		{
-			
+			/*
 			if (Input.GetKeyDown(KeyCode.Escape) == false)
 			{
 				return;
 			}
-			/*
-			if (Keyboard.current.escapeKey.wasPressedThisFrame)
+			*/
+			if (Keyboard.current.escapeKey.wasPressedThisFrame == false)
 			{
 				return;
 			}
-			*/
+			
 			var currentView = _uiService.ActiveView;
 			if (currentView != null)
 			{

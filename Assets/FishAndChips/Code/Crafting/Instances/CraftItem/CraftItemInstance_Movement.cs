@@ -1,4 +1,4 @@
-using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace FishAndChips
 {
@@ -17,17 +17,7 @@ namespace FishAndChips
 			{
 				return;
 			}
-
-			Vector3 newPosition = transform.position;
-			if (Input.touchCount > 0)
-			{
-				newPosition = Input.GetTouch(0).position;
-			}
-			else if (Input.mousePresent == true && Input.GetMouseButton(0))
-			{
-				newPosition = Input.mousePosition;
-			}
-			transform.position = newPosition;
+			transform.position = Mouse.current.position.value;
 		}
 		#endregion
 

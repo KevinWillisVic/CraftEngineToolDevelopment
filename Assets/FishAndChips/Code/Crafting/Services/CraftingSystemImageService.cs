@@ -4,9 +4,11 @@ using UnityEngine.U2D;
 
 namespace FishAndChips
 {
-	public class CraftingSystemImageService : ImageService
+	public class CraftingSystemImageService : ImageService<CraftingSystemImageService>
 	{
+		
 		#region -- Properties --
+		/*
 		public static new CraftingSystemImageService Instance
 		{
 			get
@@ -29,7 +31,9 @@ namespace FishAndChips
 				}
 			}
 		}
+		*/
 		#endregion
+		
 
 		#region -- Private Member Vars --
 		private SpriteAtlas _craftingAtlas;

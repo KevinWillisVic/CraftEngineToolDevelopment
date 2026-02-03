@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
 using UnityEngine.EventSystems;
@@ -19,7 +19,7 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Public Member Vars --
-		public bool Disabled = false;
+		[HideInInspector] public bool Disabled = false;
 		#endregion
 
 		#region -- Private Member Vars --

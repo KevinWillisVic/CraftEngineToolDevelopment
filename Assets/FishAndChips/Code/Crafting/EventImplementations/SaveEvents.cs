@@ -1,17 +1,8 @@
-using System;
-
 namespace FishAndChips
 {
-	public class SaveEvent : IEvent
-	{
-		public Type[] DispatchAs { get; internal set; }
-
-		public SaveEvent()
-		{
-			DispatchAs = new[] { typeof(SaveEvent) };
-		}
-	}
-
+	/// <summary>
+	/// Event to trigger a save related to positions.
+	/// </summary>
 	public class GeneralPositionSaveEvent : SaveEvent
 	{
 		public GeneralPositionSaveEvent()
@@ -20,6 +11,9 @@ namespace FishAndChips
 		}
 	}
 
+	/// <summary>
+	/// Event to indicate a CraftItemInstance should start being tracked.
+	/// </summary>
 	public class PositionSaveObjectAddedEvent : SaveEvent
 	{
 		public CraftItemInstance CraftItemInstance;
@@ -31,6 +25,9 @@ namespace FishAndChips
 		}
 	}
 
+	/// <summary>
+	/// Event to indicate a CraftItemInstance should no longer be tracked.
+	/// </summary>
 	public class PositionSaveObjectRemovedEvent : SaveEvent
 	{
 		public CraftItemInstance CraftItemInstance;

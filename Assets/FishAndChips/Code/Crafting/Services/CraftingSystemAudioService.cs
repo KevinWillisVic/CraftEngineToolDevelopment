@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace FishAndChips
 {
-    public class CraftingSystemAudioService : AudioService
+    public class CraftingSystemAudioService : AudioService, IInitializable, ICleanable
     {
 		#region -- Properties --
+		
 		public static new CraftingSystemAudioService Instance
 		{
 			get
@@ -27,6 +28,20 @@ namespace FishAndChips
 				}
 			}
 		}
+		#endregion
+
+		#region -- Public Methods --
+		/*
+		public override void Initialize()
+		{
+			base.Initialize();
+		}
+
+		public override void Cleanup()
+		{
+			base.Cleanup();
+		}
+		*/
 		#endregion
 	}
 }

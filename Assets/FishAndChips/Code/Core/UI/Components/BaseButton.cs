@@ -5,6 +5,16 @@ namespace FishAndChips
 {
     public class BaseButton : Button
     {
+		#region -- Inspector --
+		[Header("Base Class")]
+		public bool HandleButtonAudio = true;
+		public BaseAudioTypes.eSFXType ButtonReleaseSFX = BaseAudioTypes.eSFXType.None;
+
+		[Tooltip("For non-rectangular buttons, the image used needs to have read/write enabled, full rect, and non atlased.")]
+		public bool NonRectangularButton;
+		public float NonRectangularButtonAlphaMinimumThreshold = 0.1f;
+		#endregion
+
 		#region -- Protected Member Vars --
 		protected AudioService _audioService;
 		#endregion
@@ -13,10 +23,19 @@ namespace FishAndChips
 		protected override void Awake()
 		{
 			base.Awake();
-			_audioService = AudioService.Instance;
 			if (Application.isPlaying == true)
 			{
+				_audioService = AudioService.Instance;
 				onClick.AddListener(OnButtonClicked);
+
+				if (NonRectangularButton == true)
+				{
+					var targetGraphic = base.targetGraphic as Image;
+					if (targetGraphic != null)
+					{
+						targetGraphic.alphaHitTestMinimumThreshold = NonRectangularButtonAlphaMinimumThreshold;
+					}
+				}
 			}
 		}
 
@@ -30,7 +49,15 @@ namespace FishAndChips
 		#region -- Public Methods --
 		public virtual void OnButtonClicked()
 		{
-			// TODO : Handle audio.
+			if (_audioService == null)
+			{
+				return;
+			}
+
+			if (ButtonReleaseSFX != BaseAudioTypes.eSFXType.None)
+			{
+				_audioService.PlayUISFX(ButtonReleaseSFX.ToString());
+			}
 		}
 		#endregion
 	}

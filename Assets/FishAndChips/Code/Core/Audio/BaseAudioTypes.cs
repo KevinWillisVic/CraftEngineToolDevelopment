@@ -2,7 +2,8 @@ namespace FishAndChips
 {
     public class BaseAudioTypes
     {
-        public enum eMusicType
+		#region -- Enumerations --
+		public enum eMusicType
         {
             None,
             Gameplay
@@ -14,5 +15,14 @@ namespace FishAndChips
             ButtonPositive,
             ButtonNegative,
         }
+
+        public enum eAudioSourceType
+        {
+            None,
+            SFX,
+            Music,
+            UI
+        }
+        #endregion
     }
 }

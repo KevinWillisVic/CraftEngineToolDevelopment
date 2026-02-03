@@ -43,7 +43,7 @@ namespace FishAndChips
 		private void SubscribeEventListeners()
 		{
 			// Board saving.
-			EventManager.SubscribeEventListener<GeneralPositionSaveEvent>(OnGeneralSaveBoard);
+			EventManager.SubscribeEventListener<GeneralPositionSaveEvent>(OnGeneralPositionEvent);
 			EventManager.SubscribeEventListener<PositionSaveObjectAddedEvent>(OnObjectAddedToBoard);
 			EventManager.SubscribeEventListener<PositionSaveObjectRemovedEvent>(OnObjectRemovedFromBoard);
 
@@ -54,7 +54,7 @@ namespace FishAndChips
 		private void UnsubscribeEventListeners()
 		{
 			// Board saving.
-			EventManager.UnsubscribeEventListener<GeneralPositionSaveEvent>(OnGeneralSaveBoard);
+			EventManager.UnsubscribeEventListener<GeneralPositionSaveEvent>(OnGeneralPositionEvent);
 			EventManager.UnsubscribeEventListener<PositionSaveObjectAddedEvent>(OnObjectAddedToBoard);
 			EventManager.UnsubscribeEventListener<PositionSaveObjectRemovedEvent>(OnObjectRemovedFromBoard);
 
@@ -62,6 +62,10 @@ namespace FishAndChips
 			EventManager.UnsubscribeEventListener<GameResetEvent>(OnGameReset);
 		}
 
+		/// <summary>
+		/// Callback for event in which items are added to the gameboard.
+		/// </summary>
+		/// <param name="gameEvent">Event triggered.</param>
 		private void OnObjectAddedToBoard(PositionSaveObjectAddedEvent gameEvent)
 		{
 			var instance = gameEvent.CraftItemInstance;
@@ -69,28 +73,35 @@ namespace FishAndChips
 			{
 				return;
 			}
+			// TODO : Check on conditions here.
 			if (_craftingService.IsFinalItem(instance) == false)
 			{
-				TrackElementPosition(instance);
+				TrackItemPosition(instance);
 			}
 		}
 
+		/// <summary>
+		/// Callback for event in which items are removed from the gameboard.
+		/// </summary>
+		/// <param name="gameEvent">Event triggered.</param>
 		private void OnObjectRemovedFromBoard(PositionSaveObjectRemovedEvent gameEvent)
 		{
-			UntrackElementPosition(gameEvent.CraftItemInstance);
+			StopTrackingItemPosition(gameEvent.CraftItemInstance);
 		}
 
-		private void OnGeneralSaveBoard(GeneralPositionSaveEvent gameEvent)
+		/// <summary>
+		/// Callback for event when saveable objects are moved.
+		/// </summary>
+		/// <param name="gameEvent">Event triggered.</param>
+		private void OnGeneralPositionEvent(GeneralPositionSaveEvent gameEvent)
 		{
 			_boardSaveState.Save();
 		}
 
-		private void LoadSaveData()
-		{
-			_boardSaveState = new BoardSaveInfo(GameConstants.BoardSaveId);
-			_boardSaveState.Load();
-		}
-
+		/// <summary>
+		/// Callback for event in which game is reset.
+		/// </summary>
+		/// <param name="gameEvent">Event triggered.</param>
 		private void OnGameReset(GameResetEvent gameEvent)
 		{
 			_boardSaveState.Reset();
@@ -110,24 +121,12 @@ namespace FishAndChips
 				entity.Reset();
 			}
 		}
-		#endregion
 
-		#region -- Public Methods --
-		public override void Initialize()
-		{
-			base.Initialize();
-			_craftingService = CraftingSystemCraftingService.Instance;
-			LoadSaveData();
-			SubscribeEventListeners();
-		}
-
-		public override void Cleanup()
-		{
-			base.Cleanup();
-			UnsubscribeEventListeners();
-		}
-
-		public void TrackElementPosition(CraftItemInstance instance)
+		/// <summary>
+		/// Inform the board to start tracking a CraftItemInstance.
+		/// </summary>
+		/// <param name="instance">Instance to be tracked.</param>
+		private void TrackItemPosition(CraftItemInstance instance)
 		{
 			if (instance == null || _boardSaveState == null)
 			{
@@ -136,13 +135,44 @@ namespace FishAndChips
 			_boardSaveState.TrackElement(instance);
 		}
 
-		public void UntrackElementPosition(CraftItemInstance instance)
+		/// <summary>
+		/// Inform the board to stop tracking a CraftItemInstance.
+		/// </summary>
+		/// <param name="instance">Instance to not longer track.</param>
+		private void StopTrackingItemPosition(CraftItemInstance instance)
 		{
 			if (instance == null || _boardSaveState == null)
 			{
 				return;
 			}
 			_boardSaveState.UntrackElement(instance);
+		}
+
+		/// <summary>
+		/// Load save data.
+		/// </summary>
+		private void LoadSaveData()
+		{
+			_boardSaveState = new BoardSaveInfo(GameConstants.BoardSaveId);
+			_boardSaveState.Load();
+		}
+		#endregion
+
+		#region -- Public Methods --
+		public override void Initialize()
+		{
+			base.Initialize();
+
+			_craftingService = CraftingSystemCraftingService.Instance;
+
+			LoadSaveData();
+			SubscribeEventListeners();
+		}
+
+		public override void Cleanup()
+		{
+			base.Cleanup();
+			UnsubscribeEventListeners();
 		}
 		#endregion
 	}

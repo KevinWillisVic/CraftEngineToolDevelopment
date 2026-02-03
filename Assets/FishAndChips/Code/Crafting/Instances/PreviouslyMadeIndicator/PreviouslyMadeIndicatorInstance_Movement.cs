@@ -9,8 +9,10 @@ namespace FishAndChips
     public partial class PreviouslyMadeIndicatorInstance
     {
 		#region -- Inspector --
+		[Header("Movement")]
 		[Tooltip("This is animated in the timeline and used to lerp between the starting and target position.")]
 		public float AnimationProgress = 0f;
+		[Tooltip("Animation for the indicator appearing.")]
 		public PlayableDirector AppearTimeline;
 		#endregion
 
@@ -22,11 +24,10 @@ namespace FishAndChips
 		#region -- Private Methods --
 		private void Update()
 		{
-			if (transform == null)
+			if (this == null || transform == null)
 			{
 				return;
 			}
-			// Animate position by controlling progress value on timeline, and lerp between starting position, and target position.
 			UpdatePosition();
 		}
 		#endregion
@@ -37,7 +38,8 @@ namespace FishAndChips
 		/// </summary>
 		protected virtual void UpdatePosition()
 		{
-			transform.localPosition = Vector3.Lerp(_startingPosition, _targetPosition, AnimationProgress);
+			float tValue = Mathf.SmoothStep(0.0f, 1.0f, AnimationProgress);
+			transform.localPosition = Vector3.Lerp(_startingPosition, _targetPosition, tValue);
 		}
 
 		/// <summary>
@@ -46,7 +48,6 @@ namespace FishAndChips
 		protected virtual void InitializeMovement()
 		{
 			AnimationProgress = 0f;
-			transform.localScale = Vector3.one;
 
 			// Calculate end points we are lerping between.
 			_startingPosition = transform.localPosition;

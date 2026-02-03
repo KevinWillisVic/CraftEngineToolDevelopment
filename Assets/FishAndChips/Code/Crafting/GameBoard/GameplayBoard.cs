@@ -5,6 +5,14 @@ namespace FishAndChips
 {
     public abstract class GameplayBoard : MonoBehaviour
     {
+		#region -- Supporting --
+		public enum eRecycleState
+		{
+			CleanState,
+			UndoState
+		}
+		#endregion
+
 		#region -- Properties --
 		public float BoundaryWidth => _boundaryWidth;
 		public float BoundaryHeight => _boundaryHeight;
@@ -19,6 +27,8 @@ namespace FishAndChips
 		#region -- Protected Member Vars --
 		protected float _boundaryWidth;
 		protected float _boundaryHeight;
+
+		protected eRecycleState _recycleState = eRecycleState.CleanState;
 		#endregion
 
 		#region -- Private Methods --

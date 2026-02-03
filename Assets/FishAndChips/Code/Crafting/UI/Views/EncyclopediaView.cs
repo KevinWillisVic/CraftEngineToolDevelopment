@@ -114,7 +114,7 @@ namespace FishAndChips
 		#region -- Public Methods --
 		public override void Activate()
 		{
-			_imageService = CraftingSystemImageService.Instance;
+			_imageService = CraftingSystemImageService.Instance as CraftingSystemImageService;
 			_statService = CraftingSystemStatService.Instance;
 			_dataService = CraftingSystemDataService.Instance;
 			_craftingService = CraftingSystemCraftingService.Instance;

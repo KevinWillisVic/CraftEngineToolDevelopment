@@ -7,8 +7,9 @@ using System.Collections.Generic;
 
 namespace FishAndChips
 {
-    public class ImageService : Singleton<ImageService>, IInitializable
-    {
+	//public class ImageService : Singleton<ImageService>, IInitializable
+	public class ImageService<T> : Singleton<T> where T : Singleton<T>
+	{
 		#region -- Protected Member Vars --
 		protected Sprite _defaultSprite;
 		protected SpriteAtlas _iconSpriteAtlas;

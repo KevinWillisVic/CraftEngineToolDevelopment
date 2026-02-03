@@ -8,6 +8,7 @@ namespace FishAndChips
     public class CraftingSystemHintService : Singleton<CraftingSystemHintService>, IInitializable
     {
 		#region -- Protected Member Vars --
+		// Services.
 		protected CraftingSystemStatService _statService;
 		protected CraftingSystemCraftingService _craftingService;
 		#endregion
@@ -32,16 +33,18 @@ namespace FishAndChips
 				{
 					continue;
 				}
-				List<CraftRecipeEntity> creationRecipes = _craftingService.ProductRecipes[entity.InstanceId];
-				foreach (var recipe in creationRecipes)
+				List<CraftRecipeEntity> recipes = _craftingService.ProductRecipes[entity.InstanceId];
+				foreach (var recipe in recipes)
 				{
 					if (recipe.CanBuildRecipe() == true)
 					{
-						buildableEntities.Add(entity);
-						break;
+						if (buildableEntities.Contains(entity) == false)
+						{
+							buildableEntities.Add(entity);
+							break;
+						}
 					}
 				}
-
 			}
 			return buildableEntities;
 		}
@@ -49,21 +52,23 @@ namespace FishAndChips
 		/// <summary>
 		/// Get list of all CraftRecipes that are locked but buildable.
 		/// </summary>
-		/// <returns>List of all CraftRecipe entites that are locked but buildable.</returns>
+		/// <returns> List of all CraftRecipe entites that are locked but buildable.</returns>
 		private List<CraftRecipeEntity> GetLockedButBuildableCraftRecipeEntityList()
 		{
 			List<CraftRecipeEntity> buildableEntites = new();
-			var allEntites = _craftingService.CraftRecipeEntities;
-			foreach (var entity in allEntites)
+			var allRecipeEntities = _craftingService.CraftRecipeEntities;
+			foreach (var recipeEntity in allRecipeEntities)
 			{
-				if (entity.Unlocked == true)
+				if (recipeEntity.Unlocked == true)
 				{
 					continue;
 				}
-				if (entity.CanBuildRecipe() == true)
+				if (recipeEntity.CanBuildRecipe() == true)
 				{
-					buildableEntites.Add(entity);
-					break;
+					if (buildableEntites.Contains(recipeEntity) == false)
+					{
+						buildableEntites.Add(recipeEntity);
+					}
 				}
 			}
 			return buildableEntites;
@@ -74,6 +79,7 @@ namespace FishAndChips
 		public override void Initialize()
 		{
 			base.Initialize();
+			// Services.
 			_statService = CraftingSystemStatService.Instance;
 			_craftingService = CraftingSystemCraftingService.Instance;
 		}
@@ -96,7 +102,7 @@ namespace FishAndChips
 		public CraftRecipeEntity GetCraftRecipeEntityAsHint()
 		{
 			var allLockedButBuildableEntities = GetLockedButBuildableCraftRecipeEntityList();
-			if (allLockedButBuildableEntities.Count == 0)
+			if (allLockedButBuildableEntities == null || allLockedButBuildableEntities.Count == 0)
 			{
 				return null;
 			}
@@ -111,7 +117,7 @@ namespace FishAndChips
 		public CraftItemEntity GetCraftItemEntityAsHint()
 		{
 			var allLockedButBuildableEntities = GetLockedButBuildableCraftItemEntityList();
-			if (allLockedButBuildableEntities.Count == 0)
+			if (allLockedButBuildableEntities == null || allLockedButBuildableEntities.Count == 0)
 			{
 				return null;
 			}

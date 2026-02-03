@@ -1,34 +1,8 @@
-using System;
-using static FishAndChips.SimpleGameplayBoard;
-
 namespace FishAndChips
 {
-	public class GameEvent : IEvent
-	{
-		public Type[] DispatchAs { get; internal set; }
-
-		public GameEvent()
-		{
-			DispatchAs = new[] { typeof(GameEvent) };
-		}
-	}
-
-	public class GameResetEvent : GameEvent
-	{
-		public GameResetEvent()
-		{
-			DispatchAs = new[] { typeof(GameResetEvent), typeof(GameEvent) };
-		}
-	}
-
-	public class UnlockSequenceFinishedEvent : GameEvent
-	{
-		public UnlockSequenceFinishedEvent()
-		{
-			DispatchAs = new[] { typeof(UnlockSequenceFinishedEvent), typeof(GameEvent) };
-		}
-	}
-
+	/// <summary>
+	/// Event for filtering CraftItems.
+	/// </summary>
 	public class CraftItemSearchEvent : GameEvent
 	{
 		public string SearchFilter = string.Empty;
@@ -40,6 +14,9 @@ namespace FishAndChips
 		}
 	}
 
+	/// <summary>
+	/// Event that a CraftItemInstance was selected and dragged by the user.
+	/// </summary>
 	public class CraftItemSelectionEvent : GameEvent
 	{
 		public CraftItemInstance CraftItemInstance;
@@ -51,6 +28,9 @@ namespace FishAndChips
 		}
 	}
 
+	/// <summary>
+	/// Event that a CraftItemInstance was released from the user dragging it.
+	/// </summary>
 	public class CraftItemReleasedEvent : GameEvent
 	{
 		public CraftItemInstance CraftItemInstance;
@@ -62,6 +42,9 @@ namespace FishAndChips
 		}
 	}
 
+	/// <summary>
+	/// Event indicating that a CraftItem was built for the first time.
+	/// </summary>
 	public class CraftItemEntityUnlockEvent : GameEvent
 	{
 		public CraftItemEntity CraftItemEntity;
@@ -73,6 +56,9 @@ namespace FishAndChips
 		}
 	}
 
+	/// <summary>
+	/// Event indicating that a CraftRecipe was built for the first time.
+	/// </summary>
 	public class CraftRecipeUnlockEvent : GameEvent
 	{
 		public CraftRecipeEntity CraftRecipeEntity;
@@ -84,14 +70,20 @@ namespace FishAndChips
 		}
 	}
 
-	public class PopulatePools : GameEvent
+	/// <summary>
+	/// Event indicating that the pooling system can initialize.
+	/// </summary>
+	public class PoolPopulationReady : GameEvent
 	{
-		public PopulatePools()
+		public PoolPopulationReady()
 		{
-			DispatchAs = new[] { typeof(PopulatePools), typeof(GameEvent) };
+			DispatchAs = new[] { typeof(PoolPopulationReady), typeof(GameEvent) };
 		}
 	}
 
+	/// <summary>
+	/// Event indicating that the gameplayscene is playable.
+	/// </summary>
 	public class OnGameSceneReady : GameEvent
 	{
 		public OnGameSceneReady()
@@ -100,16 +92,9 @@ namespace FishAndChips
 		}
 	}
 
-	/*
-	public class CleanBoardEvent : GameEvent
-	{
-		public CleanBoardEvent()
-		{
-			DispatchAs = new[] { typeof(CleanBoardEvent) };
-		}
-	}
-	*/
-
+	/// <summary>
+	/// Event for pressing the recycle / undo button.
+	/// </summary>
 	public class RecycleTriggerableEvent : GameEvent
 	{
 		public RecycleTriggerableEvent()
@@ -118,17 +103,23 @@ namespace FishAndChips
 		}
 	}
 
+	/// <summary>
+	/// Event related to the current state of the game board.
+	/// </summary>
 	public class RecycleStateUpdateEvent : GameEvent
 	{
-		public eRecycleState RecycleState = eRecycleState.CleanState;
+		public GameplayBoard.eRecycleState RecycleState = GameplayBoard.eRecycleState.CleanState;
 
-		public RecycleStateUpdateEvent(eRecycleState state)
+		public RecycleStateUpdateEvent(GameplayBoard.eRecycleState state)
 		{
 			RecycleState = state;
 			DispatchAs = new[] { typeof(RecycleStateUpdateEvent) };
 		}
 	}
 
+	/// <summary>
+	/// Event related to toast messages in the game.
+	/// </summary>
 	public class ToastEvent : GameEvent
 	{
 		public string Message;

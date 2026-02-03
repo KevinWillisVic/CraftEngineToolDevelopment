@@ -2,6 +2,34 @@ using System;
 
 namespace FishAndChips
 {
+	public class SaveEvent : IEvent
+	{
+		public Type[] DispatchAs { get; internal set; }
+
+		public SaveEvent()
+		{
+			DispatchAs = new[] { typeof(SaveEvent) };
+		}
+	}
+
+	public class GameEvent : IEvent
+	{
+		public Type[] DispatchAs { get; internal set; }
+
+		public GameEvent()
+		{
+			DispatchAs = new[] { typeof(GameEvent) };
+		}
+	}
+
+	public class GameResetEvent : GameEvent
+	{
+		public GameResetEvent()
+		{
+			DispatchAs = new[] { typeof(GameResetEvent), typeof(GameEvent) };
+		}
+	}
+
 	public class OnViewActivatedEvent : IEvent
 	{
 		public Type[] DispatchAs { get; internal set; }

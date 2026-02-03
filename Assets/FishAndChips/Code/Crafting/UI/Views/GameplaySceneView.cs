@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +24,6 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Protected Member Vars --
-		protected CraftingSystemStatService _statService;
 		protected CraftingSystemHintService _hintService;
 		protected CraftingSystemCraftingService _craftingService;
 		#endregion
@@ -53,7 +51,6 @@ namespace FishAndChips
 		{
 			// Re-do last search to potentially get rid of any depleted items.
 			SetUpCraftItemsToDisplay(_lastSearch);
-			// When all of the craft items are unlocked hint button should no longer be visible.
 			UpdateVisibleStateOfHintButton();
 		}
 
@@ -97,7 +94,7 @@ namespace FishAndChips
 		/// </summary>
 		/// <param name="entity">CraftItem being checked.</param>
 		/// <returns>True if should be displayed, false otherwise.</returns>
-		private bool IsValidForDisplaying(CraftItemEntity entity)
+		private bool IsCraftItemValidForDisplaying(CraftItemEntity entity)
 		{
 			if (entity == null)
 			{
@@ -119,10 +116,7 @@ namespace FishAndChips
 		/// </summary>
 		private void UpdateVisibleStateOfHintButton()
 		{
-			int totalItems = _statService.GetTotalCraftItemEntities();
-			int unlockedItems = _statService.GetTotalUnlockedCraftItemEntities();
-
-			HintButton.SetActiveSafe(totalItems != unlockedItems);
+			HintButton.SetActiveSafe(_hintService.HasHintAvailable());
 		}
 
 		/// <summary>
@@ -185,8 +179,8 @@ namespace FishAndChips
 		public override void Initialize()
 		{
 			base.Initialize();
+			// Services.
 			_hintService = CraftingSystemHintService.Instance;
-			_statService = CraftingSystemStatService.Instance;
 			_craftingService = CraftingSystemCraftingService.Instance;
 
 			SetupButtons();
@@ -208,7 +202,7 @@ namespace FishAndChips
 			_craftItemEntities.AddRange(_craftingService.CraftItemEntities);
 
 			// Filter.
-			_craftItemEntities.RemoveAll(c => IsValidForDisplaying(c) == false);
+			_craftItemEntities.RemoveAll(c => IsCraftItemValidForDisplaying(c) == false);
 			DisplayedCraftItems.FillList(_craftItemEntities);
 		}
 
@@ -251,35 +245,13 @@ namespace FishAndChips
 				}
 				else
 				{
+					// TODO : See about recipe hint.
 				}
 			}
 			else
 			{
 				UpdateVisibleStateOfHintButton();
 			}
-			/*
-			var lockedEntites = _craftingService.CraftItemEntities.Where(e => e.Unlocked == false).ToList();
-			if (lockedEntites.Any())
-			{
-				var hintEntity = lockedEntites.FetchRandomElement();
-				// Mark object as having an active hint.
-				if (hintEntity != null)
-				{
-					hintEntity.SetHintState(true);
-
-					// Create overlay indicating this item has a hint given.
-					var hintOverlay = _uiService.ShowOverlay<OverlayHint>(UIEnumTypes.eOverlayType.OverlayHint.ToString());
-					if (hintOverlay != null)
-					{
-						hintOverlay.Initialize(hintEntity);
-					}
-				}
-			}
-			else
-			{
-				UpdateVisibleStateOfHintButton();
-			}
-			*/
 		}
 
 		/// <summary>

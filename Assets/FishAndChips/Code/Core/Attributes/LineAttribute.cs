@@ -7,10 +7,13 @@ namespace FishAndChips
     /// </summary>
     public class LineAttribute : PropertyAttribute
     {
-        public float Height;
+		#region -- Public Member Vars --
+		public float Height;
         public Color LineColor;
+		#endregion
 
-        public LineAttribute(float r = 0,
+		#region -- Constructors --
+		public LineAttribute(float r = 0,
             float g = 0, 
             float b = 0,
             float height = 3)
@@ -18,5 +21,6 @@ namespace FishAndChips
             Height = height;
             LineColor = new Color(r/255f, g/255f, b/255f);
         }
-    }
+		#endregion
+	}
 }

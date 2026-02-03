@@ -14,5 +14,9 @@ namespace FishAndChips
 
         // Content.
         public const string GlobalDatabase = "Global";
+
+        // Audio.
+        public const string MusicVolumeString = "MusicVolume";
+        public const string SFXVolumeString = "SFXVolume";
 	}
 }

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace FishAndChips
@@ -6,6 +5,7 @@ namespace FishAndChips
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 	{
 		#region -- Properties --
+		
 		public static T Instance
 		{
 			get
@@ -14,6 +14,7 @@ namespace FishAndChips
 				{
 					if (_instance == null)
 					{
+						var singletonType = typeof(T);
 						_instance = (T)Object.FindAnyObjectByType(typeof(T));
 						if (_instance == null)
 						{
@@ -27,6 +28,7 @@ namespace FishAndChips
 				}
 			}
 		}
+		
 		#endregion
 
 		#region -- Public Member Vars --
@@ -48,6 +50,7 @@ namespace FishAndChips
 			}
 			else if (_instance != this as T)
 			{
+				Logger.LogError($"Multiple Singletons of type {typeof(T)} found.");
 				Destroy(this);
 				return;
 			}
@@ -63,10 +66,6 @@ namespace FishAndChips
 		protected virtual void OnDestroy()
 		{
 			Cleanup();
-			if (_instance == this as T)
-			{
-				_instance = null;
-			}
 		}
 
 		protected virtual void OnApplicationQuit()
@@ -83,6 +82,13 @@ namespace FishAndChips
 
 		public virtual void Cleanup()
 		{
+			if (_instance != null)
+			{
+				if (_instance == this as T)
+				{
+					_instance = null;
+				}
+			}
 		}
 
 		public virtual bool IsMarkedAsDontDestroyOnLoad()

@@ -20,7 +20,6 @@ namespace FishAndChips
 
 		#region -- Private Member Vars --
 		private List<CraftItemEntity> _qeuedDisplayedEntities = new();
-		private bool _isDisplayingEntity = false;
 		private bool _waitingForInteraction = false;
 		#endregion
 
@@ -65,7 +64,6 @@ namespace FishAndChips
 
 		private void LeaveUnlockView()
 		{
-			_isDisplayingEntity = false;
 			_uiService.ActivateView(UIEnumTypes.eViewType.GameplaySceneView.ToString());
 
 			// TODO : Recycle depleted item.
@@ -94,7 +92,7 @@ namespace FishAndChips
 		#region -- Public Methods --
 		public override void Activate()
 		{
-			_imageService = CraftingSystemImageService.Instance;
+			_imageService = CraftingSystemImageService.Instance as CraftingSystemImageService;
 			if (_qeuedDisplayedEntities.Count > 0)
 			{
 				var entity = _qeuedDisplayedEntities.Pop(0);

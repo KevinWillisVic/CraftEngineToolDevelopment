@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 namespace FishAndChips
@@ -22,6 +23,11 @@ namespace FishAndChips
 		/// Get the gameplay baord.
 		/// </summary>
 		public SimpleGameplayBoard GameplayBoard => _gameplayBoard;
+
+		/// <summary>
+		/// Current recyclign state of the board.
+		/// </summary>
+		public SimpleGameplayBoard.eRecycleState CurrentRecycleState => GameplayBoard != null ? GameplayBoard.RecycleState : FishAndChips.GameplayBoard.eRecycleState.UndoState;
 		#endregion
 
 		#region -- Public Member Vars --
@@ -66,8 +72,10 @@ namespace FishAndChips
 		{
 			// Life-cycle.
 			EventManager.SubscribeEventListener<OnGameSceneReady>(OnGameSceneReady);
+
 			// Board.
 			EventManager.SubscribeEventListener<PositionSaveObjectRemovedEvent>(OnObjectRemovedFromBoard);
+
 			// Selection.
 			EventManager.SubscribeEventListener<CraftItemSelectionEvent>(OnSelectCraftItemInstance);
 			EventManager.SubscribeEventListener<CraftItemReleasedEvent>(OnReleaseCraftItemInstance);
@@ -80,11 +88,27 @@ namespace FishAndChips
 		{
 			// Life-cycle.
 			EventManager.UnsubscribeEventListener<OnGameSceneReady>(OnGameSceneReady);
+
 			// Board.
 			EventManager.UnsubscribeEventListener<PositionSaveObjectRemovedEvent>(OnObjectRemovedFromBoard);
+
 			//Selection.
 			EventManager.UnsubscribeEventListener<CraftItemSelectionEvent>(OnSelectCraftItemInstance);
 			EventManager.UnsubscribeEventListener<CraftItemReleasedEvent>(OnReleaseCraftItemInstance);
+		}
+
+		/// <summary>
+		/// Callback for the when the game scene is ready.
+		/// </summary>
+		/// <param name="gameEvent">The OnGameSceneReady event that was raised.</param>
+		private void OnGameSceneReady(OnGameSceneReady gameEvent)
+		{
+			var gameplaySceneView = _uiService.GetView<GameplaySceneView>();
+			if (gameplaySceneView != null)
+			{
+				_gameplayBoard = gameplaySceneView.SimpleGameplayBoard;
+			}
+			PopulateBoardFromSavedState(_saveService.BoardSaveState);
 		}
 
 		/// <summary>
@@ -101,6 +125,7 @@ namespace FishAndChips
 			instance.IsSelected = false;
 			instance.IsInteractable = false;
 
+			// Add instance back to the pool.
 			if (gameEvent.RePoolImmediate == true)
 			{
 				_poolingService.PoolCraftItemInstance(instance);
@@ -151,17 +176,23 @@ namespace FishAndChips
 				return;
 			}
 
-			// Spawn elements into the board based on saved data.
 			var trackedElements = state.SavedElements;
 			foreach (var element in trackedElements)
 			{
-				var entity = FetchCraftItemEntity(element.ID);
-				if (entity == null)
+				if (element == null)
 				{
 					continue;
 				}
+				var entity = FetchCraftItemEntity(element.ID);
+				if (entity == null)
+				{
+					Logger.LogWarning($"Could not fetch craft item from ID {element.ID}.");
+					continue;
+				}
 
-				if (IsDepletedItem(entity) == true || IsFinalItem(entity) == true)
+				// TODO : Check on logic here, should a depleted or final item every be spawned in.
+				if (IsDepletedItem(entity) == true
+					|| IsFinalItem(entity) == true)
 				{
 					continue;
 				}
@@ -176,19 +207,6 @@ namespace FishAndChips
 			}
 		}
 
-		/// <summary>
-		/// Callback for the when the game scene is ready.
-		/// </summary>
-		/// <param name="gameEvent">The OnGameSceneReady event that was raised.</param>
-		private void OnGameSceneReady(OnGameSceneReady gameEvent)
-		{
-			var gameplaySceneView = _uiService.GetView<GameplaySceneView>();
-			if (gameplaySceneView != null)
-			{
-				_gameplayBoard = gameplaySceneView.SimpleGameplayBoard;
-			}
-			PopulateBoardFromSavedState(_saveService.BoardSaveState);
-		}
 
 		/// <summary>
 		/// Callback for when a CraftItemInstance is selected.
@@ -219,8 +237,11 @@ namespace FishAndChips
 				return;
 			}
 			var instance = gameEvent.CraftItemInstance;
+
+			// Clean up item if it was placed out of bounds.
 			if (CheckIfReleasedInPlayRegion() == false)
 			{
+				// TODO : Prevent this item from being selected.
 				instance.PlayAnimation(CraftItemInstance.eCraftItemAnimationKeys.InvalidCombo.ToString());
 				float waitTime = instance.GetCurrentPlayingDirector() != null ? instance.GetCurrentPlayingDirectorLength() : 1;
 				instance.Recycle(false, waitTime);
@@ -228,8 +249,8 @@ namespace FishAndChips
 			}
 
 			EventManager.TriggerEvent(new PositionSaveObjectAddedEvent(instance));
-			PlaceOnCraftingLayer(instance);
 
+			PlaceOnCraftingLayer(instance);
 			if (AttemptCrafting(instance) == false)
 			{
 				instance.AttemptCloning();
@@ -268,6 +289,12 @@ namespace FishAndChips
 		private void FetchCollisionResults()
 		{
 			_collisionResults.Clear();
+
+			Vector3 pointerPosition = Vector3.zero;
+			pointerPosition = Mouse.current.position.value;
+			_pointerEventData.position = pointerPosition;
+			EventSystem.current.RaycastAll(_pointerEventData, _collisionResults);
+			/*
 			if (Input.touchCount > 0)
 			{
 				_pointerEventData.position = Input.GetTouch(0).position;
@@ -278,6 +305,7 @@ namespace FishAndChips
 				_pointerEventData.position = Input.mousePosition;
 				EventSystem.current.RaycastAll(_pointerEventData, _collisionResults);
 			}
+			*/
 		}
 
 		/// <summary>
@@ -501,6 +529,7 @@ namespace FishAndChips
 		/// <returns>True if underlying entity is depleted, false otherwise.</returns>
 		public bool IsDepletedItem(CraftItemInstance instance)
 		{
+			return false;
 			if (instance == null)
 			{
 				return false;
@@ -515,6 +544,7 @@ namespace FishAndChips
 		/// <returns>True if the entity is depleted, false otherwise.</returns>
 		public bool IsDepletedItem(CraftItemEntity entity)
 		{
+			return false;
 			if (entity == null)
 			{
 				return false;
@@ -624,9 +654,9 @@ namespace FishAndChips
 			var instance = _poolingService.GetPreviouslyMadeInstancePoolElement();
 			instance.transform.localPosition = position;
 
-			instance.Entity = entity;
+			//instance.Entity = entity;
 			instance.gameObject.SetActiveSafe(activeState);
-			instance.Initialize();
+			instance.Initialize(entity);
 
 			return instance;
 		}
@@ -702,7 +732,7 @@ namespace FishAndChips
 				combiningInstance.Recycle(true);
 				return true;
 			}
-			instance.HandleInvalidCombination();
+			instance.PlayAnimation(CraftItemInstance.eCraftItemAnimationKeys.InvalidCombo.ToString(), true);
 			return false;
 		}
 
@@ -752,7 +782,11 @@ namespace FishAndChips
 			{
 				return null;
 			}
-			var newInstance = SpawnAndReturnCraftItemInstance(entity, pos, triggerSaveEvent: true, CraftItemInstance.eCraftItemAnimationKeys.CloneAppear.ToString(), activeState: true);
+			var newInstance = SpawnAndReturnCraftItemInstance(entity, 
+				pos,
+				triggerSaveEvent: true, 
+				CraftItemInstance.eCraftItemAnimationKeys.CloneAppear.ToString(), 
+				activeState: true);
 			return newInstance;
 		}
 
@@ -772,6 +806,7 @@ namespace FishAndChips
 				var craftItemEntity = FetchCraftItemEntity(product);
 				if (craftItemEntity == null)
 				{
+					Debug.LogError($"Could not find CraftItemEntity with ID {product}");
 					continue;
 				}
 				var newInstance = SpawnProductOfRecipe(craftItemEntity, pos);
@@ -784,6 +819,34 @@ namespace FishAndChips
 					TriggerCraftItemEntityUnlock(craftItemEntity);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Unlock CraftItemEntity.
+		/// </summary>
+		/// <param name="entity">CraftItemEntity to unlock.</param>
+		public void TriggerCraftItemEntityUnlock(CraftItemEntity entity)
+		{
+			if (entity == null)
+			{
+				return;
+			}
+			entity.SetUnlockState(state : true);
+			EventManager.TriggerEvent(new CraftItemEntityUnlockEvent(entity));
+		}
+
+		/// <summary>
+		/// Unlock CraftRecipeEntity.
+		/// </summary>
+		/// <param name="entity">CraftRecipeEntity to unlock.</param>
+		public void TriggerCraftRecipeEntityUnlock(CraftRecipeEntity entity)
+		{
+			if (entity == null)
+			{
+				return;
+			}
+			entity.SetUnlockState(state : true);
+			EventManager.TriggerEvent(new CraftRecipeUnlockEvent(entity));
 		}
 
 		/// <summary>
@@ -808,7 +871,8 @@ namespace FishAndChips
 		/// Place CraftItemInstance on crafting layer of gameboard.
 		/// </summary>
 		/// <param name="instance">CraftItemInstance to place.</param>
-		public void PlaceOnCraftingLayer(CraftItemInstance instance)
+		/// <param name="setAslastSibling">Should SetAsLiastSibling be called on the transform.</param>
+		public void PlaceOnCraftingLayer(CraftItemInstance instance, bool setAslastSibling = true)
 		{
 			if (instance == null)
 			{
@@ -820,35 +884,10 @@ namespace FishAndChips
 				return;
 			}
 			instance.transform.SetParent(_gameplayBoard.CraftingLayer);
-			instance.transform.SetAsLastSibling();
-		}
-
-		/// <summary>
-		/// Unlock CraftItemEntity.
-		/// </summary>
-		/// <param name="entity">CraftItemEntity to unlock.</param>
-		public void TriggerCraftItemEntityUnlock(CraftItemEntity entity)
-		{
-			if (entity == null)
+			if (setAslastSibling == true)
 			{
-				return;
+				instance.transform.SetAsLastSibling();
 			}
-			entity.SetUnlockState(true);
-			EventManager.TriggerEvent(new CraftItemEntityUnlockEvent(entity));
-		}
-
-		/// <summary>
-		/// Unlock CraftRecipeEntity.
-		/// </summary>
-		/// <param name="entity">CraftRecipeEntity to unlock.</param>
-		public void TriggerCraftRecipeEntityUnlock(CraftRecipeEntity entity)
-		{
-			if (entity == null)
-			{
-				return;
-			}
-			entity.SetUnlockState(true);
-			EventManager.TriggerEvent(new CraftRecipeUnlockEvent(entity));
 		}
 
 		/// <summary>

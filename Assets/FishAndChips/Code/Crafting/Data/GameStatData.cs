@@ -2,11 +2,11 @@ using System;
 
 namespace FishAndChips
 {
-	#region -- Supporting --
 	public class GameStatData
 	{
+		#region -- Public Member Vars --
 		public string Text;
 		public Action Callback;
+		#endregion
 	}
-	#endregion
 }

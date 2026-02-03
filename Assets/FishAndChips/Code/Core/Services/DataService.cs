@@ -160,8 +160,6 @@ namespace FishAndChips
 			_onGlobablDatabaseUnloaded -= action;
 		}
 
-
-
 		public void SubscribeToOnContentDatabaseLoaded(Action action)
 		{
 			if (!OnListenerAdded("OnContentDatabaseLoaded", action))

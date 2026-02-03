@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 namespace FishAndChips
 {
+    /// <summary>
+    /// Set ScrollRect velocity to zero if velocity is under a specific velocity.
+    /// </summary>
     [RequireComponent(typeof(ScrollRect))]
     public class ScrollRectVelocityClamper : MonoBehaviour
     {
@@ -21,7 +24,10 @@ namespace FishAndChips
 		private void Awake()
 		{
             _scrollRect = GetComponent<ScrollRect>();
-
+            if (_scrollRect == null)
+            {
+                return;
+            }
             if (_scrollRect.horizontal == true)
             {
                 _isHorizontal = true;
@@ -34,6 +40,10 @@ namespace FishAndChips
 
 		private void Update()
 		{
+            if (_scrollRect == null)
+            {
+                return;
+            }
             if (_scrollRect.velocity == Vector2.zero)
             {
                 return;
@@ -58,9 +68,15 @@ namespace FishAndChips
         #endregion
 
         #region -- Public Methods --
+        /// <summary>
+        /// Set ScrollRect velocity to zero.
+        /// </summary>
         public void KillVelocity()
         {
-            _scrollRect.velocity = Vector2.zero;
+            if (_scrollRect != null)
+            {
+				_scrollRect.velocity = Vector2.zero;
+			}
         }
         #endregion
     }

@@ -15,15 +15,16 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Protected Member Vars --
+		// Services.
 		protected EntityService _entityService;
 		protected CraftingSystemCraftingService _craftingService;
 		#endregion
-
 
 		#region -- Public Methods --
 		public override void Initialize()
 		{
 			base.Initialize();
+			// Services.
 			_entityService = EntityService.Instance;
 			_craftingService = CraftingSystemCraftingService.Instance;
 		}

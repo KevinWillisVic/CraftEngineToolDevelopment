@@ -5,7 +5,7 @@ namespace FishAndChips
 	/// <summary>
 	/// Core script for CraftItemInstance. Representation of a CraftItem.
 	/// </summary>
-    public partial class CraftItemInstance : MonoBehaviour
+    public partial class CraftItemInstance : FishScript
     {
 		#region -- Properties --
 		public IEntity Entity { get; set; }
@@ -24,19 +24,14 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Methods --
-		private void OnEnable()
-		{
-			SubscribeEventListeners();
-		}
-
-		private void OnDisable()
-		{
-			UnsubscribeEventListeners();
-		}
-
 		private void Update()
 		{
 			if (CraftItemEntity == null)
+			{
+				return;
+			}
+
+			if (IsInteractable == false)
 			{
 				return;
 			}
@@ -45,22 +40,6 @@ namespace FishAndChips
 			{
 				HandleMovement();
 			}
-		}
-
-		/// <summary>
-		/// Subscribe to game events.
-		/// </summary>
-		private void SubscribeEventListeners()
-		{
-			EventManager.SubscribeEventListener<UnlockSequenceFinishedEvent>(OnUnlockSequenceFinished);
-		}
-
-		/// <summary>
-		/// Unsubscribe from game events.
-		/// </summary>
-		private void UnsubscribeEventListeners()
-		{
-			EventManager.UnsubscribeEventListener<UnlockSequenceFinishedEvent>(OnUnlockSequenceFinished);
 		}
 		#endregion
 
@@ -74,24 +53,39 @@ namespace FishAndChips
 			string instanceId = (CraftItemEntity != null) ? CraftItemEntity.InstanceId : string.Empty;
 			return $"CraftItemInstance : {instanceId}";
 		}
+
+		/// <summary>
+		/// Ensure the object is formatted properly.
+		/// </summary>
+		protected virtual void FormatToDefaultState()
+		{
+			gameObject.name = FormatName();
+			transform.localScale = Vector3.one;
+		}
 		#endregion
 
 		#region -- Public Methods --
 		public virtual void Initialize()
 		{
-			_craftingService = CraftingSystemCraftingService.Instance;
-
 			if (CraftItemEntity == null)
 			{
 				return;
 			}
 
+			if (_craftingService == null)
+			{
+				_craftingService = CraftingSystemCraftingService.Instance;
+			}
+
 			IsSelected = false;
 			IsInteractable = true;
+			if (_craftingService.IsFinalItem(CraftItemEntity) 
+				|| _craftingService.IsDepletedItem(CraftItemEntity))
+			{
+				IsInteractable = false;
+			}
 
-			gameObject.name = FormatName();
-			transform.localScale = Vector3.one;
-
+			FormatToDefaultState();
 			SetVisual();
 		}
 
@@ -112,6 +106,10 @@ namespace FishAndChips
 		/// </summary>
 		public void OnSelected()
 		{
+			if (IsInteractable == false)
+			{
+				return;
+			}
 			if (IsSelected == true)
 			{
 				return;

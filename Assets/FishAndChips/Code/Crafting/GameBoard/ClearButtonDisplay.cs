@@ -13,18 +13,6 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Methods --
-		/// <summary>
-		/// Set initial text of the button.
-		/// </summary>
-		private void SetInitialButtonState()
-		{
-			CraftingSystemCraftingService craftingService = CraftingSystemCraftingService.Instance;
-			if (craftingService != null && craftingService.GameplayBoard != null)
-			{
-				SetTextBasedOnState(craftingService.GameplayBoard.RecycleState);
-			}
-		}
-
 		private void OnEnable()
 		{
 			EventManager.SubscribeEventListener<RecycleStateUpdateEvent>(OnButtonRecycleStateChanged);
@@ -34,6 +22,19 @@ namespace FishAndChips
 		private void OnDisable()
 		{
 			EventManager.UnsubscribeEventListener<RecycleStateUpdateEvent>(OnButtonRecycleStateChanged);
+		}
+
+		/// <summary>
+		/// Set initial text of the button.
+		/// </summary>
+		private void SetInitialButtonState()
+		{
+			// TODO : See if there is a better way of doing this.
+			CraftingSystemCraftingService craftingService = CraftingSystemCraftingService.Instance;
+			if (craftingService != null && craftingService.GameplayBoard != null)
+			{
+				SetTextBasedOnState(craftingService.GameplayBoard.RecycleState);
+			}
 		}
 
 		/// <summary>

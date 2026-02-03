@@ -77,7 +77,7 @@ namespace FishAndChips
 			director.PlaySafe();
 		}
 
-		public static async Task AwaitPlayableAsync(PlayableDirector director)
+		public static async Task AwaitPlayableAsync(PlayableDirector director, float startTimeout = 0.1f)
 		{
 			if (director == null)
 			{
@@ -87,19 +87,31 @@ namespace FishAndChips
 			if (director.state != PlayState.Playing)
 			{
 				director.Play();
+				float wait = startTimeout;
+
+				while (director != null && director.state != PlayState.Playing && wait > 0)
+				{
+					await Awaitable.EndOfFrameAsync();
+					wait -= UnityEngine.Time.unscaledDeltaTime;
+				}
 			}
+
 			while (director != null && director.state == PlayState.Playing)
 			{
 				await Awaitable.EndOfFrameAsync();
 			}
 		}
 
-		public static async void WaitForActiveObjectAndThenPlay(GameObject obj, PlayableDirector director, float timeoutSeconds)
+		public static async void WaitForActiveObjectAndThenPlay(GameObject obj, 
+			PlayableDirector director,
+			float timeoutSeconds)
 		{
 			await WaitForActiveObjectAndThenPlayAsync(obj, director, timeoutSeconds);
 		}
 
-		public static async Task WaitForActiveObjectAndThenPlayAsync(GameObject obj, PlayableDirector director, float timeoutSeconds)
+		public static async Task WaitForActiveObjectAndThenPlayAsync(GameObject obj,
+			PlayableDirector director,
+			float timeoutSeconds)
 		{
 			if (obj == null || director == null)
 			{

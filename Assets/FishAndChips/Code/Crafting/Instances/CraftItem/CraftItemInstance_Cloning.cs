@@ -8,13 +8,18 @@ namespace FishAndChips
     public partial class CraftItemInstance
     {
 		#region -- Inspector --
+		[Header("Cloning")]
+		[Tooltip("How many taps must occur before a clone happens.")]
 		public int TapsToTriggerClone = 2;
+		[Tooltip("Time in which taps must occur for a clone to happen.")]
 		public float TimingThresholdForClone = 0.5f;
 		#endregion
 
 		#region -- Private Member Vars --
 		private int _currentTapCount = 0;
 		private float _cloningCutoffTime = 0f;
+
+		private SimpleGameplayBoard _board = null;
 		#endregion
 
 		#region -- Private Methods --
@@ -28,16 +33,19 @@ namespace FishAndChips
 			{
 				return;
 			}
-			UIService uiService = UIService.Instance;
-			var gameplayView = uiService.GetView<GameplaySceneView>();
-			if (gameplayView != null)
+			if (_board == null)
 			{
-				var board = gameplayView.SimpleGameplayBoard;
-				if (board != null)
+				UIService uiService = UIService.Instance;
+				var gameplayView = uiService.GetView<GameplaySceneView>();
+				if (gameplayView != null)
 				{
-					var pos = board.GetPositionOnCircle(instance.transform.localPosition, true, true);
-					instance.transform.localPosition = pos;
+					_board = gameplayView.SimpleGameplayBoard;
 				}
+			}
+			if (_board != null)
+			{
+				var pos = _board.GetPositionOnCircle(instance.transform.localPosition, true, true);
+				instance.transform.localPosition = pos;
 			}
 		}
 		#endregion
@@ -82,7 +90,6 @@ namespace FishAndChips
 			if (_currentTapCount >= TapsToTriggerClone)
 			{
 				var instance = _craftingService.SpawnClone(this);
-				
 				PositionClonedInstance(instance);
 				ResetCloningVariables();
 			}

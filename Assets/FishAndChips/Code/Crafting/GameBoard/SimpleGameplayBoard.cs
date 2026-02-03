@@ -5,13 +5,6 @@ namespace FishAndChips
 {
     public class SimpleGameplayBoard : GameplayBoard
     {
-		#region -- Supporting --
-		public enum eRecycleState
-		{
-			CleanState,
-			UndoState
-		}
-		#endregion
 
 		#region -- Properties --
 		public eRecycleState RecycleState => _recycleState;
@@ -27,7 +20,8 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Member Vars --
-		private eRecycleState _recycleState = eRecycleState.CleanState;
+
+		// Collection of items that are being cleared.
 		private List<BoardElementSaveInfo> _itemsBeingCleared = new();
 		#endregion
 
@@ -43,23 +37,17 @@ namespace FishAndChips
 		/// </summary>
 		private void OnPositionSaveEvent(GeneralPositionSaveEvent saveEvent)
 		{
+			// Prevent undoing once they have placed something.
 			if (_recycleState == eRecycleState.UndoState)
 			{
 				ConfigureDefaultState();
 			}
 		}
 
-		/*
 		/// <summary>
-		/// When this event is triggered, a mass recycle should occur.
+		/// Event callback for 
 		/// </summary>
-		/// <param name="gameEvent">Event that should trigger mass recycle.</param>
-		private void OnCleanEvent(CleanBoardEvent gameEvent)
-		{
-			MassRecycle();
-		}
-		*/
-
+		/// <param name="gameEvent"></param>
 		private void OnRecycleActionTriggered(RecycleTriggerableEvent gameEvent)
 		{
 			HandleRecycleAction();
@@ -75,6 +63,7 @@ namespace FishAndChips
 			ConfigureDefaultState();
 
 			await Awaitable.EndOfFrameAsync();
+
 			if (CraftingLayer != null)
 			{
 				CraftingLayer.TryGetComponent<RectTransform>(out var rectTransform);
@@ -103,7 +92,6 @@ namespace FishAndChips
 		protected override void SubscribeEventListeners()
 		{
 			base.SubscribeEventListeners();
-			//EventManager.SubscribeEventListener<CleanBoardEvent>(OnCleanEvent);
 			EventManager.SubscribeEventListener<GeneralPositionSaveEvent>(OnPositionSaveEvent);
 			EventManager.SubscribeEventListener<RecycleTriggerableEvent>(OnRecycleActionTriggered);
 		}
@@ -111,7 +99,6 @@ namespace FishAndChips
 		protected override void UnsubscribeEventListeners()
 		{
 			base.UnsubscribeEventListeners();
-			//EventManager.UnsubscribeEventListener<CleanBoardEvent>(OnCleanEvent);
 			EventManager.UnsubscribeEventListener<GeneralPositionSaveEvent>(OnPositionSaveEvent);
 			EventManager.UnsubscribeEventListener<RecycleTriggerableEvent>(OnRecycleActionTriggered);
 		}
@@ -158,6 +145,7 @@ namespace FishAndChips
 		{
 			var finalItems = new List<CraftItemInstance>();
 			var objectsOnBoard = CraftingLayer.GetComponentsInChildren<CraftItemInstance>();
+			// TODO: Check to see if a special animation should play.
 			foreach (var item in objectsOnBoard)
 			{
 				if (item.gameObject.activeSelf && _craftingService.IsFinalItem(item) == true)

@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.Playables;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FishAndChips
 {
-    public class ComponentListItem : MonoBehaviour
-    {
+    public class ComponentListItem : FishScript
+	{
 		#region -- Properties --
-		public int Index { get; set; }
 		public Action<ComponentListItem> OnItemSelected { get; set; }
 		public Action<ComponentListItem> OnItemHeld { get; set; }
 		public RectTransform RectTransform { get; private set; }
@@ -16,10 +16,7 @@ namespace FishAndChips
 
 		public object ListObject
 		{
-			get
-			{
-				return _listObject;
-			}
+			get => _listObject;
 			set
 			{
 				_listObject = value;
@@ -29,29 +26,28 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Inspector --
+		public int Index;
 		public BaseButton SelectionButton;
-		public float RequiredHoldTime = 1.0f;
-
-		public PlayableDirector EntryPlayable;
-
 		public List<GameObject> VisuallySelectedObjects = new();
+
+		public float RequiredHoldTime = 1.0f;
 
 		public bool HandleHoldEvent = false;
 		public bool CanBeUnselected = false;
+
+		public PlayableDirector EntryPlayable;
 		#endregion
 
 		#region -- Private Member Vars --
-		private float _pointerDownTimer = 0f;
 
 		private object _listObject;
-
-		private PlayableDirector _queuedActivationPlayable;
-
 		private bool _handledHoldEvent = false;
+		private PlayableDirector _queuedActivationPlayable;
 		#endregion
 
 		#region -- Protected Member Vars --
 		protected bool _isPointerDown = false;
+		protected float _pointerDownTimer = 0f;
 		#endregion
 
 		#region -- Private Methods --
@@ -94,9 +90,14 @@ namespace FishAndChips
 
 		public virtual void UpdateItem()
 		{
+			if (_isPointerDown == false && _handledHoldEvent == true)
+			{
+				_handledHoldEvent = false;
+			}
+
 			if (_isPointerDown == true && HandleHoldEvent == true)
 			{
-				_pointerDownTimer += Time.deltaTime;
+				_pointerDownTimer += Time.unscaledDeltaTime;
 
 				if (_pointerDownTimer >= RequiredHoldTime)
 				{
@@ -117,10 +118,6 @@ namespace FishAndChips
 			if (_handledHoldEvent == false)
 			{
 				Selected();
-			}
-			else
-			{
-				_handledHoldEvent = false;
 			}
 		}
 
@@ -143,7 +140,7 @@ namespace FishAndChips
 			OnItemSelected.FireSafe(this);
 		}
 
-		public virtual async void AnimateIn(float delay)
+		public virtual async Task AnimateIn(float delay)
 		{
 			if (EntryPlayable == null)
 			{
@@ -152,7 +149,7 @@ namespace FishAndChips
 
 			if (delay > 0 && Index > 0)
 			{
-				float time = delay * Index;
+				float time = delay * (float)Index;
 				await Awaitable.WaitForSecondsAsync(time);
 			}
 
