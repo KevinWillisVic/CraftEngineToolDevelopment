@@ -19,8 +19,8 @@ namespace FishAndChips
 		// All Services In Project.
 		// Add additional services here.
 		//*****************************************************
-		protected UIService _uiService;
 		protected EntityService _entityService;
+		protected CraftingSystemUIService _uiService;
 		protected NavigationService _navigationService;
 		protected CraftingSystemDataService _dataService;
 		protected CraftingSystemHintService _hintService;
