@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FishAndChips
 {
-    public class CraftingSystemAudioService : AudioService, IInitializable, ICleanable
+    public class CraftingSystemAudioService : AudioService
     {
 		#region -- Properties --
 		
@@ -28,20 +28,6 @@ namespace FishAndChips
 				}
 			}
 		}
-		#endregion
-
-		#region -- Public Methods --
-		/*
-		public override void Initialize()
-		{
-			base.Initialize();
-		}
-
-		public override void Cleanup()
-		{
-			base.Cleanup();
-		}
-		*/
 		#endregion
 	}
 }

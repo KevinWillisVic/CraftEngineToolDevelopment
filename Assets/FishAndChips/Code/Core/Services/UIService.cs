@@ -1,7 +1,8 @@
-using UnityEngine;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using static FishAndChips.UIEnumTypesBase;
 
 namespace FishAndChips
 {
@@ -13,17 +14,17 @@ namespace FishAndChips
 		public List<GameOverlay> ActiveOverlays { get; set; } = new();
 		public List<GameOverlay> PermanentOverlays { get; set; } = new();
 		public bool AnyActiveOverlays => ActiveOverlays.Count > 0;
-		public bool IsGameplayViewActive => _activeViewName.IsNullOrEmpty() == false && _activeViewName == UIEnumTypes.eViewType.GameplaySceneView.ToString();
 		#endregion
 
 		#region -- Protected Member Vars --
 		protected UICanvas _uiCanvas;
 		protected NavigationService _navigationService;
+
+		protected GameView _activeView;
+		protected string _activeViewName;
 		#endregion
 
 		#region -- Private Member Vars --
-		private GameView _activeView;
-		private string _activeViewName;
 
 		private Dictionary<string, GameView> _viewDictionary = new();
 		#endregion
@@ -130,7 +131,7 @@ namespace FishAndChips
 			CheckAddView(view.name, view);
 		}
 
-		protected void CheckAddView<T>(UIEnumTypes.eViewType viewType, T view) where T : GameView
+		protected void CheckAddView<T>(UIEnumTypesBase.eViewTypeBase viewType, T view) where T : GameView
 		{
 			CheckAddView(viewType.ToString(), view);
 		}
@@ -219,7 +220,7 @@ namespace FishAndChips
 			}
 		}
 
-		public GameView GetView(UIEnumTypes.eViewType viewType)
+		public GameView GetView(UIEnumTypesBase.eViewTypeBase viewType)
 		{
 			return GetView(viewType.ToString());
 		}
@@ -273,7 +274,7 @@ namespace FishAndChips
 				OnNavigationRequestRejected);
 		}
 
-		public void ActivateView(UIEnumTypes.eViewType viewType)
+		public void ActivateView(UIEnumTypesBase.eViewTypeBase viewType)
 		{
 			ActivateView(viewType.ToString());
 		}
@@ -299,7 +300,7 @@ namespace FishAndChips
 			Destroy(toDestroy.gameObject);
 		}
 
-		public bool IsViewActive(UIEnumTypes.eViewType viewType)
+		public bool IsViewActive(UIEnumTypesBase.eViewTypeBase viewType)
 		{
 			return IsViewActive(viewType.ToString());
 		}
@@ -329,11 +330,11 @@ namespace FishAndChips
 		/// </summary>
 		public GameView LoadBootView()
 		{
-			string path = $"UI/Views/{UIEnumTypes.eViewType.BootView.ToString()}";
+			string path = $"UI/Views/{UIEnumTypesBase.eViewTypeBase.BootView.ToString()}";
 			var bootView = Resources.Load<GameView>(path);
 			var bootInstance = Instantiate(bootView);
 
-			bootInstance.name = UIEnumTypes.eViewType.BootView.ToString();
+			bootInstance.name = UIEnumTypesBase.eViewTypeBase.BootView.ToString();
 			bootInstance.gameObject.SetActiveSafe(true);
 			bootInstance.Initialize();
 
@@ -375,7 +376,7 @@ namespace FishAndChips
 			OrderViews();
 		}
 
-		public T ShowOverlay<T>(UIEnumTypes.eOverlayType overlayType,
+		public T ShowOverlay<T>(UIEnumTypesBase.eOverlayTypeBase overlayType,
 			string title = "",
 			Action<GameOverlay> onDismissed = null,
 			bool isPermanent = false,
@@ -395,7 +396,7 @@ namespace FishAndChips
 			return ShowOverlay(overlayType, title, onDismissed, isPermanent, forceCreateNew, layer) as T;
 		}
 
-		public GameOverlay ShowOverlay(UIEnumTypes.eOverlayType overlayType,
+		public GameOverlay ShowOverlay(UIEnumTypesBase.eOverlayTypeBase overlayType,
 			string title = "",
 			Action<GameOverlay> onDismissed = null,
 			bool isPermanent = false,
@@ -510,12 +511,12 @@ namespace FishAndChips
 			return null;
 		}
 
-		public T GetOverlay<T>(UIEnumTypes.eOverlayType overlayType) where T : GameOverlay
+		public T GetOverlay<T>(UIEnumTypesBase.eOverlayTypeBase overlayType) where T : GameOverlay
 		{
 			return GetOverlay(overlayType.ToString()) as T;
 		}
 
-		public GameOverlay GetOverlay(UIEnumTypes.eOverlayType overlayType)
+		public GameOverlay GetOverlay(UIEnumTypesBase.eOverlayTypeBase overlayType)
 		{
 			return GetOverlay(overlayType.ToString());
 		}
@@ -585,7 +586,7 @@ namespace FishAndChips
 			ActiveOverlays.Clear();
 		}
 
-		public GameOverlay DismissOverlay(UIEnumTypes.eOverlayType overlayType)
+		public GameOverlay DismissOverlay(UIEnumTypesBase.eOverlayTypeBase overlayType)
 		{
 			return DismissOverlay(overlayType.ToString());
 		}

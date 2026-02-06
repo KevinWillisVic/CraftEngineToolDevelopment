@@ -211,7 +211,7 @@ namespace FishAndChips
 		/// </summary>
 		public void HandleHitSettingsButton()
 		{
-			var settingsOverlay = _uiService.ShowOverlay<OverlaySettings>(UIEnumTypes.eOverlayType.OverlaySettings.ToString(), "Settings");
+			var settingsOverlay = _uiService.ShowOverlay<OverlaySettings>(UIEnumTypesBase.eOverlayTypeBase.OverlaySettings.ToString(), "Settings");
 		}
 
 		/// <summary>

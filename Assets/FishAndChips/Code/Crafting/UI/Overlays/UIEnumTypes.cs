@@ -7,7 +7,6 @@ namespace FishAndChips
 		public enum eViewType
 		{
 			None = -1,
-			BootView,
 			GameplaySceneView,
 			GameplayUnlockView,
 			EncyclopediaView,
@@ -19,7 +18,6 @@ namespace FishAndChips
 			OverlayLoadingProgressBar,
 			OverlayDisableUIInput,
 			OverlayHint,
-			OverlaySettings,
 		}
 		#endregion
 	}

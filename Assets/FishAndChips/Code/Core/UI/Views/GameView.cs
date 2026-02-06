@@ -20,7 +20,7 @@ namespace FishAndChips
 		protected UIPlayableDirector _deactivationDirector;
 		protected bool _active;
 
-		protected UIService _uiService;
+		protected CraftingSystemUIService _uiService;
 		protected NavigationService _navigationService;
 		#endregion
 
@@ -99,7 +99,7 @@ namespace FishAndChips
 		#region -- Public Methods --
 		public virtual void Initialize()
 		{
-			_uiService = UIService.Instance;
+			_uiService = CraftingSystemUIService.Instance;
 			_navigationService = NavigationService.Instance;
 			Layer = GetComponent<GameViewLayer>();
 

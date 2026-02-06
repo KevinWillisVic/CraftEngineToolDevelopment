@@ -89,7 +89,7 @@ namespace FishAndChips
 		private async Task LoadBootView()
 		{
 			var bootView = _uiService.LoadBootView();
-			_uiService.ActivateView(UIEnumTypes.eViewType.BootView.ToString());
+			_uiService.ActivateView(UIEnumTypesBase.eViewTypeBase.BootView.ToString());
 			await bootView.WaitUntilOpen();
 		}
 
@@ -157,11 +157,11 @@ namespace FishAndChips
 		protected override void CreateServices()
 		{
 			// Generic services.
-			_uiService = UIService.Instance;
 			_entityService = EntityService.Instance;
 			_navigationService = NavigationService.Instance;
 
 			// Game specific services.
+			_uiService = CraftingSystemUIService.Instance;
 			_dataService = CraftingSystemDataService.Instance;
 			_statService = CraftingSystemStatService.Instance;
 			_hintService = CraftingSystemHintService.Instance;
