@@ -7,7 +7,8 @@ namespace FishAndChips
         public enum eViewTypeBase
         {
             None = -1,
-            BootView
+            BootView,
+            GameplaySceneView
         }
 
         public enum eOverlayTypeBase
