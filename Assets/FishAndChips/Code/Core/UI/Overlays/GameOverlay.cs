@@ -21,6 +21,8 @@ namespace FishAndChips
 		public bool GenerateBackground;
 		public float GeneratedBackgroundFadeDuration = 0.2f;
 		public Color BackgroundColor;
+
+		public Button DismissButton;
 		#endregion
 
 		#region -- Private Member Vars --
@@ -38,6 +40,14 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Protected Methods --
+		protected override void SetupButtons()
+		{
+			if (DismissButton != null)
+			{
+				DismissButton.onClick.AddListener(DismissSelected);
+			}
+		}
+
 		protected virtual void SetTitle(string title)
 		{
 			TitleText.SetTextSafe(title);
@@ -118,11 +128,13 @@ namespace FishAndChips
 
 		public virtual void Initialize(string title)
 		{
+			SetupButtons();
 			SetTitle(title);
 		}
 
 		public virtual void Initialize(string title, string description)
 		{
+			SetupButtons();
 			SetTitle(title);
 			SetDescription(description);
 		}

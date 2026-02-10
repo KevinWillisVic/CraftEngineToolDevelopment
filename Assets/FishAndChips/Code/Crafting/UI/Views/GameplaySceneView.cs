@@ -40,7 +40,7 @@ namespace FishAndChips
 		private void OnResetGame(GameResetEvent resetEvent)
 		{
 			// Remove all search filters.
-			SetUpCraftItemsToDisplay(string.Empty);
+			FilterDisplayedItems(string.Empty);
 			UpdateVisibleStateOfHintButton();
 		}
 
@@ -50,7 +50,7 @@ namespace FishAndChips
 		private void OnCraftItemUnlocked(CraftItemEntityUnlockEvent gameEvent)
 		{
 			// Re-do last search to potentially get rid of any depleted items.
-			SetUpCraftItemsToDisplay(_lastSearch);
+			FilterDisplayedItems(_lastSearch);
 			UpdateVisibleStateOfHintButton();
 		}
 
@@ -59,7 +59,7 @@ namespace FishAndChips
 		/// </summary>
 		private void OnSearchRaised(CraftItemSearchEvent gameEvent)
 		{
-			SetUpCraftItemsToDisplay(gameEvent.SearchFilter);
+			FilterDisplayedItems(gameEvent.SearchFilter);
 		}
 
 		/// <summary>
@@ -67,26 +67,8 @@ namespace FishAndChips
 		/// </summary>
 		private void OnSceneReady(OnGameSceneReady gameEvent)
 		{
-			SetUpCraftItemsToDisplay(string.Empty);
+			FilterDisplayedItems(string.Empty);
 			UpdateVisibleStateOfHintButton();
-		}
-
-		/// <summary>
-		/// Does the CraftItem matches the search filter.
-		/// </summary>
-		/// <param name="entity">CraftItem being compared.</param>
-		/// <returns>True if matches the search filter, false otherwise.</returns>
-		private bool MatchesSearch(CraftItemEntity entity)
-		{
-			if (_lastSearch.IsNullOrEmpty() == true)
-			{
-				return true;
-			}
-			var modelData = entity.CraftItemData.CraftItemModelData;
-			var entityName = modelData.DisplayName;
-
-			bool nameMatches = entityName.StartsWith(_lastSearch, System.StringComparison.OrdinalIgnoreCase);
-			return nameMatches;
 		}
 
 		/// <summary>
@@ -96,20 +78,8 @@ namespace FishAndChips
 		/// <returns>True if should be displayed, false otherwise.</returns>
 		private bool IsCraftItemValidForDisplaying(CraftItemEntity entity)
 		{
-			if (entity == null)
-			{
-				return false;
-			}
-			if (MatchesSearch(entity) == false)
-			{
-				return false;
-			}
-			// Final items and depleted items should not be displayed.
-			return entity.Unlocked &&
-				_craftingService.IsFinalItem(entity) == false && 
-				_craftingService.IsDepletedItem(entity) == false;
+			return _craftingService.IsCraftItemValidForDisplaying(entity, _lastSearch);
 		}
-
 
 		/// <summary>
 		/// Determine if hint button should be displayed.
@@ -117,32 +87,6 @@ namespace FishAndChips
 		private void UpdateVisibleStateOfHintButton()
 		{
 			HintButton.SetActiveSafe(_hintService.HasHintAvailable());
-		}
-
-		/// <summary>
-		/// Handle setting up button on click callbacks.
-		/// </summary>
-		private void SetupButtons()
-		{
-			if (HintButton != null)
-			{
-				HintButton.onClick.AddListener(HandleHitHintButton);
-			}
-
-			if (SettingsButton != null)
-			{
-				SettingsButton.onClick.AddListener(HandleHitSettingsButton);
-			}
-
-			if (ClearButton != null)
-			{
-				ClearButton.onClick.AddListener(HandleHitRecycleButton);
-			}
-
-			if (EncyclopediaButton != null)
-			{
-				EncyclopediaButton.onClick.AddListener(HandleHitEncyclopediaButton);
-			}
 		}
 		#endregion
 
@@ -170,6 +114,29 @@ namespace FishAndChips
 			EventManager.UnsubscribeEventListener<CraftItemSearchEvent>(OnSearchRaised);
 			EventManager.SubscribeEventListener<CraftItemEntityUnlockEvent>(OnCraftItemUnlocked);
 		}
+
+		protected override void SetupButtons()
+		{
+			if (HintButton != null)
+			{
+				HintButton.onClick.AddListener(HandleHitHintButton);
+			}
+
+			if (SettingsButton != null)
+			{
+				SettingsButton.onClick.AddListener(HandleHitSettingsButton);
+			}
+
+			if (ClearButton != null)
+			{
+				ClearButton.onClick.AddListener(HandleHitRecycleButton);
+			}
+
+			if (EncyclopediaButton != null)
+			{
+				EncyclopediaButton.onClick.AddListener(HandleHitEncyclopediaButton);
+			}
+		}
 		#endregion
 
 		#region -- Public Methods --
@@ -190,7 +157,7 @@ namespace FishAndChips
 		/// Set up list of CraftItems to display with supplied search filter.
 		/// </summary>
 		/// <param name="filter">Search filter to limit displayed CraftItems.</param>
-		public void SetUpCraftItemsToDisplay(string filter)
+		public void FilterDisplayedItems(string filter)
 		{
 			_lastSearch = filter;
 			if (DisplayedCraftItems == null)

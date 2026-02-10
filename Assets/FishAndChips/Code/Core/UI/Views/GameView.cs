@@ -30,6 +30,10 @@ namespace FishAndChips
 			UnsubsribeListeners();
 		}
 
+		protected virtual void SetupButtons()
+		{
+		}
+
 		protected bool WillStateChange(bool activeState)
 		{
 			return activeState != gameObject.activeSelf;

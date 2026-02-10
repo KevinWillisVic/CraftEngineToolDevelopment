@@ -911,6 +911,36 @@ namespace FishAndChips
 			}
 			return _gameplayBoard.GetPositionOnCircle(position, useDefaultBuffer, useDefaultRadius, customBuffer, customRadius);
 		}
+
+		public bool MatchesSearch(CraftItemEntity entity, string lastSearch)
+		{
+			if (lastSearch.IsNullOrEmpty() == true)
+			{
+				return true;
+			}
+
+			var modelData = entity.CraftItemData.CraftItemModelData;
+			var entityName = modelData.DisplayName;
+
+			// TODO : Check on category matches.
+			bool nameMatches = entityName.StartsWith(lastSearch, System.StringComparison.OrdinalIgnoreCase);
+			return nameMatches;
+		}
+
+		public bool IsCraftItemValidForDisplaying(CraftItemEntity entity, string lastSearch)
+		{
+			if (entity == null)
+			{
+				return false;
+			}
+			if (MatchesSearch(entity, lastSearch) == false)
+			{
+				return false;
+			}
+			return entity.Unlocked &&
+				IsFinalItem(entity) == false &&
+				IsDepletedItem(entity) == false;
+		}
 		#endregion
 	}
 }

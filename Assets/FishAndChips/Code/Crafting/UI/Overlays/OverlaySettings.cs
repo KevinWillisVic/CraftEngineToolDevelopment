@@ -6,40 +6,43 @@ namespace FishAndChips
     public class OverlaySettings : GameOverlay
     {
 		#region -- Inspector --
+		[Header("Overlay Settings")]
 		[Header("Buttons")]
 		public Button ClearButton;
+		public Button ResetGameButton;
 		#endregion
 
-		#region -- Private Methods --
+		#region -- Protected Methods --
 		/// <summary>
 		/// Handle setting up button on click callbacks.
 		/// </summary>
-		private void SetupButtons()
+		protected override void SetupButtons()
 		{
+			base.SetupButtons();
 			if (ClearButton != null)
 			{
 				ClearButton.onClick.AddListener(HandleHitRecycleButton);
+			}
+
+			if (ResetGameButton != null)
+			{
+				ResetGameButton.onClick.AddListener(ResetGame);
 			}
 		}
 		#endregion
 
 		#region -- Public Methods --
-		public override void Initialize()
-		{
-			base.Initialize();
-
-			SetupButtons();
-		}
-
 		/// <summary>
 		/// Attempt to reset the game.
 		/// </summary>
 		public void ResetGame()
 		{
 			var yesNoOverlay = _uiService.ShowOverlay<OverlayYesNo>("OverlayYesNo");
+
 			// Configure yes no overlay.
-			yesNoOverlay.Initialize("Are You Sure?", 
-				"This will delete all your saved data and you will be on a fresh game.");
+			yesNoOverlay.Initialize(title: "Are You Sure?", 
+				description: "This will delete all your saved data and you will be on a fresh game.");
+
 			yesNoOverlay.SetButtonText("Yes", "No");
 
 			// User must select yes in order to reset the game.

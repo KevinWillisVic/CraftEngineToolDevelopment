@@ -1,9 +1,12 @@
-using UnityEngine.Playables;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace FishAndChips
 {
+	/// <summary>
+	/// Handle toast popup in game.
+	/// </summary>
     public class MessageToast : FishScript
     {
 		#region -- Inspector --
@@ -42,7 +45,7 @@ namespace FishAndChips
 
 		#region -- Public Methods --
 		/// <summary>
-		/// Play toast animation. This invovles setting text and trigger animation.
+		/// Play toast animation. This invovles setting text of toast message and trigger toast animation.
 		/// </summary>
 		/// <param name="message">Message to set for the toast.</param>
 		public void DisplayToast(string message)
