@@ -95,6 +95,14 @@ namespace FishAndChips
 				DisplayCurrentUIView();
 			}
 		}
+
+		/// <summary>
+		/// Handle what happens when the game is reset.
+		/// </summary>
+		private void OnResetGame(GameResetEvent resetEvent)
+		{
+			_selectedKeywords.Clear();
+		}
 		#endregion
 
 		#region -- Protected Methods --
@@ -102,12 +110,14 @@ namespace FishAndChips
 		{
 			base.SubscribeListeners();
 			EventManager.SubscribeEventListener<CraftItemSearchEvent>(OnSearchRaised);
+			EventManager.SubscribeEventListener<GameResetEvent>(OnResetGame);
 		}
 
 		protected override void UnsubsribeListeners()
 		{
 			base.UnsubsribeListeners();
 			EventManager.UnsubscribeEventListener<CraftItemSearchEvent>(OnSearchRaised);
+			EventManager.UnsubscribeEventListener<GameResetEvent>(OnResetGame);
 		}
 		#endregion
 

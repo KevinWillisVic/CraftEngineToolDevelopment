@@ -912,8 +912,18 @@ namespace FishAndChips
 			return _gameplayBoard.GetPositionOnCircle(position, useDefaultBuffer, useDefaultRadius, customBuffer, customRadius);
 		}
 
-		public bool MatchesSearch(CraftItemEntity entity, string lastSearch)
+		public bool MatchesSearch(CraftItemEntity entity, string lastSearch, List<eCraftItemKeyword> keywords = null)
 		{
+			if (keywords != null && keywords.Count > 0)
+			{
+				foreach (var keyword in keywords)
+				{
+					if (entity.HasKeyword(keyword) == false)
+					{
+						return false;
+					}
+				}
+			}
 			if (lastSearch.IsNullOrEmpty() == true)
 			{
 				return true;
@@ -922,20 +932,24 @@ namespace FishAndChips
 			var modelData = entity.CraftItemData.CraftItemModelData;
 			var entityName = modelData.DisplayName;
 
-			// TODO : Check on category matches.
 			bool nameMatches = entityName.StartsWith(lastSearch, System.StringComparison.OrdinalIgnoreCase);
 			return nameMatches;
 		}
 
-		public bool IsCraftItemValidForDisplaying(CraftItemEntity entity, string lastSearch)
+		public bool IsCraftItemValidForDisplaying(CraftItemEntity entity, string lastSearch, List<eCraftItemKeyword> keywords = null, bool isEncyclopediaSearch = false)
 		{
 			if (entity == null)
 			{
 				return false;
 			}
-			if (MatchesSearch(entity, lastSearch) == false)
+			if (MatchesSearch(entity, lastSearch, keywords) == false)
 			{
 				return false;
+			}
+
+			if (isEncyclopediaSearch == true)
+			{
+				return entity.Unlocked == true || entity.HintGiven == true;
 			}
 			return entity.Unlocked &&
 				IsFinalItem(entity) == false &&
