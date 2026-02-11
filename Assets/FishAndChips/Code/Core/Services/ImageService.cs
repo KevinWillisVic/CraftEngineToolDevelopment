@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace FishAndChips
 {
-	//public class ImageService : Singleton<ImageService>, IInitializable
 	public class ImageService<T> : Singleton<T> where T : Singleton<T>
 	{
 		#region -- Protected Member Vars --
@@ -102,12 +101,6 @@ namespace FishAndChips
 			_spriteAtlases = new();
 			_permanentSpriteAtlases = new();
 
-#if FISH_ADDRESSABLE
-			_addressableService = AddressableService.Instance;
-			_levelAddressables = new();
-			_spriteAtlasAddressableDictByKey = new();
-#endif
-
 			_requestAtlasCallbackDict = new();
 			SpriteAtlasManager.atlasRequested += RequestAtlas;
 		}
@@ -119,14 +112,6 @@ namespace FishAndChips
 			_defaultSprite = null;
 			_spriteAtlases.Clear();
 			_requestAtlasCallbackDict.Clear();
-
-#if FISH_ADDRESSABLE
-			foreach (var kvp in _spriteAtlasAddressableDictByKey)
-			{
-				_addressableService.Release(kvp.Key, force: true);
-			}
-			_spriteAtlasAddressableDictByKey.Clear();
-#endif
 		}
 
 		public virtual async Task Load()
@@ -136,15 +121,9 @@ namespace FishAndChips
 
 		public virtual async Task LoadSpriteAtlases()
 		{
-#if FISH_ADDRESSABLE
-			await Task.WhenAll(
-					LoadSpriteAtlasFromAddressable(CoreConstants.DefaultUIIconAtlasKey, true)
-				);
-#else
 			await Task.WhenAll(
 					LoadSpriteAtlasFromRresources(CoreConstants.DefaultUIIconAtlasKey, true)
 				);
-#endif
 
 			TryGetSpriteAtlases(CoreConstants.DefaultUIIconAtlasKey, out _iconSpriteAtlas);
 			LoadDefaultSprite();
@@ -157,14 +136,6 @@ namespace FishAndChips
 				UnloadSpriteAtlas(spriteAtlasName);
 			}
 			_levelAtlases.Clear();
-
-#if FISH_ADDRESSABLE
-			foreach(var key in _levelAddressables)
-            {
-				_addressableService.Release(key, force: true);
-            }
-			_levelAddressables.Clear();
-#endif
 		}
 
 		public void TryGetSpriteAtlases(string atlasName, out SpriteAtlas spriteAtlas)
@@ -272,114 +243,7 @@ namespace FishAndChips
 			LoadSpriteAtlas(atlas, permanent);
 			return atlas.name;
 		}
-
-#if FISH_ADDRESSABLE
-		public async Task LoadSpriteAtlasFromAddressableInLevelContext(string key, bool permanent = false)
-		{
-			if (_levelAddressables.Contains(key))
-			{
-				return;
-			}
-			var atlasName = await LoadSpriteAtlasFromAddressable(key, permanent);
-			if (atlasName.IsNullOrEmpty())
-			{
-				return;
-			}
-			_levelAddressables.Add(key);
-			_levelAtlases.Add(atlasName);
-		}
-
-		public async Task LoadSpriteAtlasesFromAddressableInLevelContext(object key, bool permanent = false)
-		{
-			if (_levelAddressables.Contains(key))
-			{
-				return;
-			}
-
-			var atlasNames = await LoadSpriteAtlasesFromAddressable(key, permanent);
-			if (atlasNames == null)
-			{
-				return;
-			}
-
-			_levelAddressables.Add(key);
-			foreach (var atlasName in atlasNames)
-			{
-				_levelAtlases.Add(atlasName);
-			}
-		}
-
-		public void UnloadSpriteAtlasFromAddressable(object key, int unloadCounter = 1)
-		{
-			var result = _addressableService.Release(key, unloadCounter: unloadCounter);
-			if (result == false)
-			{
-				return;
-			}
-			if (_spriteAtlasAddressableDictByKey.ContainsKey(key) == true)
-			{
-				foreach (var atlasName in _spriteAtlasAddressableDictByKey[key])
-				{
-					UnloadSpriteAtlas(atlasName);
-					if (_levelAtlases.Contains(atlasName))
-					{
-						_levelAtlases.Remove(atlasName);
-					}
-				}
-				_spriteAtlasAddressableDictByKey.Remove(key);
-			}
-			if (_levelAddressables.Contains(key))
-			{
-				_levelAddressables.Remove(key);
-			}
-		}
-
-		public async Task<string> LoadSpriteAtlasFromAddressable(object key, bool permanent = false)
-		{
-			var atlas = await _addressableService.LoadAsset<SpriteAtlas>(key);
-			if (atlas == null)
-			{
-				return String.Empty;
-			}
-
-			if (permanent == false)
-			{
-				if (_spriteAtlasAddressableDictByKey.ContainsKey(key) == false)
-				{
-					_spriteAtlasAddressableDictByKey.Add(key, new());
-				}
-				_spriteAtlasAddressableDictByKey[key].Add(atlas.name);
-			}
-			LoadSpriteAtlas(atlas, permanent);
-			return atlas.name;
-		}
-
-		public async Task<List<string>> LoadSpriteAtlasesFromAddressable(object key, bool permanent)
-		{
-			var atlases = await _addressableService.LoadAssets<SpriteAtlas>(key, trackHandle: !permanent);
-			if (atlases == null)
-			{
-				return null;
-			}
-			List<string> atlasNames = new();
-			foreach (var atlas in atlases)
-			{
-				if (permanent == false)
-				{
-					if (_spriteAtlasAddressableDictByKey.ContainsKey(key) == false)
-					{
-						_spriteAtlasAddressableDictByKey.Add(key, new());
-					}
-					_spriteAtlasAddressableDictByKey[key].Add(atlas.name);
-				}
-				LoadSpriteAtlas(atlas, permanent);
-				atlasNames.Add(atlas.name);
-			}
-			return atlasNames;
-		}
-#endif
-
-#endregion
+		#endregion
 	}
 }
 
