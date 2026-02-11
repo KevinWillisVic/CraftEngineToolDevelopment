@@ -910,7 +910,9 @@ namespace FishAndChips
 			return _gameplayBoard.GetPositionOnCircle(position, useDefaultBuffer, useDefaultRadius, customBuffer, customRadius);
 		}
 
-		public bool MatchesSearch(CraftItemEntity entity, string lastSearch, List<eCraftItemKeyword> keywords = null)
+		public bool MatchesSearch(CraftItemEntity entity,
+			string lastSearch,
+			List<eCraftItemKeyword> keywords = null)
 		{
 			if (keywords != null && keywords.Count > 0)
 			{
@@ -934,7 +936,18 @@ namespace FishAndChips
 			return nameMatches;
 		}
 
-		public bool IsCraftItemValidForDisplaying(CraftItemEntity entity, string lastSearch, List<eCraftItemKeyword> keywords = null, bool isEncyclopediaSearch = false)
+		/// <summary>
+		/// Filter displayed CraftItems.
+		/// </summary>
+		/// <param name="entity">Entity being checked.</param>
+		/// <param name="lastSearch">Last search applied.</param>
+		/// <param name="keywords">List of keywords applied</param>
+		/// <param name="isEncyclopediaSearch">Is filtering happening in the enclcyopedia view.</param>
+		/// <returns></returns>
+		public bool IsCraftItemValidForDisplaying(CraftItemEntity entity,
+			string lastSearch,
+			List<eCraftItemKeyword> keywords = null, 
+			bool isEncyclopediaSearch = false)
 		{
 			if (entity == null)
 			{

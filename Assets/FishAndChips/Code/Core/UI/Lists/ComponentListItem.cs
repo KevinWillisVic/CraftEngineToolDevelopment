@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 namespace FishAndChips
 {
     public class ComponentListItem : FishScript
@@ -27,6 +26,7 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Inspector --
+		[Header("Core Component List Item")]
 		public int Index;
 		public BaseButton SelectionButton;
 		public List<GameObject> VisuallySelectedObjects = new();
@@ -40,7 +40,6 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Member Vars --
-
 		private object _listObject;
 		private bool _handledHoldEvent = false;
 		private PlayableDirector _queuedActivationPlayable;
@@ -49,13 +48,6 @@ namespace FishAndChips
 		#region -- Protected Member Vars --
 		protected bool _isPointerDown = false;
 		protected float _pointerDownTimer = 0f;
-		#endregion
-
-		#region -- Private Methods --
-		private void OnDestroy()
-		{
-			ClearItem();
-		}
 		#endregion
 
 		#region -- Protected Methods --
@@ -67,13 +59,27 @@ namespace FishAndChips
 		{
 			OnItemHeld.FireSafe(this);
 		}
+
+		protected override void OnDestroy()
+		{
+			ClearItem();
+		}
+
+		protected virtual void SetUpButtons()
+		{
+		}
+
+		protected virtual void FetchServices()
+		{
+		}
 		#endregion
 
 		#region -- Public Methods --
 		public virtual void Initialize()
 		{
+			FetchServices();
 			RectTransform = GetComponent<RectTransform>();
-
+			SetUpButtons();
 			if (SelectionButton != null)
 			{
 				SelectionButton.onClick.RemoveListener(SelectedFromButton);

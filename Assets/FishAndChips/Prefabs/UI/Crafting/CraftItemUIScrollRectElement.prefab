@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 5401388498207089024}
   - component: {fileID: 4397656253087168767}
   - component: {fileID: -8133172050622704049}
+  - component: {fileID: 3087476256655109417}
   m_Layer: 5
   m_Name: CraftItemUIScrollRectElement
   m_TagString: Untagged
@@ -311,12 +312,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b28d03c76d26946a80ee9468cce9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
   SelectionButton: {fileID: 0}
-  RequiredHoldTime: 1
-  EntryPlayable: {fileID: 0}
   VisuallySelectedObjects: []
+  RequiredHoldTime: 1
   HandleHoldEvent: 0
   CanBeUnselected: 0
+  EntryPlayable: {fileID: 0}
+  CraftItemSpriteRendererVisual: {fileID: 0}
+  CraftItemImageVisual: {fileID: 3202237132563181437}
+  CraftItemName: {fileID: 7860948117076820274}
+  CraftItemBlurb: {fileID: 0}
+  KeywordList: {fileID: 0}
+  CombinationContainer: {fileID: 0}
+  CombinationRecipeComponentList: {fileID: 0}
+  MakeContainer: {fileID: 0}
+  MakeCraftItemList: {fileID: 0}
+  CopyButton: {fileID: 0}
+--- !u!114 &3087476256655109417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7528656234935246313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf736a96c844aa4bb8d939bb38daf30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Index: 0
+  SelectionButton: {fileID: 0}
+  VisuallySelectedObjects: []
+  RequiredHoldTime: 1
+  HandleHoldEvent: 0
+  CanBeUnselected: 0
+  EntryPlayable: {fileID: 0}
   CraftItemSpriteRendererVisual: {fileID: 0}
   CraftItemImageVisual: {fileID: 3202237132563181437}
   CraftItemName: {fileID: 7860948117076820274}
@@ -420,8 +451,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: -8133172050622704049}
-          m_TargetAssemblyTypeName: FishAndChips.CraftItemComponentListItemSelectableElement,
+        - m_Target: {fileID: 3087476256655109417}
+          m_TargetAssemblyTypeName: FishAndChips.SpawnableCraftItemComponentListItem,
             Assembly-CSharp
           m_MethodName: OnPointerExit
           m_Mode: 1
@@ -437,9 +468,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: -8133172050622704049}
-          m_TargetAssemblyTypeName: FishAndChips.ComponentListItem, Assembly-CSharp
-          m_MethodName: OnPointerDown
+        - m_Target: {fileID: 3087476256655109417}
+          m_TargetAssemblyTypeName: FishAndChips.SpawnableCraftItemComponentListItem,
+            Assembly-CSharp
+          m_MethodName: OnPointerExit
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -453,7 +485,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: -8133172050622704049}
+        - m_Target: {fileID: 3087476256655109417}
           m_TargetAssemblyTypeName: FishAndChips.ComponentListItem, Assembly-CSharp
           m_MethodName: OnPointerUp
           m_Mode: 1
@@ -502,7 +534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00000023841858, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -10.000002, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6963316051971122998

@@ -1,19 +1,23 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace FishAndChips
 {
+	/// <summary>
+	/// ComponentListItem used to display CraftItems.
+	/// </summary>
     public class CraftItemComponentListItem : ComponentListItem
     {
 		#region -- Properties --
 		public CraftItemEntity Entity => _entity;
-		public CraftItemModelData ModelData => _entity.ModelData;
+		public CraftItemModelData ModelData => _entity != null ? _entity.ModelData : null;
 		#endregion
 
 		#region -- Inspector --
+		[Header("Craft Item Related")]
 		[Header("Visuals")]
 		public SpriteRenderer CraftItemSpriteRendererVisual;
 		public Image CraftItemImageVisual;
@@ -49,17 +53,6 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Methods --
-		/// <summary>
-		/// Handle setting up button on click callbacks.
-		/// </summary>
-		private void SetupButtons()
-		{
-			if (CopyButton != null)
-			{
-				CopyButton.onClick.AddListener(CopyItem);
-			}
-		}
-
 		/// <summary>
 		/// Set up either the Image, or Sprite Renderer to show the visual of the CraftItem.
 		/// </summary>
@@ -234,21 +227,38 @@ namespace FishAndChips
 		}
 		#endregion
 
+		#region -- Protected Methods --
+		/// <summary>
+		/// Handle setting up button on click callbacks.
+		/// </summary>
+		protected override void SetUpButtons()
+		{
+			base.SetUpButtons();
+			if (CopyButton != null)
+			{
+				CopyButton.onClick.AddListener(CopyItem);
+			}
+		}
+
+		protected override void FetchServices()
+		{
+			base.FetchServices();
+			// Gather relevant services.
+			_imageService = CraftingSystemImageService.Instance;
+			_craftingService = CraftingSystemCraftingService.Instance;
+		}
+		#endregion
+
 		#region -- Public Methods --
 		public override void Initialize()
 		{
-			base.Initialize();
 			_entity = ListObject as CraftItemEntity;
 			if (_entity == null)
 			{
 				return;
 			}
+			base.Initialize();
 
-			// Gather relevant services.
-			_imageService = CraftingSystemImageService.Instance;
-			_craftingService = CraftingSystemCraftingService.Instance;
-
-			SetupButtons();
 			SetVisual();
 			SetText();
 			SetUpKeywordList();

@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace FishAndChips
 {
+	/// <summary>
+	/// Base monobheviour for project.
+	/// </summary>
     public class FishScript : MonoBehaviour
     {
 		#region -- Protected Methods --

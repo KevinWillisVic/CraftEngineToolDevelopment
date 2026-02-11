@@ -11,6 +11,7 @@ namespace FishAndChips
 		#region -- Private Methods --
 		private void ClearActiveSearches()
 		{
+			// TODO : Check if the keywords should be cleared.
 			var searchComponents = FindObjectsByType<CraftItemSearch>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 			foreach (var component in searchComponents)
 			{

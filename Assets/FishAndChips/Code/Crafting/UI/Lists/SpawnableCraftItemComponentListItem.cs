@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace FishAndChips
 {
-    public class CraftItemComponentListItemSelectableElement : CraftItemComponentListItem
+    public class SpawnableCraftItemComponentListItem : CraftItemComponentListItem
     {
 		#region -- Public Methods --
 		public override void OnPointerExit()
