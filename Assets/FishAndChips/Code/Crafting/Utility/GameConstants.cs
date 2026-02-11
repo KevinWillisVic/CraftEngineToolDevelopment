@@ -11,6 +11,9 @@ namespace FishAndChips
 		// Tags. 
 		public const string CraftingRegionTag = "CraftingRegion";
 
+        // Art
+        public const string CraftItemAtlas = "CraftItemIconAtlas";
+
         // Tools.
         public const string CraftItemObjectAssetPath = "Assets/FishAndChips/Data/Crafting/CraftItems/";
 		public const string CraftRecipeObjectAssetPath = "Assets/FishAndChips/Data/Crafting/CraftRecipes/";

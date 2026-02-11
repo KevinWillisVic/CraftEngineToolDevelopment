@@ -529,7 +529,6 @@ namespace FishAndChips
 		/// <returns>True if underlying entity is depleted, false otherwise.</returns>
 		public bool IsDepletedItem(CraftItemInstance instance)
 		{
-			return false;
 			if (instance == null)
 			{
 				return false;
@@ -544,7 +543,6 @@ namespace FishAndChips
 		/// <returns>True if the entity is depleted, false otherwise.</returns>
 		public bool IsDepletedItem(CraftItemEntity entity)
 		{
-			return false;
 			if (entity == null)
 			{
 				return false;

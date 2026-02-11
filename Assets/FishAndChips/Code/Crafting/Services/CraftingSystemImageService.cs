@@ -4,11 +4,12 @@ using UnityEngine.U2D;
 
 namespace FishAndChips
 {
-	public class CraftingSystemImageService : ImageService<CraftingSystemImageService>
+	//public class CraftingSystemImageService : ImageService<CraftingSystemImageService>
+	public class CraftingSystemImageService : ImageService
 	{
 		
 		#region -- Properties --
-		/*
+		
 		public static new CraftingSystemImageService Instance
 		{
 			get
@@ -31,12 +32,11 @@ namespace FishAndChips
 				}
 			}
 		}
-		*/
 		#endregion
-		
+
 
 		#region -- Private Member Vars --
-		private SpriteAtlas _craftingAtlas;
+		private SpriteAtlas _craftingAtlas = null;
 		#endregion
 
 		#region -- Public Methods --
@@ -44,12 +44,17 @@ namespace FishAndChips
 		{
 			await base.LoadSpriteAtlases();
 			await Task.WhenAll(
-					LoadSpriteAtlasFromRresources("CraftItemIconAtlas", false)
+					LoadSpriteAtlasFromRresources(GameConstants.CraftItemAtlas, false)
 				);
 
-			TryGetSpriteAtlases("CraftItemIconAtlas", out _craftingAtlas);
+			TryGetSpriteAtlases(GameConstants.CraftItemAtlas, out _craftingAtlas);
 		}
 
+		/// <summary>
+		/// Get visual of CraftItem.
+		/// </summary>
+		/// <param name="imageId">Id of CraftItem we are getting a visual for.</param>
+		/// <returns>A sprite for a CraftItem.</returns>
 		public Sprite GetCraftImage(string imageId)
 		{
 			Sprite sprite = null;
