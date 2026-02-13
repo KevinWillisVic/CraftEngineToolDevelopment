@@ -589,7 +589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 409060a3e2748034494b3e9a21ff77c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ListItemPrefab: {fileID: -8133172050622704049, guid: 896b3c3ec60d0a24aa10a9707f66cb89, type: 3}
+  ListItemPrefab: {fileID: 3087476256655109417, guid: 896b3c3ec60d0a24aa10a9707f66cb89, type: 3}
   ListItemParent: {fileID: 726813966083091104}
   AllowMultiSelect: 0
   AllowAnimatingItemsIn: 0
@@ -880,7 +880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9798388203d3d5046abfab6b6f3e9196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ButtonText: {fileID: 0}
+  ButtonText: {fileID: 1541538839707953336}
 --- !u!95 &8888361671670618301
 Animator:
   serializedVersion: 7
@@ -1428,6 +1428,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b17a08da36ace3e49b5da24895ebdfbd, type: 3}
+--- !u!114 &1541538839707953336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2467738564818013822, guid: b17a08da36ace3e49b5da24895ebdfbd, type: 3}
+  m_PrefabInstance: {fileID: 3988938361409644230}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4514987652685545536 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 717192843719403142, guid: b17a08da36ace3e49b5da24895ebdfbd, type: 3}

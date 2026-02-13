@@ -45,6 +45,7 @@ namespace FishAndChips
 
 		#region -- Protected Member Vars --
 		// Services.
+		protected InputService _inputService;
 		protected CraftingSystemImageService _imageService;
 		protected CraftingSystemCraftingService _craftingService;
 
@@ -244,6 +245,7 @@ namespace FishAndChips
 		{
 			base.FetchServices();
 			// Gather relevant services.
+			_inputService = InputService.Instance;
 			_imageService = CraftingSystemImageService.Instance;
 			_craftingService = CraftingSystemCraftingService.Instance;
 		}

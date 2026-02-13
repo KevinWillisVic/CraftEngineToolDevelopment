@@ -1,5 +1,3 @@
-using UnityEngine.InputSystem;
-
 namespace FishAndChips
 {
 	/// <summary>
@@ -17,7 +15,7 @@ namespace FishAndChips
 			{
 				return;
 			}
-			transform.position = Mouse.current.position.value;
+			transform.position = _inputService.GetCurrentInteractionPoint();
 		}
 		#endregion
 

@@ -44,6 +44,7 @@ namespace FishAndChips
 
 		#region -- Protected Member Vars --
 		protected UIService _uiService;
+		protected InputService _inputService;
 		protected EntityService _entityService;
 		protected CraftingSystemDataService _dataService;
 		protected CraftingSystemSavingService _saveService;
@@ -290,22 +291,9 @@ namespace FishAndChips
 		{
 			_collisionResults.Clear();
 
-			Vector3 pointerPosition = Vector3.zero;
-			pointerPosition = Mouse.current.position.value;
+			Vector3 pointerPosition = _inputService.GetCurrentInteractionPoint();
 			_pointerEventData.position = pointerPosition;
 			EventSystem.current.RaycastAll(_pointerEventData, _collisionResults);
-			/*
-			if (Input.touchCount > 0)
-			{
-				_pointerEventData.position = Input.GetTouch(0).position;
-				EventSystem.current.RaycastAll(_pointerEventData, _collisionResults);
-			}
-			else if (Input.mousePresent == true)
-			{
-				_pointerEventData.position = Input.mousePosition;
-				EventSystem.current.RaycastAll(_pointerEventData, _collisionResults);
-			}
-			*/
 		}
 
 		/// <summary>
@@ -396,8 +384,9 @@ namespace FishAndChips
 			base.Initialize();
 			SubscribeListeners();
 
-			_entityService = EntityService.Instance;
 			_uiService = UIService.Instance;
+			_inputService = InputService.Instance;
+			_entityService = EntityService.Instance;
 			_dataService = CraftingSystemDataService.Instance;
 			_saveService = CraftingSystemSavingService.Instance;
 			_poolingService = CraftingSystemPoolingService.Instance;

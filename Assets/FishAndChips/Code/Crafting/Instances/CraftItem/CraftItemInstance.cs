@@ -20,12 +20,14 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Protected Member Vars --
+		protected InputService _inputService;
 		protected CraftingSystemCraftingService _craftingService;
 		#endregion
 
 		#region -- Private Methods --
 		private void Update()
 		{
+			
 			if (CraftItemEntity == null)
 			{
 				return;
@@ -40,6 +42,7 @@ namespace FishAndChips
 			{
 				HandleMovement();
 			}
+			
 		}
 		#endregion
 
@@ -70,6 +73,11 @@ namespace FishAndChips
 			if (CraftItemEntity == null)
 			{
 				return;
+			}
+
+			if (_inputService == null)
+			{
+				_inputService = InputService.Instance;
 			}
 
 			if (_craftingService == null)

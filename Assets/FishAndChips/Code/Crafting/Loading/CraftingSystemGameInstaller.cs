@@ -19,6 +19,7 @@ namespace FishAndChips
 		// All Services In Project.
 		// Add additional services here.
 		//*****************************************************
+		protected InputService _inputService;
 		protected EntityService _entityService;
 		protected CraftingSystemUIService _uiService;
 		protected NavigationService _navigationService;
@@ -157,6 +158,7 @@ namespace FishAndChips
 		protected override void CreateServices()
 		{
 			// Generic services.
+			_inputService = InputService.Instance;
 			_entityService = EntityService.Instance;
 			_navigationService = NavigationService.Instance;
 

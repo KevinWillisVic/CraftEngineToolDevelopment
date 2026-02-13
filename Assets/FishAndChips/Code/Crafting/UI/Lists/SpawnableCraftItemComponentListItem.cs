@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace FishAndChips
 {
@@ -13,8 +12,7 @@ namespace FishAndChips
 				return;
 			}
 
-			Vector3 position = Vector3.zero;
-			position = Mouse.current.position.value;
+			Vector3 position = _inputService.GetCurrentInteractionPoint();
 
 			// Spawn a new CraftItem instance.
 			var newInstance = _craftingService.SpawnAndReturnCraftItemInstance(Entity,
@@ -22,6 +20,7 @@ namespace FishAndChips
 				triggerSaveEvent: true,
 				spawnAnimation: CraftItemInstance.eCraftItemAnimationKeys.SpawnFromScrollRect.ToString());
 
+			newInstance.transform.localPosition = position;
 			newInstance.OnSelected();
 			newInstance.SetActiveSafe(true);
 			base.OnPointerExit();
