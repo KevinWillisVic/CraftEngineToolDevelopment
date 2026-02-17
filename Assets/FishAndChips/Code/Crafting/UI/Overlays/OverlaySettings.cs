@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace FishAndChips
 {
@@ -10,6 +11,14 @@ namespace FishAndChips
 		[Header("Buttons")]
 		public Button ClearButton;
 		public Button ResetGameButton;
+
+		[Header("Toggle Group Buttons")]
+		public List<Toggle> SFXToggles = new();
+		public List<Toggle> MusicToggles = new();
+		#endregion
+
+		#region -- Protected Member Vars --
+		protected CraftingSystemSavingService _savingService;
 		#endregion
 
 		#region -- Protected Methods --
@@ -28,10 +37,70 @@ namespace FishAndChips
 			{
 				ResetGameButton.onClick.AddListener(ResetGame);
 			}
+
+			foreach (var toggle in SFXToggles)
+			{
+				if (toggle.name == "SFXToggleOn")
+				{
+					toggle.isOn = _savingService.GeneralSaveState.IsSFXOn;
+				}
+				else
+				{
+					toggle.isOn = !_savingService.GeneralSaveState.IsSFXOn;
+				}
+				toggle.onValueChanged.AddListener(state =>
+				{
+					if (state == true)
+					{
+						switch (toggle.name)
+						{
+							case "SFXToggleOn":
+								_savingService.ToggleSFX(true);
+								break;
+							case "SFXToggleOff":
+								_savingService.ToggleSFX(false);
+								break;
+						}
+					}
+				});
+			}
+
+			foreach (var toggle in MusicToggles)
+			{
+				if (toggle.name == "MusicToggleOn")
+				{
+					toggle.isOn = _savingService.GeneralSaveState.IsMusicOn;
+				}
+				else
+				{
+					toggle.isOn = !_savingService.GeneralSaveState.IsMusicOn;
+				}
+				toggle.onValueChanged.AddListener(state =>
+				{
+					if (state == true)
+					{
+						switch (toggle.name)
+						{
+							case "MusicToggleOn":
+								_savingService.ToggleMusic(true);
+								break;
+							case "MusicToggleOff":
+								_savingService.ToggleMusic(false);
+								break;
+						}
+					}
+				});
+			}
 		}
 		#endregion
 
 		#region -- Public Methods --
+		public override void Initialize()
+		{
+			_savingService = CraftingSystemSavingService.Instance;
+			base.Initialize();
+		}
+
 		/// <summary>
 		/// Attempt to reset the game.
 		/// </summary>

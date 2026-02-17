@@ -7,6 +7,7 @@ namespace FishAndChips
 
         // Save.
         public const string BoardSaveId = "board_save_state";
+        public const string GameSaveSettingsId = "game_save_settings";
 
 		// Tags. 
 		public const string CraftingRegionTag = "CraftingRegion";

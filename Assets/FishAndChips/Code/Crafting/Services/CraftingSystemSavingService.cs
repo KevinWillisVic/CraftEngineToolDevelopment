@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace FishAndChips
@@ -29,6 +30,7 @@ namespace FishAndChips
 		}
 
 		public BoardSaveInfo BoardSaveState => _boardSaveState;
+		public GeneralSaveInfo GeneralSaveState => _generalSaveState;
 		#endregion
 
 		#region -- Protected Member Vars --
@@ -37,6 +39,7 @@ namespace FishAndChips
 
 		#region -- Private Member Vars --
 		private BoardSaveInfo _boardSaveState;
+		private GeneralSaveInfo _generalSaveState;
 		#endregion
 
 		#region -- Private Methods --
@@ -155,6 +158,9 @@ namespace FishAndChips
 		{
 			_boardSaveState = new BoardSaveInfo(GameConstants.BoardSaveId);
 			_boardSaveState.Load();
+
+			_generalSaveState = new GeneralSaveInfo(GameConstants.GameSaveSettingsId);
+			_generalSaveState.Load();
 		}
 		#endregion
 
@@ -173,6 +179,24 @@ namespace FishAndChips
 		{
 			base.Cleanup();
 			UnsubscribeEventListeners();
+		}
+
+		public void ToggleMusic(bool state)
+		{
+			if (_generalSaveState == null)
+			{
+				return;
+			}
+			_generalSaveState.SetMusicState(state);
+		}
+
+		public void ToggleSFX(bool state)
+		{
+			if (_generalSaveState == null)
+			{
+				return;
+			}
+			_generalSaveState.SetSFXState(state);
 		}
 		#endregion
 	}
