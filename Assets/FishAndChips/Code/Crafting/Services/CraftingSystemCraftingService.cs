@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 namespace FishAndChips
@@ -43,9 +42,9 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Protected Member Vars --
-		protected UIService _uiService;
 		protected InputService _inputService;
 		protected EntityService _entityService;
+		protected CraftingSystemUIService _uiService;
 		protected CraftingSystemDataService _dataService;
 		protected CraftingSystemSavingService _saveService;
 		protected CraftingSystemPoolingService _poolingService;
@@ -204,7 +203,7 @@ namespace FishAndChips
 					triggerSaveEvent: false,
 					spawnAnimation: string.Empty);
 
-				element.RuntimeInstance = instance;
+				element.RuntimeInstance = instance.transform;
 			}
 		}
 
@@ -384,9 +383,9 @@ namespace FishAndChips
 			base.Initialize();
 			SubscribeListeners();
 
-			_uiService = UIService.Instance;
 			_inputService = InputService.Instance;
 			_entityService = EntityService.Instance;
+			_uiService = CraftingSystemUIService.Instance;
 			_dataService = CraftingSystemDataService.Instance;
 			_saveService = CraftingSystemSavingService.Instance;
 			_poolingService = CraftingSystemPoolingService.Instance;
@@ -801,8 +800,17 @@ namespace FishAndChips
 				// Unlock CraftItemEntity if appropriate.
 				if (craftItemEntity.Unlocked == false)
 				{
-					// TODO : Switch to full screen overlay.
-					_uiService.ActivateView(UIEnumTypes.eViewType.GameplayUnlockView.ToString());
+					//_uiService.ActivateView(UIEnumTypes.eViewType.GameplayUnlockView.ToString());
+					OverlayCraftItemUnlock craftItemUnlock = _uiService.GetOverlay<OverlayCraftItemUnlock>(UIEnumTypes.eOverlayType.OverlayCraftItemUnlock);
+					if (craftItemUnlock == null)
+					{
+						craftItemUnlock = _uiService.ShowOverlay<OverlayCraftItemUnlock>(UIEnumTypes.eOverlayType.OverlayCraftItemUnlock);
+					}
+
+					if (craftItemUnlock != null)
+					{
+						craftItemUnlock.AddCraftItemToQueue(craftItemEntity);
+					}
 					TriggerCraftItemEntityUnlock(craftItemEntity);
 				}
 			}

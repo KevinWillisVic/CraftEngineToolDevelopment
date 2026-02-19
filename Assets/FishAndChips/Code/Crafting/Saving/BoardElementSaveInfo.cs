@@ -3,13 +3,19 @@ using UnityEngine;
 
 namespace FishAndChips
 {
+	/// <summary>
+	/// Save structure for element that will appear on the board.
+	/// </summary>
     [Serializable]
     public class BoardElementSaveInfo
     {
 		#region -- Public Member Vars --
+		// Id of the element on the board.
 		public string ID;
+		// Position of the element on the board.
 		public Vector2 Position;
-		[NonSerialized] public CraftItemInstance RuntimeInstance;
+		// Live object to fetch its position from.
+		[NonSerialized] public Transform RuntimeInstance;
 		#endregion
 
 		#region -- Constructors --
@@ -19,7 +25,7 @@ namespace FishAndChips
 			Position = position;
 		}
 
-		public BoardElementSaveInfo(string id, CraftItemInstance instance)
+		public BoardElementSaveInfo(string id, Transform instance)
 		{
 			ID = id;
 			Position = instance.transform.localPosition;
@@ -34,7 +40,7 @@ namespace FishAndChips
 			{
 				return;
 			}
-			Position = RuntimeInstance.transform.localPosition;
+			Position = RuntimeInstance.localPosition;
 		}
 		#endregion
 	}

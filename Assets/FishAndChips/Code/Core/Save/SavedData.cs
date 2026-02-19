@@ -35,7 +35,7 @@ namespace FishAndChips
 		protected virtual void Create()
 		{
 			_timeCreated = DateTime.UtcNow.ToTimestamp();
-			Save();
+			Reset();
 		}
 		#endregion
 
@@ -103,7 +103,7 @@ namespace FishAndChips
 		}
 
 		/// <summary>
-		/// Handle save state on game reset / object reset.
+		/// Reset save state to default.
 		/// </summary>
 		public virtual void Reset()
 		{

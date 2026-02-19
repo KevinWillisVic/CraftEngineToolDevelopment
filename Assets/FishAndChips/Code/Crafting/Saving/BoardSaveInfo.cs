@@ -28,7 +28,7 @@ namespace FishAndChips
             var trackedElement = GetBoardElementInfo(instance);
             if (trackedElement == null)
             {
-                trackedElement = new BoardElementSaveInfo(instance.CraftItemData.ID, instance);
+                trackedElement = new BoardElementSaveInfo(instance.CraftItemData.ID, instance.transform);
                 SavedElements.Add(trackedElement);
             }
             Save();

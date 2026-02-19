@@ -33,7 +33,7 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Public Methods --
-		public T ShowOverlay<T>(UIEnumTypes overlayType,
+		public T ShowOverlay<T>(UIEnumTypes.eOverlayType overlayType,
 			string title = "",
 			Action<GameOverlay> onDismissed = null,
 			bool isPermanent = false,
@@ -41,6 +41,11 @@ namespace FishAndChips
 			GameViewLayer.eGameViewLayer layer = GameViewLayer.eGameViewLayer.Overlay) where T : GameOverlay
 		{
 			return ShowOverlay<T>(overlayType.ToString(), title, onDismissed, isPermanent, forceCreateNew, layer);
+		}
+
+		public T GetOverlay<T>(UIEnumTypes.eOverlayType overlayType) where T : GameOverlay
+		{
+			return GetOverlay(overlayType.ToString()) as T;
 		}
 		#endregion
 	}

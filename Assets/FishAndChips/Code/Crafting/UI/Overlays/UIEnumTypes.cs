@@ -18,6 +18,7 @@ namespace FishAndChips
 			OverlayLoadingProgressBar,
 			OverlayDisableUIInput,
 			OverlayHint,
+			OverlayCraftItemUnlock,
 		}
 		#endregion
 	}

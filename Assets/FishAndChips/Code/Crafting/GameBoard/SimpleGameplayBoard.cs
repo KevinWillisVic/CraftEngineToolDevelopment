@@ -130,7 +130,7 @@ namespace FishAndChips
 			{
 				if (item.gameObject.activeSelf)
 				{
-					var info = new BoardElementSaveInfo(item.CraftItemData.ID, item);
+					var info = new BoardElementSaveInfo(item.CraftItemData.ID, item.transform);
 					_itemsBeingCleared.Add(info);
 					// TODO : Check how should remove.
 					item.Recycle(true);
