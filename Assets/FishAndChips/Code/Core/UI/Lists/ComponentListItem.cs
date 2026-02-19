@@ -67,9 +67,18 @@ namespace FishAndChips
 
 		protected virtual void SetUpButtons()
 		{
+			if (SelectionButton != null)
+			{
+				SelectionButton.onClick.RemoveListener(SelectedFromButton);
+				SelectionButton.onClick.AddListener(SelectedFromButton);
+			}
 		}
 
 		protected virtual void FetchServices()
+		{
+		}
+
+		protected virtual void SetUpTextReferences()
 		{
 		}
 		#endregion
@@ -80,11 +89,7 @@ namespace FishAndChips
 			FetchServices();
 			RectTransform = GetComponent<RectTransform>();
 			SetUpButtons();
-			if (SelectionButton != null)
-			{
-				SelectionButton.onClick.RemoveListener(SelectedFromButton);
-				SelectionButton.onClick.AddListener(SelectedFromButton);
-			}
+			SetUpTextReferences();
 		}
 
 		public virtual void ClearItem()

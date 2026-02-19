@@ -18,6 +18,7 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Inspector --
+		[Header("Keyword UI References")]
 		public TextMeshProUGUI KeywordName;
 		public GameObject ActiveContainer;
 		#endregion

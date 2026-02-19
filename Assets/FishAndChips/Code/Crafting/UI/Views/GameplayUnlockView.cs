@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEngine.Playables;
 using UnityEngine;
+using UnityEngine.Playables;
 using TMPro;
 
 namespace FishAndChips
@@ -66,7 +66,6 @@ namespace FishAndChips
 		{
 			_uiService.ActivateView(UIEnumTypes.eViewType.GameplaySceneView.ToString());
 
-			// TODO : Recycle depleted item.
 			var gameplayView = _uiService.GetView(UIEnumTypes.eViewType.GameplaySceneView.ToString()) as GameplaySceneView;
 			if (gameplayView != null && gameplayView.SimpleGameplayBoard != null)
 			{

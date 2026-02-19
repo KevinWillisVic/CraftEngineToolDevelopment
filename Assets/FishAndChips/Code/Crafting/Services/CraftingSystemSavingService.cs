@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 namespace FishAndChips
@@ -108,7 +107,7 @@ namespace FishAndChips
 		private void OnGameReset(GameResetEvent gameEvent)
 		{
 			_boardSaveState.Reset();
-
+			_generalSaveState.Reset();
 			// Reset the craft item, and craft recipe save data.
 			var craftItemEntites = _craftingService.CraftItemEntities;
 			var craftRecipeEntities = _craftingService.CraftRecipeEntities;
