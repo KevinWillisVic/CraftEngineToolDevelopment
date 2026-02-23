@@ -1,13 +1,18 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FishAndChips
 {
+    /// <summary>
+    /// Save structure for the gameboard, tracking the elements on it.
+    /// </summary>
     [Serializable]
     public class BoardSaveInfo : SavedData
     {
         #region -- Public Member Vars --
+        [Tooltip("All elements that are on the board that are being tracked")]
         public List<BoardElementSaveInfo> SavedElements = new();
         #endregion
 
@@ -20,7 +25,7 @@ namespace FishAndChips
         #region -- Public Methods --
         public BoardElementSaveInfo GetBoardElementInfo(CraftItemInstance instance)
         {
-            return SavedElements.FirstOrDefault(e => e.RuntimeInstance == instance);
+            return SavedElements.FirstOrDefault(e => e.RuntimeInstance == instance.transform);
         }
 
         public void TrackElement(CraftItemInstance instance)

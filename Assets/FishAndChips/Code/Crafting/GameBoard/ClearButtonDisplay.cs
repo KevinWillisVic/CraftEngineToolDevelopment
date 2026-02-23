@@ -1,4 +1,3 @@
-using UnityEngine;
 using TMPro;
 
 namespace FishAndChips
@@ -6,7 +5,7 @@ namespace FishAndChips
 	/// <summary>
 	/// Handle updating the text of the clear button.
 	/// </summary>
-    public class ClearButtonDisplay : MonoBehaviour
+    public class ClearButtonDisplay : FishScript
     {
 		#region -- Inspector --
 		public TextMeshProUGUI ButtonText;
@@ -15,13 +14,7 @@ namespace FishAndChips
 		#region -- Private Methods --
 		private void OnEnable()
 		{
-			EventManager.SubscribeEventListener<RecycleStateUpdateEvent>(OnButtonRecycleStateChanged);
 			SetInitialButtonState();
-		}
-
-		private void OnDisable()
-		{
-			EventManager.UnsubscribeEventListener<RecycleStateUpdateEvent>(OnButtonRecycleStateChanged);
 		}
 
 		/// <summary>
@@ -29,12 +22,7 @@ namespace FishAndChips
 		/// </summary>
 		private void SetInitialButtonState()
 		{
-			// TODO : See if there is a better way of doing this.
-			CraftingSystemCraftingService craftingService = CraftingSystemCraftingService.Instance;
-			if (craftingService != null && craftingService.GameplayBoard != null)
-			{
-				SetTextBasedOnState(craftingService.GameplayBoard.RecycleState);
-			}
+			SetTextBasedOnState(CraftingSystemCraftingService.Instance.CurrentRecycleState);
 		}
 
 		/// <summary>
@@ -55,12 +43,36 @@ namespace FishAndChips
 			switch (state)
 			{
 				case SimpleGameplayBoard.eRecycleState.CleanState:
-					ButtonText.SetTextSafe("Clear");
-					break;
+					{
+						ButtonText.SetTextSafe("Clear");
+						break;
+					}
 				case SimpleGameplayBoard.eRecycleState.UndoState:
-					ButtonText.SetTextSafe("Undo Clear");
-					break;
+					{
+						ButtonText.SetTextSafe("Undo Clear");
+						break;
+					}
 			}
+		}
+		#endregion
+
+		#region -- Protected Methods --
+		/// <summary>
+		/// Subscribe to events.
+		/// </summary>
+		protected override void SubscribeEventListeners()
+		{
+			base.SubscribeEventListeners();
+			EventManager.SubscribeEventListener<RecycleStateUpdateEvent>(OnButtonRecycleStateChanged);
+		}
+
+		/// <summary>
+		/// Unsubscribe from events.
+		/// </summary>
+		protected override void UnsubscribeEventListeners()
+		{
+			base.UnsubscribeEventListeners();
+			EventManager.UnsubscribeEventListener<RecycleStateUpdateEvent>(OnButtonRecycleStateChanged);
 		}
 		#endregion
 	}

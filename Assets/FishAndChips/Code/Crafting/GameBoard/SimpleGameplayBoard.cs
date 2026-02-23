@@ -5,12 +5,8 @@ namespace FishAndChips
 {
     public class SimpleGameplayBoard : GameplayBoard
     {
-
-		#region -- Properties --
-		public eRecycleState RecycleState => _recycleState;
-		#endregion
-
 		#region -- Inspector --
+		[Header("Extended GameplayBoard")]
 		public float DefaultPlacementBuffer = 150f;
 		public float DefaultPlacementRadius = 150f;
 		#endregion
@@ -40,7 +36,7 @@ namespace FishAndChips
 			// Prevent undoing once they have placed something.
 			if (_recycleState == eRecycleState.UndoState)
 			{
-				ConfigureDefaultState();
+				SetToDefaultState();
 			}
 		}
 
@@ -55,38 +51,12 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Protected Methods --
-		protected override async void Setup()
+		protected override void SetToDefaultState()
 		{
-			_craftingService = CraftingSystemCraftingService.Instance;
-
-			SubscribeEventListeners();
-			ConfigureDefaultState();
-
-			await Awaitable.EndOfFrameAsync();
-
-			if (CraftingLayer != null)
-			{
-				CraftingLayer.TryGetComponent<RectTransform>(out var rectTransform);
-				if (rectTransform != null)
-				{
-					_boundaryHeight = rectTransform.rect.height;
-					_boundaryWidth = rectTransform.rect.width;
-				}
-			}
-		}
-
-		protected override void ConfigureDefaultState()
-		{
-			base.ConfigureDefaultState();
+			base.SetToDefaultState();
 			_recycleState = eRecycleState.CleanState;
 			_itemsBeingCleared.Clear();
 			EventManager.TriggerEvent(new RecycleStateUpdateEvent(_recycleState));
-		}
-
-		protected override void OnResetGame(GameResetEvent resetEvent)
-		{
-			MassRecycle();
-			ConfigureDefaultState();
 		}
 
 		protected override void SubscribeEventListeners()
@@ -105,6 +75,26 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Public Methods --
+		public override async void Setup()
+		{
+			_craftingService = CraftingSystemCraftingService.Instance;
+
+			SubscribeEventListeners();
+			SetToDefaultState();
+
+			await Awaitable.EndOfFrameAsync();
+
+			if (CraftingLayer != null)
+			{
+				CraftingLayer.TryGetComponent<RectTransform>(out var rectTransform);
+				if (rectTransform != null)
+				{
+					_boundaryHeight = rectTransform.rect.height;
+					_boundaryWidth = rectTransform.rect.width;
+				}
+			}
+		}
+
 		public Vector2 GetPositionOnCircle(Vector2 position,
 			bool useDefaultBuffer,
 			bool useDefaultRadius, 
@@ -148,12 +138,14 @@ namespace FishAndChips
 			// TODO: Check to see if a special animation should play.
 			foreach (var item in objectsOnBoard)
 			{
-				if (item.gameObject.activeSelf && _craftingService.IsFinalItem(item) == true)
+				if (item.gameObject.activeSelf 
+					&& (_craftingService.IsFinalItem(item) == true) || _craftingService.IsDepletedItem(item) == true)
 				{
 					item.Recycle(true);
 				}
 			}
 
+			/*
 			foreach (var item in objectsOnBoard)
 			{
 				if (item.gameObject.activeSelf && _craftingService.IsDepletedItem(item) == true)
@@ -161,6 +153,7 @@ namespace FishAndChips
 					item.Recycle(true);
 				}
 			}
+			*/
 		}
 
 		public override void UndoRecycle()

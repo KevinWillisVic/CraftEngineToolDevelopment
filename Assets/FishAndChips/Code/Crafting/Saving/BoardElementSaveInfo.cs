@@ -34,6 +34,9 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Public Methods --
+		/// <summary>
+		/// Refreshes value of Position vector.
+		/// </summary>
 		public void RefreshPosition()
 		{
 			if (RuntimeInstance == null)

@@ -3,9 +3,15 @@ using System.Threading.Tasks;
 
 namespace FishAndChips
 {
-    public abstract class GameplayBoard : MonoBehaviour
+	/// <summary>
+	/// Abstract representation for the game board.
+	/// </summary>
+    public abstract class GameplayBoard : FishScript
     {
 		#region -- Supporting --
+		/// <summary>
+		/// States the game can be in in regards to recycling.
+		/// </summary>
 		public enum eRecycleState
 		{
 			CleanState,
@@ -16,9 +22,11 @@ namespace FishAndChips
 		#region -- Properties --
 		public float BoundaryWidth => _boundaryWidth;
 		public float BoundaryHeight => _boundaryHeight;
+		public eRecycleState RecycleState => _recycleState;
 		#endregion
 
 		#region -- Inspector --
+		[Header("GameplayBoard Leyers")]
 		public Transform CraftingLayer;
 		public Transform DragLayer;
 		public Transform PopupLayer;
@@ -32,39 +40,51 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Methods --
-		private void Start()
+		/// <summary>
+		/// Callback for when the game is reset.
+		/// </summary>
+		/// <param name="resetEvent">The event for when the game is reset.</param>
+		private void OnResetGame(GameResetEvent resetEvent)
 		{
-			Setup();
+			MassRecycle();
+			SetToDefaultState();
 		}
+
 		#endregion
 
 		#region -- Protected Methods --
-		protected virtual async void Setup()
+		/// <summary>
+		/// Subscribe to events.
+		/// </summary>
+		protected override void SubscribeEventListeners()
 		{
-			await Task.CompletedTask;
-		}
-
-		protected virtual void SubscribeEventListeners()
-		{
+			base.SubscribeEventListeners();
 			EventManager.SubscribeEventListener<GameResetEvent>(OnResetGame);
 		}
 
-		protected virtual void UnsubscribeEventListeners()
+		/// <summary>
+		/// Unsubscribe from events.
+		/// </summary>
+		protected override void UnsubscribeEventListeners()
 		{
 			EventManager.UnsubscribeEventListener<GameResetEvent>(OnResetGame);
 		}
 
-		protected virtual void OnResetGame(GameResetEvent resetEvent)
-		{
-			MassRecycle();
-		}
-
-		protected virtual void ConfigureDefaultState()
+		/// <summary>
+		/// Set board to starting state.
+		/// </summary>
+		protected virtual void SetToDefaultState()
 		{
 		}
 		#endregion
 
 		#region -- Public Methods --
+		/// <summary>
+		/// Bound a position to within a rectangular game board.
+		/// </summary>
+		/// <param name="position">Position to be bound.</param>
+		/// <param name="buffer"></param>
+		/// <returns></returns>
 		public virtual Vector2 GetPositionBoundedToCraftingRegionRectangle(Vector2 position, float buffer = 0f)
 		{
 			float leftBound = -(_boundaryWidth / 2f) + buffer;
@@ -90,6 +110,14 @@ namespace FishAndChips
 		/// </summary>
 		public virtual void UndoRecycle()
 		{
+		}
+
+		/// <summary>
+		/// Handle any set up.
+		/// </summary>
+		public virtual async void Setup()
+		{
+			await Task.CompletedTask;
 		}
 		#endregion
 	}

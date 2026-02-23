@@ -151,6 +151,7 @@ namespace FishAndChips
 			_craftingService = CraftingSystemCraftingService.Instance;
 
 			SetupButtons();
+			SimpleGameplayBoard.Setup();
 		}
 
 		/// <summary>
