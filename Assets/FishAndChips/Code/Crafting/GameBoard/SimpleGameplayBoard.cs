@@ -22,11 +22,6 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Methods --
-		private void OnDestroy()
-		{
-			UnsubscribeEventListeners();
-		}
-
 		/// <summary>
 		/// Listen to a position save event, if we are in the undo state once the player
 		/// Positions something we should stop allowing undo.
@@ -79,7 +74,6 @@ namespace FishAndChips
 		{
 			_craftingService = CraftingSystemCraftingService.Instance;
 
-			SubscribeEventListeners();
 			SetToDefaultState();
 
 			await Awaitable.EndOfFrameAsync();

@@ -131,6 +131,7 @@ namespace FishAndChips
 		/// </summary>
 		public void HandleHitRecycleButton()
 		{
+			return;
 			EventManager.TriggerEvent<RecycleTriggerableEvent>(new RecycleTriggerableEvent());
 
 			string toastMessage = "Board Cleared!";
