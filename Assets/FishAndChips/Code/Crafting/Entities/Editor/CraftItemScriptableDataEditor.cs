@@ -18,7 +18,12 @@ namespace FishAndChips
 			if (_expandCreateSection == true)
 			{
 				DrawButton("Create Model Data", () => { t.CreateModelData(); });
-				DrawButton("Create Model Data At Built In Path", () => { t.CreateModelDataAtBuiltInPath(); });
+				DrawButton("Create Model Data At Built In Path", () =>
+				{
+					var model = t.CreateModelDataAtBuiltInPath();
+					t.Data.ModelData = model;
+					EditorUtility.SetDirty(t);
+				});
 			}
 		}
         #endregion

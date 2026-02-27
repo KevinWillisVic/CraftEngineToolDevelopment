@@ -17,4 +17,4 @@ MonoBehaviour:
     _id: CraftItemBudgie
     _modelId: CraftItemBudgieModelData
     _modelData: {fileID: 11400000, guid: 7d9def55af489614daa4350f4dcbf76b, type: 2}
-    _isDefaultItem: 0
+    _keywords: 
