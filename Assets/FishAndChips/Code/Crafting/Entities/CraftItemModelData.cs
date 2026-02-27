@@ -8,6 +8,7 @@ namespace FishAndChips
 	public class CraftItemModelData : GameObjectModelData
     {
 		#region -- Inspector --
+		public string VisualKey;
 		public string Blurb;
 		#endregion
 	}

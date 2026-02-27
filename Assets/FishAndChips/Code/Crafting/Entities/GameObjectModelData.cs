@@ -6,7 +6,6 @@ namespace FishAndChips
     public class GameObjectModelData : ScriptableObjectData
     {
 		#region -- Inspector --
-		public string VisualKey;
 		public string DisplayName;
 		#endregion
 	}

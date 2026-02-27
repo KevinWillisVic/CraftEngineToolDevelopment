@@ -14,14 +14,6 @@ namespace FishAndChips
 		#region -- Private Methods --
 		private void OnEnable()
 		{
-			SetInitialButtonState();
-		}
-
-		/// <summary>
-		/// Set initial text of the button.
-		/// </summary>
-		private void SetInitialButtonState()
-		{
 			SetTextBasedOnState(CraftingSystemCraftingService.Instance.CurrentRecycleState);
 		}
 

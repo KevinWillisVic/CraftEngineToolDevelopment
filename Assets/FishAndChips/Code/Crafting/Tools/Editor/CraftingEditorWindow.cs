@@ -106,9 +106,9 @@ namespace FishAndChips
 						_craftItems.Add(asset);
 						if (asset.Data != null && asset.Data.ModelData != null)
 						{
-							if (asset.Data.ModelData.VisualKey.IsNullOrEmpty() == false)
+							if (asset.ModelData.VisualKey.IsNullOrEmpty() == false)
 							{
-								var textureGUIDs = AssetDatabase.FindAssets($"t:Texture2D {asset.Data.ModelData.VisualKey}", new[] { $"Assets/FishAndChips/Art/Sprites/CraftItemIcons" });
+								var textureGUIDs = AssetDatabase.FindAssets($"t:Texture2D {asset.ModelData.VisualKey}", new[] { $"Assets/FishAndChips/Art/Sprites/CraftItemIcons" });
 								if (textureGUIDs != null && textureGUIDs.Length > 0)
 								{
 									var texturePath = AssetDatabase.GUIDToAssetPath(textureGUIDs[0]);

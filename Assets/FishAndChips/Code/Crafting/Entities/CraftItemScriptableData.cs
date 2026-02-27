@@ -12,6 +12,8 @@ namespace FishAndChips
 		#region -- Properties --
 		public string ID => _data.ID;
 		public new CraftItemData Data => _data;
+
+		public CraftItemModelData ModelData => (_data != null) ? _data.ModelData as CraftItemModelData : null;
 		#endregion
 
 		#region -- Inspector --

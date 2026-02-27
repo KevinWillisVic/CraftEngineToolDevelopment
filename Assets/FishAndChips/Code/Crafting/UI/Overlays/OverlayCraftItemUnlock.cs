@@ -40,7 +40,7 @@ namespace FishAndChips
 				var craftItemSprite = _imageService.GetCraftImage(modelData.VisualKey);
 				CraftItemVisual.SetSpriteSafe(craftItemSprite);
 			}
-
+			CraftItemNameText.SetTextSafe(modelData.DisplayName);
 			// TODO : Check wait conditions.
 			while (gameObject != null && gameObject.activeInHierarchy == false)
 			{
