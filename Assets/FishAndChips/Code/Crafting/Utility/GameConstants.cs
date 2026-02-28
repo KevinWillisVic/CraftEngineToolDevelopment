@@ -15,8 +15,9 @@ namespace FishAndChips
         // Art
         public const string CraftItemAtlas = "CraftItemIconAtlas";
 
-        // Tools.
+        // Tools / Paths.
         public const string CraftItemObjectAssetPath = "Assets/FishAndChips/Data/Crafting/CraftItems/";
 		public const string CraftRecipeObjectAssetPath = "Assets/FishAndChips/Data/Crafting/CraftRecipes/";
+        public const string CraftItemModelDataAssetPath = "Assets/FishAndChips/Data/Crafting/CraftItemsModelData/";
 	}
 }

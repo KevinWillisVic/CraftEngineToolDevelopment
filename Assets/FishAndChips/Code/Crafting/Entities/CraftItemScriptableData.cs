@@ -43,21 +43,14 @@ namespace FishAndChips
 		{
 			CraftItemModelData modelData = CreateInstance<CraftItemModelData>();
 			string assetName = $"{name}ModelData.asset";
-			string assetPath = $"Assets/FishAndChips/Data/Crafting/CraftItemsModelData/{assetName}";
-			modelData.DisplayName = string.Empty;
-			modelData.VisualKey = string.Empty;
-			modelData.Blurb = string.Empty;
-			AssetDatabase.CreateAsset(modelData, assetPath);
-			AssetDatabase.Refresh();
-			AssetDatabase.SaveAssets();
-			return modelData;
+			return CreateModelDataAtBuiltInPath(assetName);
 		}
 
 		public CraftItemModelData CreateModelDataAtBuiltInPath(string itemName)
 		{
 			CraftItemModelData modelData = CreateInstance<CraftItemModelData>();
 			string assetName = $"{itemName}.asset";
-			string assetPath = $"Assets/FishAndChips/Data/Crafting/CraftItemsModelData/{assetName}";
+			string assetPath = $"{GameConstants.CraftItemModelDataAssetPath}{assetName}";
 			modelData.DisplayName = string.Empty;
 			modelData.VisualKey = string.Empty;
 			modelData.Blurb = string.Empty;

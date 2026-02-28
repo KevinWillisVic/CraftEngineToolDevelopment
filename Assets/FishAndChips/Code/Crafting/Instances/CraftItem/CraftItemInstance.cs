@@ -3,7 +3,7 @@ using UnityEngine;
 namespace FishAndChips
 {
 	/// <summary>
-	/// Core script for CraftItemInstance. Representation of a CraftItem.
+	/// Core script for CraftItemInstance. Gameplay instance of a CraftItem.
 	/// </summary>
     public partial class CraftItemInstance : FishScript
     {
@@ -27,7 +27,6 @@ namespace FishAndChips
 		#region -- Private Methods --
 		private void Update()
 		{
-			
 			if (CraftItemEntity == null)
 			{
 				return;
@@ -42,7 +41,19 @@ namespace FishAndChips
 			{
 				HandleMovement();
 			}
-			
+		}
+
+		private void FetchServices()
+		{
+			if (_inputService == null)
+			{
+				_inputService = InputService.Instance;
+			}
+
+			if (_craftingService == null)
+			{
+				_craftingService = CraftingSystemCraftingService.Instance;
+			}
 		}
 		#endregion
 
@@ -64,6 +75,14 @@ namespace FishAndChips
 		{
 			gameObject.name = FormatName();
 			transform.localScale = Vector3.one;
+
+			IsSelected = false;
+			IsInteractable = true;
+			if (_craftingService.IsFinalItem(CraftItemEntity)
+				|| _craftingService.IsDepletedItem(CraftItemEntity))
+			{
+				IsInteractable = false;
+			}
 		}
 		#endregion
 
@@ -74,25 +93,7 @@ namespace FishAndChips
 			{
 				return;
 			}
-
-			if (_inputService == null)
-			{
-				_inputService = InputService.Instance;
-			}
-
-			if (_craftingService == null)
-			{
-				_craftingService = CraftingSystemCraftingService.Instance;
-			}
-
-			IsSelected = false;
-			IsInteractable = true;
-			if (_craftingService.IsFinalItem(CraftItemEntity) 
-				|| _craftingService.IsDepletedItem(CraftItemEntity))
-			{
-				IsInteractable = false;
-			}
-
+			FetchServices();
 			FormatToDefaultState();
 			SetVisual();
 		}

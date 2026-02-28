@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace FishAndChips
 {
+	/// <summary>
+	/// Visual data related to a CraftItem.
+	/// </summary>
 	[CreateAssetMenu(menuName = "FishAndChips/Models/CraftItemModelData")]
 	[Serializable]
 	public class CraftItemModelData : GameObjectModelData

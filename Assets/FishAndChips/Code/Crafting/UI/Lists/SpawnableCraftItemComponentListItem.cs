@@ -18,7 +18,7 @@ namespace FishAndChips
 			var newInstance = _craftingService.SpawnAndReturnCraftItemInstance(Entity,
 				position,
 				triggerSaveEvent: true,
-				spawnAnimation: CraftItemInstance.eCraftItemAnimationKeys.SpawnFromScrollRect.ToString());
+				spawnAnimation: CraftingEnums.eCraftItemAnimationKeys.SpawnFromScrollRect.ToString());
 
 			newInstance.transform.localPosition = position;
 			newInstance.OnSelected();

@@ -10,16 +10,6 @@ namespace FishAndChips
 	/// </summary>
     public partial class CraftItemInstance
     {
-		#region -- Enumerations --
-		public enum eCraftItemAnimationKeys
-		{
-			None,
-			InvalidCombo,
-			CloneAppear,
-			SpawnFromScrollRect
-		}
-		#endregion
-
 		#region -- Inspector --
 		[Header("Animations")]
 		public List<AnimationLookupKey> AnimationMap = new();
