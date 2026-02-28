@@ -15,32 +15,22 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Public Member Vars --
+		[Tooltip("Is this instance being controlled (such as moved) by the user.")]
 		public bool IsSelected;
+		[Tooltip("Can this instance be interacted with at all.")]
 		public bool IsInteractable;
 		#endregion
 
 		#region -- Protected Member Vars --
 		protected InputService _inputService;
+		protected CraftingSystemImageService _imageService;
 		protected CraftingSystemCraftingService _craftingService;
 		#endregion
 
 		#region -- Private Methods --
 		private void Update()
 		{
-			if (CraftItemEntity == null)
-			{
-				return;
-			}
-
-			if (IsInteractable == false)
-			{
-				return;
-			}
-
-			if (IsSelected == true)
-			{
-				HandleMovement();
-			}
+			HandleMovement();
 		}
 
 		private void FetchServices()
@@ -53,6 +43,11 @@ namespace FishAndChips
 			if (_craftingService == null)
 			{
 				_craftingService = CraftingSystemCraftingService.Instance;
+			}
+
+			if (_imageService == null)
+			{
+				_imageService = CraftingSystemImageService.Instance;
 			}
 		}
 		#endregion
@@ -77,12 +72,7 @@ namespace FishAndChips
 			transform.localScale = Vector3.one;
 
 			IsSelected = false;
-			IsInteractable = true;
-			if (_craftingService.IsFinalItem(CraftItemEntity)
-				|| _craftingService.IsDepletedItem(CraftItemEntity))
-			{
-				IsInteractable = false;
-			}
+			IsInteractable = !(_craftingService.IsFinalItem(CraftItemEntity) || _craftingService.IsDepletedItem(CraftItemEntity));
 		}
 		#endregion
 
@@ -115,11 +105,7 @@ namespace FishAndChips
 		/// </summary>
 		public void OnSelected()
 		{
-			if (IsInteractable == false)
-			{
-				return;
-			}
-			if (IsSelected == true)
+			if (IsInteractable == false || IsSelected == true)
 			{
 				return;
 			}
@@ -133,7 +119,7 @@ namespace FishAndChips
 		/// </summary>
 		public void OnRelease()
 		{
-			if (IsSelected == false)
+			if (IsInteractable == false || IsSelected == false)
 			{
 				return;
 			}

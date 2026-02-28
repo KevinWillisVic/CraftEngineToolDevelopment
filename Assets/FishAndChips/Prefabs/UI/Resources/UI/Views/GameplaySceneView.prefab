@@ -868,6 +868,7 @@ MonoBehaviour:
   SettingsButton: {fileID: 7948844160277683449}
   ClearButton: {fileID: 4514987652685545536}
   EncyclopediaButton: {fileID: 8126303700694832537}
+  ClearButtonUI: {fileID: 9201831935367937061}
 --- !u!114 &9201831935367937061
 MonoBehaviour:
   m_ObjectHideFlags: 0

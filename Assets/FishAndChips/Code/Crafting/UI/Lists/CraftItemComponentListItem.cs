@@ -13,7 +13,7 @@ namespace FishAndChips
     {
 		#region -- Properties --
 		public CraftItemEntity Entity => _entity;
-		public CraftItemModelData ModelData => _entity != null ? _entity.ModelData : null;
+		public CraftItemModelData ModelData => _entity != null ? _entity.CraftItemModelData : null;
 		#endregion
 
 		#region -- Inspector --
@@ -60,7 +60,7 @@ namespace FishAndChips
 		private void SetVisual()
 		{
 			if (_entity == null 
-				|| _entity.ModelData == null)
+				|| _entity.CraftItemModelData == null)
 			{
 				return;
 			}
@@ -95,7 +95,7 @@ namespace FishAndChips
 		private void SetText()
 		{
 			if (_entity == null
-				|| _entity.ModelData == null)
+				|| _entity.CraftItemModelData == null)
 			{
 				return;
 			}

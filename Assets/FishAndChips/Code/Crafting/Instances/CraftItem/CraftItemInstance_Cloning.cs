@@ -24,10 +24,18 @@ namespace FishAndChips
 
 		#region -- Private Methods --
 		/// <summary>
+		/// Get reference to gameboard.
+		/// </summary>
+		private void FetchBoard()
+		{
+			_board = _craftingService?.GameplayBoard;
+		}
+
+		/// <summary>
 		/// Position CraftItemInstance on the board.
 		/// </summary>
 		/// <param name="instance"></param>
-		private void PositionClonedInstance(CraftItemInstance instance)
+		private void PositionClonedInstanceOnGameboard(CraftItemInstance instance)
 		{
 			if (instance == null)
 			{
@@ -35,17 +43,11 @@ namespace FishAndChips
 			}
 			if (_board == null)
 			{
-				UIService uiService = UIService.Instance;
-				var gameplayView = uiService.GetView<GameplaySceneView>();
-				if (gameplayView != null)
-				{
-					_board = gameplayView.SimpleGameplayBoard;
-				}
+				FetchBoard();
 			}
 			if (_board != null)
 			{
-				var pos = _board.GetPositionOnCircle(instance.transform.localPosition, true, true);
-				instance.transform.localPosition = pos;
+				instance.transform.localPosition = _board.GetPositionOnCircle(instance.transform.localPosition, true, true);
 			}
 		}
 		#endregion
@@ -78,19 +80,13 @@ namespace FishAndChips
 		/// </summary>
 		public void AttemptCloning()
 		{
-			// Time lapsed, reset variables and start counting towards cloning fresh.
-			if (Time.time > _cloningCutoffTime)
-			{
-				ResetCloningVariables();
-				_currentTapCount++;
-				return;
-			}
+			AttemptResetCloningVariables();
 
 			_currentTapCount++;
 			if (_currentTapCount >= TapsToTriggerClone)
 			{
 				var instance = _craftingService.SpawnClone(this);
-				PositionClonedInstance(instance);
+				PositionClonedInstanceOnGameboard(instance);
 				ResetCloningVariables();
 			}
 		}

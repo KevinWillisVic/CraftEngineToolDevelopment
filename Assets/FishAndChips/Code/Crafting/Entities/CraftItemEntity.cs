@@ -10,7 +10,7 @@ namespace FishAndChips
 		#region -- Properties --
 		public CraftItemData CraftItemData => _craftItemData;
 		public CraftItemSavedData CraftItemSavedData => _craftItemSavedData;
-		public CraftItemModelData ModelData => _craftItemData != null ? _craftItemData.CraftItemModelData : null;
+		public CraftItemModelData CraftItemModelData => _craftItemData != null ? _craftItemData.CraftItemModelData : null;
 		#endregion
 
 		#region -- Protected Member Vars --

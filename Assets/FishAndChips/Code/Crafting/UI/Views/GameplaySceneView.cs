@@ -21,6 +21,8 @@ namespace FishAndChips
 		public Button SettingsButton;
 		public Button ClearButton;
 		public Button EncyclopediaButton;
+
+		public ClearButtonDisplay ClearButtonUI;
 		#endregion
 
 		#region -- Protected Member Vars --
@@ -227,18 +229,10 @@ namespace FishAndChips
 		/// </summary>
 		public void HandleHitRecycleButton()
 		{
-			EventManager.TriggerEvent<RecycleTriggerableEvent>(new RecycleTriggerableEvent());
-
-			string toastMessage = "Board Cleared!";
-			CraftingSystemCraftingService craftingService = CraftingSystemCraftingService.Instance;
-			if (craftingService != null && craftingService.GameplayBoard != null)
+			if (ClearButtonUI != null)
 			{
-				if (craftingService.GameplayBoard.RecycleState == SimpleGameplayBoard.eRecycleState.CleanState)
-				{
-					toastMessage = "Undone!";
-				}
+				ClearButtonUI.OnRecycleButtonHit();
 			}
-			EventManager.TriggerEvent(new ToastEvent(toastMessage));
 		}
 		#endregion
 	}

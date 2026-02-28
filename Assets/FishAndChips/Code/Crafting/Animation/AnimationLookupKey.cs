@@ -3,6 +3,9 @@ using System;
 
 namespace FishAndChips
 {
+    /// <summary>
+    /// Key Value pairing for playable director.
+    /// </summary>
     [Serializable]
     public class AnimationLookupKey
     {

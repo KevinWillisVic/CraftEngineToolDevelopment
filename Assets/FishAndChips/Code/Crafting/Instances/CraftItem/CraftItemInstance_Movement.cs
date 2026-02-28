@@ -26,6 +26,10 @@ namespace FishAndChips
 		/// <returns>True if should move, false otherwise.</returns>
 		protected virtual bool ShouldMove()
 		{
+			if (IsSelected == false || IsInteractable == false)
+			{
+				return false;
+			}
 			if (_craftingService.IsFinalItem(CraftItemEntity) == true
 				|| _craftingService.IsDepletedItem(CraftItemEntity) == true)
 			{

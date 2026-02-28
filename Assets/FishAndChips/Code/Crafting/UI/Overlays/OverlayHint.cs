@@ -28,7 +28,7 @@ namespace FishAndChips
 				CraftItemComponentListItem.Initialize();
 			}
 
-			string hintMessage = $"{entity.ModelData.DisplayName}... \nYou can create this item with what you already have unlocked.";
+			string hintMessage = $"{entity.CraftItemModelData.DisplayName}... \nYou can create this item with what you already have unlocked.";
 			HintText.SetTextSafe(hintMessage);
 		}
 		#endregion

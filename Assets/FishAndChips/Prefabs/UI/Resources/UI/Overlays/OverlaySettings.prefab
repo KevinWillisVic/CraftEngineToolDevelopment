@@ -16590,6 +16590,7 @@ MonoBehaviour:
   DismissButton: {fileID: 7271270588380264615}
   ClearButton: {fileID: 90099377958421482}
   ResetGameButton: {fileID: 8831516309271548697}
+  ClearButtonUI: {fileID: 4579204018702402477}
   SFXToggles:
   - {fileID: 8592293203671114957}
   - {fileID: 7670007173667833706}

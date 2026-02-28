@@ -14,10 +14,6 @@ namespace FishAndChips
 		public Image ImageVisual;
 		#endregion
 
-		#region -- Protected Member Vars --
-		protected CraftingSystemImageService _imageService;
-		#endregion
-
 		#region -- Public Methods --
 		/// <summary>
 		/// Set visuals of the CraftItemInstance.
@@ -25,17 +21,15 @@ namespace FishAndChips
 		/// <param name="key">Id of visual.</param>
 		public void SetVisual(string key)
 		{
-			if (_imageService == null)
+			if (key.IsNullOrEmpty() == true)
 			{
-				_imageService = CraftingSystemImageService.Instance;
+				return;
 			}
-
 			var sprite = _imageService.GetCraftImage(key);
 			if (sprite == null)
 			{
 				return;
 			}
-
 			SpriteRendererVisual.SetSpriteSafe(sprite);
 			ImageVisual.SetSpriteSafe(sprite);
 		}
@@ -51,7 +45,12 @@ namespace FishAndChips
 				Logger.LogError("CraftItemInstance_Visual.SetVisual : Entity was null.");
 				return;
 			}
-			SetVisual(entity.CraftItemData.CraftItemModelData.VisualKey);
+			if (entity.CraftItemModelData == null)
+			{
+				Logger.LogError("CraftItemInstance_Visual.SetVisual : CraftItemModelData was null.");
+				return;
+			}
+			SetVisual(entity.CraftItemModelData.VisualKey);
 		}
 
 		/// <summary>

@@ -28,12 +28,12 @@ namespace FishAndChips
 			}
 			if (stopCurrent == true)
 			{
-				GetCurrentPlayingDirector().StopSafe();
+				GetCurrentPlayingDirector()?.StopSafe();
 			}
-			var animation = AnimationMap.FirstOrDefault(a => a.Key == key);
+			var animation = AnimationMap.FirstOrDefault(a => string.Equals(key, a.Key));
 			if (animation != null)
 			{
-				animation.Director.PlaySafe();
+				animation.Director?.PlaySafe();
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace FishAndChips
 		{
 			foreach (var animation in AnimationMap)
 			{
-				if (animation== null || animation.Director == null)
+				if (animation == null || animation.Director == null)
 				{
 					continue;
 				}
@@ -64,11 +64,7 @@ namespace FishAndChips
 		public float GetCurrentPlayingDirectorLength()
 		{
 			var director = GetCurrentPlayingDirector();
-			if (director != null && director.playableAsset != null)
-			{
-				return (float)director.playableAsset.duration;
-			}
-			return 0f;
+			return (director != null && director.playableAsset != null) ? (float)director.playableAsset.duration : 0;
 		}
 		#endregion
 	}

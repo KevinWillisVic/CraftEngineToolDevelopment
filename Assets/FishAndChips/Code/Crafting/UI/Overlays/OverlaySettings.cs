@@ -11,6 +11,7 @@ namespace FishAndChips
 		[Header("Buttons")]
 		public Button ClearButton;
 		public Button ResetGameButton;
+		public ClearButtonDisplay ClearButtonUI;
 
 		[Header("Toggle Group Buttons")]
 		public List<Toggle> SFXToggles = new();
@@ -131,19 +132,10 @@ namespace FishAndChips
 		/// </summary>
 		public void HandleHitRecycleButton()
 		{
-			return;
-			EventManager.TriggerEvent<RecycleTriggerableEvent>(new RecycleTriggerableEvent());
-
-			string toastMessage = "Board Cleared!";
-			CraftingSystemCraftingService craftingService = CraftingSystemCraftingService.Instance;
-			if (craftingService != null && craftingService.GameplayBoard != null)
+			if (ClearButtonUI != null)
 			{
-				if (craftingService.GameplayBoard.RecycleState == SimpleGameplayBoard.eRecycleState.CleanState)
-				{
-					toastMessage = "Undone!";
-				}
+				ClearButtonUI.OnRecycleButtonHit();
 			}
-			EventManager.TriggerEvent(new ToastEvent(toastMessage));
 		}
 		#endregion
 	}
