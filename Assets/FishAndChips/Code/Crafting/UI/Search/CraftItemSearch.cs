@@ -48,10 +48,7 @@ namespace FishAndChips
 		protected override void SubscribeEventListeners()
 		{
 			base.SubscribeEventListeners();
-			if (_inputField != null)
-			{
-				_inputField.onValueChanged.AddListener(OnSearchStringChanged);
-			}
+			_inputField.AddInputFieldListenerSafe(OnSearchStringChanged);
 			EventManager.SubscribeEventListener<GameResetEvent>(OnGameReset);
 		}
 
@@ -61,10 +58,7 @@ namespace FishAndChips
 		protected override void UnsubscribeEventListeners()
 		{
 			base.UnsubscribeEventListeners();
-			if (_inputField != null)
-			{
-				_inputField.onValueChanged.RemoveAllListeners();
-			}
+			_inputField.RemoveInputFieldListenersSafe();
 			EventManager.UnsubscribeEventListener<GameResetEvent>(OnGameReset);
 		}
 		#endregion
@@ -75,11 +69,7 @@ namespace FishAndChips
 		/// </summary>
 		public void ClearSearch()
 		{
-			if (_inputField == null)
-			{
-				return;
-			}
-			_inputField.text = string.Empty;
+			_inputField.SetInputFieldTextSafe(string.Empty);
 		}
 		#endregion
 	}

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 namespace FishAndChips
 {
@@ -18,6 +19,30 @@ namespace FishAndChips
             if (text != null)
             {
                 text.color = color;
+            }
+        }
+
+        public static void SetInputFieldTextSafe(this TMP_InputField inputField, string message)
+        {
+            if (inputField != null)
+            {
+                inputField.text = message;
+            }
+        }
+
+        public static void RemoveInputFieldListenersSafe(this TMP_InputField inputField)
+        {
+            if (inputField != null)
+            {
+                inputField.onValueChanged.RemoveAllListeners();
+            }
+        }
+
+        public static void AddInputFieldListenerSafe(this TMP_InputField inputField, UnityEngine.Events.UnityAction<string> listener)
+        {
+            if (inputField != null)
+            {
+                inputField.onValueChanged.AddListener(listener);
             }
         }
     }
