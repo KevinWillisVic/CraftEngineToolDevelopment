@@ -12,6 +12,7 @@ namespace FishAndChips
 		public Button ClearButton;
 		public Button ResetGameButton;
 		public ClearButtonDisplay ClearButtonUI;
+		public ResetGameButtonBehavior ResetGameButtonBehavior;
 
 		[Header("Toggle Group Buttons")]
 		public List<Toggle> SFXToggles = new();
@@ -22,23 +23,9 @@ namespace FishAndChips
 		protected CraftingSystemSavingService _savingService;
 		#endregion
 
-		#region -- Protected Methods --
-		/// <summary>
-		/// Handle setting up button on click callbacks.
-		/// </summary>
-		protected override void SetupButtons()
+		#region -- Private Methods --
+		private void SetUpSFXToggles()
 		{
-			base.SetupButtons();
-			if (ClearButton != null)
-			{
-				ClearButton.onClick.AddListener(HandleHitRecycleButton);
-			}
-
-			if (ResetGameButton != null)
-			{
-				ResetGameButton.onClick.AddListener(ResetGame);
-			}
-
 			foreach (var toggle in SFXToggles)
 			{
 				if (toggle.name == "SFXToggleOn")
@@ -65,7 +52,10 @@ namespace FishAndChips
 					}
 				});
 			}
+		}
 
+		private void SetUpMusicToggles()
+		{
 			foreach (var toggle in MusicToggles)
 			{
 				if (toggle.name == "MusicToggleOn")
@@ -95,6 +85,29 @@ namespace FishAndChips
 		}
 		#endregion
 
+		#region -- Protected Methods --
+		/// <summary>
+		/// Handle setting up button on click callbacks.
+		/// </summary>
+		protected override void SetupButtons()
+		{
+			base.SetupButtons();
+			if (ClearButton != null)
+			{
+				ClearButton.onClick.AddListener(HandleHitRecycleButton);
+			}
+
+			if (ResetGameButton != null)
+			{
+				ResetGameButton.onClick.AddListener(ResetGame);
+			}
+
+
+			SetUpSFXToggles();
+			SetUpMusicToggles();
+		}
+		#endregion
+
 		#region -- Public Methods --
 		public override void Initialize()
 		{
@@ -107,23 +120,10 @@ namespace FishAndChips
 		/// </summary>
 		public void ResetGame()
 		{
-			var yesNoOverlay = _uiService.ShowOverlay<OverlayYesNo>("OverlayYesNo");
-
-			// Configure yes no overlay.
-			yesNoOverlay.Initialize(title: "Are You Sure?", 
-				description: "This will delete all your saved data and you will be on a fresh game.");
-
-			yesNoOverlay.SetButtonText("Yes", "No");
-
-			// User must select yes in order to reset the game.
-			yesNoOverlay.YesSelected += o =>
+			if (ResetGameButtonBehavior != null)
 			{
-				DismissSelected();
-				EventManager.TriggerEvent(new ToastEvent("Fresh Game!"));
-				// Reset Game.
-				EventManager.TriggerEvent(new GameResetEvent());
-			};
-
+				ResetGameButtonBehavior.OnClick();
+			}
 			DismissSelected();
 		}
 
