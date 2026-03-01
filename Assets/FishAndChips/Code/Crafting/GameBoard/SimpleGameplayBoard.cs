@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using static FishAndChips.CraftingEnums;
 
 namespace FishAndChips
 {
@@ -163,7 +164,7 @@ namespace FishAndChips
 					spawnAnimation: string.Empty);
 
 				instance.gameObject.SetActiveSafe(true);
-				instance.PlayAnimation(CraftingEnums.eCraftItemAnimationKeys.CloneAppear.ToString());
+				instance.PlayAnimation(eCraftItemAnimationKeys.CloneAppear.ToString());
 			}
 			_itemsBeingCleared.Clear();
 			_recycleState = eRecycleState.CleanState;

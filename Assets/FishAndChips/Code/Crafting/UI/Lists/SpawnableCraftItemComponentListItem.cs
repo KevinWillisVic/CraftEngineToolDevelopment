@@ -1,4 +1,5 @@
 using UnityEngine;
+using static FishAndChips.CraftingEnums;
 
 namespace FishAndChips
 {
@@ -18,7 +19,7 @@ namespace FishAndChips
 			var newInstance = _craftingService.SpawnAndReturnCraftItemInstance(Entity,
 				position,
 				triggerSaveEvent: true,
-				spawnAnimation: CraftingEnums.eCraftItemAnimationKeys.SpawnFromScrollRect.ToString());
+				spawnAnimation: eCraftItemAnimationKeys.SpawnFromScrollRect.ToString());
 
 			newInstance.transform.localPosition = position;
 			newInstance.OnSelected();

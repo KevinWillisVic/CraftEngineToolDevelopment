@@ -1,22 +1,12 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using static FishAndChips.CraftingEnums;
 
 namespace FishAndChips
 {
     public partial class EncyclopediaView : GameView
     {
-		#region -- Supporting --
-		public enum eEncyclopediaViewMode
-		{
-			None = -1,
-			Home = 0,
-			Items = 1,
-			Stats= 2,
-			Tips = 3
-		}
-		#endregion
-
 		#region -- Inspector --
 		[Header("Core")]
 		public List<GameObject> DisplayRoots = new();

@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static FishAndChips.CraftingEnums;
 
 namespace FishAndChips
 {
@@ -242,7 +243,7 @@ namespace FishAndChips
 			if (CheckIfReleasedInPlayRegion() == false)
 			{
 				// TODO : Prevent this item from being selected.
-				instance.PlayAnimation(CraftingEnums.eCraftItemAnimationKeys.InvalidCombo.ToString());
+				instance.PlayAnimation(eCraftItemAnimationKeys.InvalidCombo.ToString());
 				float waitTime = instance.GetCurrentPlayingDirector() != null ? instance.GetCurrentPlayingDirectorLength() : 1;
 				instance.Recycle(false, waitTime);
 				return;
@@ -675,7 +676,10 @@ namespace FishAndChips
 			{
 				return null;
 			}
-			var newInstance = SpawnAndReturnCraftItemInstance(instance, instance.transform.localPosition, triggerSaveEvent: true, spawnAnimation: CraftingEnums.eCraftItemAnimationKeys.CloneAppear.ToString());
+			var newInstance = SpawnAndReturnCraftItemInstance(instance, 
+				instance.transform.localPosition, 
+				triggerSaveEvent: true,
+				spawnAnimation: eCraftItemAnimationKeys.CloneAppear.ToString());
 			return newInstance;
 		}
 
@@ -718,7 +722,7 @@ namespace FishAndChips
 				combiningInstance.Recycle(true);
 				return true;
 			}
-			instance.PlayAnimation(CraftingEnums.eCraftItemAnimationKeys.InvalidCombo.ToString(), true);
+			instance.PlayAnimation(eCraftItemAnimationKeys.InvalidCombo.ToString(), true);
 			return false;
 		}
 
@@ -771,7 +775,7 @@ namespace FishAndChips
 			var newInstance = SpawnAndReturnCraftItemInstance(entity, 
 				pos,
 				triggerSaveEvent: true,
-				CraftingEnums.eCraftItemAnimationKeys.CloneAppear.ToString(), 
+				eCraftItemAnimationKeys.CloneAppear.ToString(), 
 				activeState: true);
 			return newInstance;
 		}
