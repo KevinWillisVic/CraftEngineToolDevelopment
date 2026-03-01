@@ -22,7 +22,7 @@ namespace FishAndChips
 		public Button ClearButton;
 		public Button EncyclopediaButton;
 
-		public ClearButtonDisplay ClearButtonUI;
+		public RecycleButtonBehavior RecycleButtonBehavior;
 		#endregion
 
 		#region -- Protected Member Vars --
@@ -229,9 +229,9 @@ namespace FishAndChips
 		/// </summary>
 		public void HandleHitRecycleButton()
 		{
-			if (ClearButtonUI != null)
+			if (RecycleButtonBehavior != null)
 			{
-				ClearButtonUI.OnRecycleButtonHit();
+				RecycleButtonBehavior.OnClick();
 			}
 		}
 		#endregion

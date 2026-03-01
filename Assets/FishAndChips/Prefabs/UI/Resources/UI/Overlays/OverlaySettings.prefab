@@ -1647,6 +1647,7 @@ GameObject:
   - component: {fileID: 2387821634514310589}
   - component: {fileID: 5701649215574118388}
   - component: {fileID: 8668570490529405543}
+  - component: {fileID: 1229145619462792896}
   m_Layer: 5
   m_Name: ClearButton
   m_TagString: Untagged
@@ -1807,6 +1808,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1229145619462792896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914909815894848873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecca825897096cf42a90024ba17ae802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1020099513356728698
 GameObject:
   m_ObjectHideFlags: 0
@@ -16166,7 +16179,7 @@ MonoBehaviour:
   DismissButton: {fileID: 7271270588380264615}
   ClearButton: {fileID: 90099377958421482}
   ResetGameButton: {fileID: 8831516309271548697}
-  ClearButtonUI: {fileID: 4579204018702402477}
+  RecycleButtonBehavior: {fileID: 1229145619462792896}
   ResetGameButtonBehavior: {fileID: 7992408772451576918}
   SFXToggles:
   - {fileID: 8592293203671114957}

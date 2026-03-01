@@ -11,7 +11,7 @@ namespace FishAndChips
 		[Header("Buttons")]
 		public Button ClearButton;
 		public Button ResetGameButton;
-		public ClearButtonDisplay ClearButtonUI;
+		public RecycleButtonBehavior RecycleButtonBehavior;
 		public ResetGameButtonBehavior ResetGameButtonBehavior;
 
 		[Header("Toggle Group Buttons")]
@@ -132,9 +132,9 @@ namespace FishAndChips
 		/// </summary>
 		public void HandleHitRecycleButton()
 		{
-			if (ClearButtonUI != null)
+			if (RecycleButtonBehavior != null)
 			{
-				ClearButtonUI.OnRecycleButtonHit();
+				RecycleButtonBehavior.OnClick();
 			}
 		}
 		#endregion
