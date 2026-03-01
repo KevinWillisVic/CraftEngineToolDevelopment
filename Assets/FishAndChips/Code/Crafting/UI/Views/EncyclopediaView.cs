@@ -25,16 +25,6 @@ namespace FishAndChips
 		#endregion
 
 		#region -- Private Methods --
-		private void SetButtonListeners()
-		{
-			if (ButtonCollection == null)
-			{
-				return;
-			}
-			ButtonCollection.OnButtonSelected -= OnButtonCategorySelected;
-			ButtonCollection.OnButtonSelected += OnButtonCategorySelected;
-		}
-		
 		private void DisplayCurrentUIView()
 		{
 			foreach (var root in DisplayRoots)
@@ -109,6 +99,17 @@ namespace FishAndChips
 			EventManager.UnsubscribeEventListener<CraftItemSearchEvent>(OnSearchRaised);
 			EventManager.UnsubscribeEventListener<GameResetEvent>(OnResetGame);
 		}
+
+		protected override void SetupButtons()
+		{
+			base.SetupButtons();
+
+			if (ButtonCollection != null)
+			{
+				ButtonCollection.OnButtonSelected -= OnButtonCategorySelected;
+				ButtonCollection.OnButtonSelected += OnButtonCategorySelected;
+			}
+		}
 		#endregion
 
 		#region -- Public Methods --
@@ -121,7 +122,6 @@ namespace FishAndChips
 
 			_currentViewMode = eEncyclopediaViewMode.None;
 
-			SetButtonListeners();
 			if (ButtonCollection != null)
 			{
 				ButtonCollection.ForceSelectToggle("Home");
@@ -142,12 +142,12 @@ namespace FishAndChips
 
 		public override void Initialize()
 		{
-			base.Initialize();
 			if (ButtonCollection != null)
 			{
 				ButtonCollection.Initialize();
 			}
-			SetButtonListeners();
+
+			base.Initialize();
 		}
 
 		public void LeaveEncyclopediaView()

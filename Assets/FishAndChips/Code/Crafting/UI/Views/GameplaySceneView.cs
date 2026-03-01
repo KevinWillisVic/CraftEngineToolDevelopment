@@ -152,7 +152,6 @@ namespace FishAndChips
 			_hintService = CraftingSystemHintService.Instance;
 			_craftingService = CraftingSystemCraftingService.Instance;
 
-			SetupButtons();
 			SimpleGameplayBoard.Setup();
 		}
 

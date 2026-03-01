@@ -107,6 +107,7 @@ namespace FishAndChips
 			_navigationService = NavigationService.Instance;
 			Layer = GetComponent<GameViewLayer>();
 
+			SetupButtons();
 			UnsubsribeListeners();
 			SubscribeListeners();
 

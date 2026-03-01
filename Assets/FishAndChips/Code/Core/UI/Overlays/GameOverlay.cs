@@ -128,13 +128,11 @@ namespace FishAndChips
 
 		public virtual void Initialize(string title)
 		{
-			SetupButtons();
 			SetTitle(title);
 		}
 
 		public virtual void Initialize(string title, string description)
 		{
-			SetupButtons();
 			SetTitle(title);
 			SetDescription(description);
 		}
