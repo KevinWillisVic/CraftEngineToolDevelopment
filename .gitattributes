@@ -25,3 +25,4 @@
 *.shadergraph filter=lfs diff=lfs merge=lfs -text
 *.cginc filter=lfs diff=lfs merge=lfs -text
 *.asmdef filter=lfs diff=lfs merge=lfs -text
+*.Png filter=lfs diff=lfs merge=lfs -text
