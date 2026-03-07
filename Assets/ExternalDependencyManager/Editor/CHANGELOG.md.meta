@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f9b1bc79854bfe986b911263d891f69a8edb0e1d7ebc9982cccd5f0be5c3304d
-size 257
+fileFormatVersion: 2
+guid: ff38baa7337e404f8a2bb7852f8f731a
+labels:
+- gvh
+- gvh_version-13.8.0
+- gvhp_exportpath-ExternalDependencyManager/Editor/CHANGELOG.md
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

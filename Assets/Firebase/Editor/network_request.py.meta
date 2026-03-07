@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:afeadb90a96cb911787109da6a2737d30ecacb6d6507414db64f8a5d3e8a9922
-size 242
+fileFormatVersion: 2
+guid: e6e32fecbfd44fab946fa160e4861924
+labels:
+- gvh
+- gvh_version-13.8.0
+- gvhp_exportpath-Firebase/Editor/network_request.py
+timeCreated: 1480838400
+DefaultImporter:
+  userData:
+  assetBundleName:
+  assetBundleVariant:

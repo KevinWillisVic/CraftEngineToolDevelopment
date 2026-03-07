@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2555fb18e995b7e09abeb4a9ec3cf6f0832f0f4274b3db5f67f4cd9b5eb95386
-size 821
+<!-- Copyright (C) 2019 Google Inc. All Rights Reserved.
+
+FirebaseAnalytics iOS and Android Dependencies.
+-->
+
+<dependencies>
+  <remoteSwiftPackage url="https://github.com/firebase/firebase-ios-sdk.git" version="12.8.0">
+    <swiftPackage name="FirebaseAnalytics" replacesPod="Firebase/Analytics"/>
+  </remoteSwiftPackage>
+  <iosPods>
+    <iosPod name="Firebase/Analytics" version="12.8.0" minTargetSdk="15.0">
+    </iosPod>
+  </iosPods>
+  <androidPackages>
+    <androidPackage spec="com.google.firebase:firebase-analytics:23.0.0">
+    </androidPackage>
+    <androidPackage spec="com.google.firebase:firebase-analytics-unity:13.8.0">
+      <repositories>
+        <repository>Assets/Firebase/m2repository</repository>
+      </repositories>
+    </androidPackage>
+  </androidPackages>
+</dependencies>

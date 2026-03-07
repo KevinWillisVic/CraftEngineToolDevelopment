@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:07bd6a287a95dfb2dbc7cdaa744af7910fb97745627f5350ce4809a90dabf2f0
-size 256
+<metadata>
+  <groupId>com.google.firebase</groupId>
+  <artifactId>firebase-analytics-unity</artifactId>
+  <versioning>
+    <release>13.8.0</release>
+    <versions><version>13.8.0</version></versions>
+    <lastUpdated/>
+  </versioning>
+</metadata>

@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c71240e4e20f434d49ba75d893594b0c58d9a052dd27ac50f9aad04283524c22
-size 487
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 \&#xD;&#xA;http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.google.firebase</groupId>
+  <artifactId>firebase-analytics-unity</artifactId>
+  <version>13.8.0</version>
+  <packaging>aar</packaging>
+  <dependencies></dependencies>
+</project>
