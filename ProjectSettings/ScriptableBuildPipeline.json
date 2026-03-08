@@ -1,13 +1,3 @@
-{
-    "useBuildCacheServer": false,
-    "cacheServerHost": "",
-    "cacheServerPort": 8126,
-    "threadedArchiving": true,
-    "logCacheMiss": false,
-    "slimWriteResults": true,
-    "maximumCacheSize": 20,
-    "useDetailedBuildLog": false,
-    "useV2Hasher": true,
-    "fileIDHashSeed": 0,
-    "prefabPackedHeaderSize": 2
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:db766b4d7e8241c0795741a073990bb922f86210264b3ec3237efc6bb83e3975
+size 337

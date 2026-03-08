@@ -1,32 +1,3 @@
-fileFormatVersion: 2
-guid: 81a757c73e784317b917c61d213fb409
-labels:
-- gvh
-- gvh_version-13.8.0
-- gvhp_exportpath-ExternalDependencyManager/Editor/1.2.187/Google.IOSResolver.dll
-- gvhp_targets-editor
-PluginImporter:
-  externalObjects: {}
-  serializedVersion: 3
-  iconMap: {}
-  executionOrder: {}
-  defineConstraints: []
-  isPreloaded: 0
-  isOverridable: 0
-  isExplicitlyReferenced: 0
-  validateReferences: 0
-  platformData:
-    Any:
-      enabled: 0
-      settings: {}
-    Editor:
-      enabled: 1
-      settings:
-        DefaultValueInitialized: true
-    WindowsStoreApps:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:7907a2efc8528c9e0bb1cc6337c65f17b8d2a6e6c1065e1a1dd6c38f4627d6c7
+size 714
